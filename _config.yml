@@ -6,3 +6,23 @@ url: https://tlucking.github.io/RAS-University/
 
 aux_links:
   Template Repository: https://github.com/TLucking/RAS-University
+
+nav_order: 1
+search_enabled: true
+
+# Sidebar Navigation Order
+nav:
+  - title: Home
+    url: /
+  - title: Vision for Robotics
+    url: vision-for-robotics.md
+  - title: Sensing and Perception
+    url: sensing-and-perception.md
+  - title: Motion Control
+    url: motion-control.md
+  - title: Kinematics
+    url: kinematics.md
+  - title: Force Control
+    url: force-control.md
+  - title: Dynamics
+    url: dynamics.md
