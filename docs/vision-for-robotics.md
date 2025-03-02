@@ -55,8 +55,8 @@ Cameras have become one of the most accessible and data-rich sensors for robots,
 
 ## Chapter 1 : Geometric Vision
 
-<iframe src="{{ site.baseurl }}/assets/pdfs/nav-vision.pdf" width="100%" height="600px">
-</iframe>
+<iframe src="{{ site.baseurl }}{{ '/assets/pdfs/nav-vision.pdf' | relative_url }}" width="100%" height="600px"></iframe>
+
 
 (This chapter comes from the book *Springer Handbook of Robotics*, Chapter 32: 3-D Vision for Navigation and Grasping)
 
