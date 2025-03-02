@@ -4,15 +4,11 @@ parent: Courses
 layout: default
 math: mathjax
 ---
-# Vision for Robotics
+# Vision for Robotics {#start}
 
-This section covers the principles and applications of vision in robotics, including:
+- Table of Contents
+{:toc}
 
-- Image processing fundamentals
-- Computer vision algorithms
-- Feature extraction and object recognition
-- 3D vision and depth perception
-- Machine learning for vision
 
 ![img-description]({{ site.baseurl }}/assets/images/Screenshot%20from%202025-03-01%2018-54-00.png)
 
@@ -53,9 +49,11 @@ Cameras have become one of the most accessible and data-rich sensors for robots,
 
 ![Intro to Machine Vision and Robotics - part 2](https://www.youtube.com/watch?v=RS-MXFX0ehs&t=402s)
 
-## Chapter 1 : Geometric Vision
+## Chapter 1: Geometric Vision {#chapter-1-vision}
 
-<iframe src="{{ site.baseurl }}{{ '/assets/pdfs/nav-vision.pdf' | relative_url }}" width="100%" height="600px"></iframe>
+
+<iframe src="/assets/pdfs/nav-vision.pdf" width="100%" height="600px"></iframe>
+
 
 
 (This chapter comes from the book *Springer Handbook of Robotics*, Chapter 32: 3-D Vision for Navigation and Grasping)
@@ -92,8 +90,30 @@ Types of Camera Parameters :
 
 Pose estimation is the process of determining the position and orientation (pose) of a camera or object relative to a known reference frame, typically using 2D images and 3D world points. It plays a crucial role in robotics, augmented reality, and computer vision applications like object tracking, autonomous navigation, and grasping.
 
-One common approach to pose estimation is the Perspective-n-Point (PnP) problem. Given a set of N known 3D points in the world and their corresponding 2D projections in an image, PnP estimates the camera’s position and orientation relative to the scene. This requires the camera to be calibrated, meaning its intrinsic parameters (such as focal length and optical center) are known..
+One common approach to pose estimation is the Perspective-n-Point (PnP) problem. Given a set of N known 3D points in the world and their corresponding 2D projections in an image, PnP estimates the camera’s position and orientation relative to the scene. This requires the camera to be calibrated, meaning its intrinsic parameters (such as focal length and optical center) are known.
 
 ![](https://www.youtube.com/watch?v=xdlLXEyCoJY)
 
 ![](https://www.youtube.com/watch?v=RR8WXL-kMzA)
+
+#### Exercise
+
+test
+
+### Chapter 1.4 : Triangulation
+
+Triangulation is a fundamental technique in computer vision and 3D reconstruction, used to determine the 3D coordinates of a point in the world from its projections in two or more images. By leveraging the known camera positions and the 2D image coordinates of a point, triangulation enables the estimation of the point’s location in 3D space.
+
+In essence, triangulation involves using the principle of geometry to intersect the lines of sight from multiple camera views. By obtaining the corresponding points from two or more views and knowing the camera positions (extrinsic parameters) and their internal characteristics (intrinsic parameters), we can solve for the 3D coordinates of the point.
+
+See corresponding chapter in the PDF [*Springer Handbook of Robotics*](#chapter-1-vision)
+
+### Chapter 1.5 : Stereo Camera
+
+![](https://www.youtube.com/watch?v=hUVyDabn1Mg&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=5)
+
+![](https://www.youtube.com/watch?v=dUDMQ6dwWDA&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=6)
+
+![](https://www.youtube.com/watch?v=v30I-BqGfuI&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=7)
+
+[Back to Top](#start)
