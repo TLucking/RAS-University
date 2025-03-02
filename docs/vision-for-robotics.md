@@ -52,7 +52,7 @@ Cameras have become one of the most accessible and data-rich sensors for robots,
 ## Chapter 1: Geometric Vision {#chapter-1-vision}
 
 
-<iframe src="/assets/pdfs/nav-vision.pdf" width="100%" height="600px"></iframe>
+<iframe src="{{ site.baseurl }}{{'/assets/pdfs/nav-vision.pdf'}}" width="100%" height="600px"></iframe>
 
 
 
@@ -102,11 +102,11 @@ test
 
 ### Chapter 1.4 : Triangulation
 
+See corresponding chapter in the PDF [*Springer Handbook of Robotics*](#chapter-1-vision)
+
 Triangulation is a fundamental technique in computer vision and 3D reconstruction, used to determine the 3D coordinates of a point in the world from its projections in two or more images. By leveraging the known camera positions and the 2D image coordinates of a point, triangulation enables the estimation of the point’s location in 3D space.
 
 In essence, triangulation involves using the principle of geometry to intersect the lines of sight from multiple camera views. By obtaining the corresponding points from two or more views and knowing the camera positions (extrinsic parameters) and their internal characteristics (intrinsic parameters), we can solve for the 3D coordinates of the point.
-
-See corresponding chapter in the PDF [*Springer Handbook of Robotics*](#chapter-1-vision)
 
 ### Chapter 1.5 : Stereo Camera
 
@@ -115,5 +115,10 @@ See corresponding chapter in the PDF [*Springer Handbook of Robotics*](#chapter-
 ![](https://www.youtube.com/watch?v=dUDMQ6dwWDA&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=6)
 
 ![](https://www.youtube.com/watch?v=v30I-BqGfuI&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=7)
+
+
+### Chapter 1.6 : Structure from Motion
+
+See corresponding chapter in the PDF [*Springer Handbook of Robotics*](#chapter-1-vision)
 
 [Back to Top](#start)
