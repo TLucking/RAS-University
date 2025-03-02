@@ -21,53 +21,79 @@ This section covers the principles and applications of vision in robotics, inclu
 Cameras have become one of the most accessible and data-rich sensors for robots, offering a wealth of visual information compared to traditional positioning or distance sensors. Advances in hardware and algorithms, such as RGB-D cameras and visual-inertial fusion techniques, have significantly improved robot perception. In navigation, robots use vision to detect obstacles, estimate trajectories, and build 3D maps of their environment. For grasping, visual data helps identify objects, estimate their pose, and determine how to interact with them. The following sections will explore the geometric foundations of 3D vision and its applications in robotic grasping.
 
 
-## Chapter 1 : Geometric vision
-(This chapter comes from the book Springer Handbook of Robotics, chapter32. 3-D Vision for Navigation and Grasping) 
+## Ressources
 
-Let us start by introducing the projection of the world to an image plane. Assume that a point in the world \((X, Y, Z)\) has coordinates \((X_{ci}, Y_{ci}, Z_{ci})\) with respect to the coordinate system of a camera \(c_i\), related to each other by the following transformation:
+### Books
 
-$$
-\begin{pmatrix}
-X_{ci} \\
-Y_{ci} \\
-Z_{ci} \\
-1
-\end{pmatrix}
-=
-R_i
-\begin{pmatrix}
-X \\
-Y \\
-Z \\
-1
-\end{pmatrix}
-+ T_i \tag{32.1}
-$$
+- [Springer Handbook of Robotics ](https://link.springer.com/chapter/10.1007/978-3-319-32552-1_32) (Chapter 32. 3-D Vision for Navigation and Grasping)
 
-where \(R_i\) is a rotation matrix whose columns are the world axes with respect to the camera. The translation vector \(T_i\) is starting from the origin of the camera and ending at the origin of the world coordinate system.
+- [Springer Handbook of Robotics ](https://link.springer.com/chapter/10.1007/978-3-319-32552-1_34) (Chapter 34. Visual Servoing)
 
-The rotation matrix is orthogonal, \(R^T R = I\), with determinant one. We assume that the center of projection is the origin of the coordinate system and that the optical axis is the \(Z_{ci}\) axis of the camera. If we assume that the image plane is the plane \(Z_{ci} = 1\), then the image coordinates \((x_i, y_i)\) are given by:
+- [Robotic Manipulation](https://manipulation.csail.mit.edu/pose.html) (Chapter 4. Geometric Pose Estimation)
 
-$$
-x_i = \frac{X_{ci}}{Z_{ci}}, \quad y_i = \frac{Y_{ci}}{Z_{ci}} \tag{32.2}
-$$
+### Videos
 
-In practice, what we measure are the pixel coordinates \((u_i, v_i)\) in the image, which are related to the image coordinates \((x_i, y_i)\) with the affine transformation:
+- [Intro to Machine Vision and Robotics - part 1](https://www.youtube.com/watch?v=SVcOWYfsBkc)
 
-$$
-u_i = f (\alpha x_i + \beta y_i + c_u), \quad v_i = f(y_i + c_v) \tag{32.3}
-$$
+- [Computer Vision](https://www.youtube.com/watch?v=DOf6ggQQ9ow&list=PLhwIOYE-ldwL6h-peJADfNm8bbO3GlKEy&index=1) (UC Berkley)
 
-where \(f\) is the distance of the image plane to the projection center measured in pixels. It is also called the focal length, because they are considered approximately equal. The aspect ratio \(\alpha\) is a scaling induced by nonsquare sensor cells or different sampling rates horizontally and vertically. The skew factor \(\beta\) accounts for a shearing induced by a nonperfectly frontal image plane. The image center \((c_u, c_v)\) is the point of intersection of the image plane with the optical axis, called the image center. These five parameters are called intrinsic parameters, and the process of recovering them is called intrinsic calibration. Upon recovering them, we can talk about a calibrated system, and we can work with the image coordinates \((x_i, y_i)\) instead of the pixel coordinates \((u_i, v_i)\).
+- [Multiple View Geometry - Lecture 1 (Prof. Daniel Cremers)](https://www.youtube.com/watch?v=RDkwklFGMfo&list=PLTBdjV_4f-EJn6udZ34tht9EVIW7lbeo4) (TU Munchen)
+  
+- [First Principles of Computer Vision](https://www.youtube.com/@firstprinciplesofcomputerv3258) (Youtube Channel)
+  
+### Free Online Courses
 
-In many vision systems, particularly on mobile robots, wide-angle lenses introduce a radial distortion around the image center, which can be modeled polynomially:
+- [Vision Algorithms for Mobile Robotics](https://rpg.ifi.uzh.ch/teaching.html) (ETH)
 
-$$
-x_{dist} = x_i \left(1 + k_1 r + k_2 r^2 + k_3 r^3 + \dots \right)
-$$
+- [Computer Vision](http://www.vision.rwth-aachen.de/course/11/) (RWTH Aachen)
 
-$$
-y_{dist} = y_i \left(1 + k_1 r + k_2 r^2 + k_3 r^3 + \dots \right)
-$$
+## Chapter 0 : Introduction
 
-where \(r^2 = x_i^2 + y_i^2\), and we temporarily assume that the image center is at \((0, 0)\). The image coordinates \((x_i, y_i)\) in equation (32.3) should be replaced with the distorted coordinates \((x_{dist}, y_{dist})\).
+![Intro to Machine Vision and Robotics - part 1](https://www.youtube.com/watch?v=SVcOWYfsBkc)
+
+![Intro to Machine Vision and Robotics - part 2](https://www.youtube.com/watch?v=RS-MXFX0ehs&t=402s)
+
+## Chapter 1 : Geometric Vision
+
+<iframe src="/assets/pdfs/nav-vision.pdf" width="100%" height="600px">
+</iframe>
+
+(This chapter comes from the book *Springer Handbook of Robotics*, Chapter 32: 3-D Vision for Navigation and Grasping)
+
+
+
+### Chapter 1.2 : Calibration
+
+Camera calibration is the process of determining a camera’s intrinsic and extrinsic parameters to accurately map 3D world points to 2D image points. This step is crucial in computer vision, robotics, and augmented reality to correct distortions and enable accurate measurements.
+
+Types of Camera Parameters :
+
+
+
+| **Camera Parameters**  | **Description** | **Symbol** |
+|------------------------|---------------|-----------|
+| **Intrinsic Parameters** | Define the camera’s internal characteristics. | |
+| Focal length          | Determines the scale of projection. | $ f $ |
+| Principal point       | The optical center of the image. | $ (c_u, c_v) $ |
+| Skew factor          | Accounts for potential shearing. | $ \beta $ |
+| Aspect ratio         | Accounts for pixel shape differences. | $ \alpha $ |
+| **Extrinsic Parameters** | Define the camera’s position and orientation in the world. | |
+| Rotation matrix      | Describes the camera’s orientation. | $ R $ |
+| Translation vector   | Specifies the camera’s position relative to a reference frame. | $ T $ |
+
+
+![](https://www.youtube.com/watch?v=qByYk6JggQU&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=2)
+
+![](https://www.youtube.com/watch?v=GUbWsXU1mac&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=3)
+
+![](https://www.youtube.com/watch?v=2XM2Rb2pfyQ&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=4)
+
+### Chapter 1.3 : Pose estimation or PNP
+
+Pose estimation is the process of determining the position and orientation (pose) of a camera or object relative to a known reference frame, typically using 2D images and 3D world points. It plays a crucial role in robotics, augmented reality, and computer vision applications like object tracking, autonomous navigation, and grasping.
+
+One common approach to pose estimation is the Perspective-n-Point (PnP) problem. Given a set of N known 3D points in the world and their corresponding 2D projections in an image, PnP estimates the camera’s position and orientation relative to the scene. This requires the camera to be calibrated, meaning its intrinsic parameters (such as focal length and optical center) are known.
+
+![](https://www.youtube.com/watch?v=xdlLXEyCoJY)
+
+![](https://www.youtube.com/watch?v=RR8WXL-kMzA)
