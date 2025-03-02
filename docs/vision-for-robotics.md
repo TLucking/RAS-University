@@ -14,7 +14,7 @@ This section covers the principles and applications of vision in robotics, inclu
 - 3D vision and depth perception
 - Machine learning for vision
 
-![img-description](/assets/images/Screenshot%20from%202025-03-01%2018-54-00.png)
+![img-description]({{ site.baseurl }}/assets/images/Screenshot%20from%202025-03-01%2018-54-00.png)
 
 ## Motivation
 
@@ -55,7 +55,7 @@ Cameras have become one of the most accessible and data-rich sensors for robots,
 
 ## Chapter 1 : Geometric Vision
 
-<iframe src="/assets/pdfs/nav-vision.pdf" width="100%" height="600px">
+<iframe src="{{ site.baseurl }}/assets/pdfs/nav-vision.pdf" width="100%" height="600px">
 </iframe>
 
 (This chapter comes from the book *Springer Handbook of Robotics*, Chapter 32: 3-D Vision for Navigation and Grasping)
