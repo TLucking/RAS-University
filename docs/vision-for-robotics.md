@@ -96,10 +96,6 @@ One common approach to pose estimation is the Perspective-n-Point (PnP) problem.
 
 ![](https://www.youtube.com/watch?v=RR8WXL-kMzA)
 
-#### Exercise
-
-test
-
 ### Chapter 1.4 : Triangulation
 
 See corresponding chapter in the PDF [*Springer Handbook of Robotics*](#chapter-1-vision)
