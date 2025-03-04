@@ -9,9 +9,6 @@ math: mathjax
 - Table of Contents
 {:toc}
 
-
-![img-description]({{ site.baseurl }}/assets/images/Screenshot%20from%202025-03-01%2018-54-00.png)
-
 ### Books
 
 - [Springer Handbook of Robotics ](https://link.springer.com/chapter/10.1007/978-3-319-32552-1_9) (Chapter 9. Force Control)
