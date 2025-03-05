@@ -39,7 +39,15 @@ In this chapter, you’ll explore different ways of representing positions and o
 
 - [Robotic Manipulation](https://www.youtube.com/watch?v=ZOXp_wixIzo&list=PLkx8KyIQkMfVRPReg9FHtBk_RGEwnVxU-&index=3) (MIT 2020)
 
-### Free Online Courses
+## Free Online Courses
+
+This section of the course is primarily based on content shared by **Mohammad Zainullah Khan**, an engineer with a Master’s degree in Mechanical Engineering (specializing in robotics, design, and mechatronics) from the University of Dayton. You can find more information on his website: [www.zainullah.com](https://www.zainullah.com/).
+
+Mohammad’s videos are well-structured and visually engaging, making them an excellent resource for anyone beginning to study kinematics for robotics. We recommend starting with the videos listed below to build a solid foundation. 
+
+Once you’ve grasped the basics, you can further strengthen your understanding by working through both pen-and-paper exercises and coding tasks. These hands-on activities will help you verify that you have truly mastered the core concepts.
+
+
 
 ## Chapter 0 : Introduction to Robotics | Kinematics & Modeling
 
@@ -85,9 +93,97 @@ In this chapter, you’ll explore different ways of representing positions and o
 
 ### Pen & Paper Exercises
 
-### Coding Exercises
+#### Exercise 1:
+For the following structures:
+![Kinematics Example](./assets/images/kinematics/ex1_1.png)
 
-## Corrections
+What is the: 
+1. Number of motors? 
+2. Mobility (MO)? 
+3. Number of degrees of freedom (DOF)?
+
+<details markdown="1">
+  <summary>Solution</summary>
+
+  **Reminder:** The mobility of a serial robot is always equal to its number of motors. All the joints of a serial robot are actuated (motorized).  
+
+  1. **(a)** The Stäubli TX60 has 6 motorized joints: RRR for the handler and RRR for the wrist.  
+     **(b)** The second robot has 5 motorized joints: RTT for the handler and RR for the wrist.  
+
+  2. **(a)** Stäubli TX60: MO = 6.  
+     **(b)** Second robot: MO = 5.  
+
+  3. **(a)** Stäubli TX60: DOF = 6; three translations of the tool and three rotations in the space of the tool.  
+     **(b)** Second robot: DOF = 5; three translations of the tool and two rotations in the space of the tool.  
+
+</details>
+
+### Coding Exercises
+These exercises will help you practice the fundamental concepts of kinematics by translating them into Python code. You can run these snippets in a local Python environment or online in services like Google Colab, Jupyter Notebook, or similar platforms.
+
+---
+
+## 1. Forward Kinematics of a 2-Link Planar Manipulator
+
+**Objective:**  
+Write a function that computes the end-effector position (x, y) of a 2-link planar robot arm given two joint angles $\theta_1$ and $\theta_2$.
+
+**Robot Description:**  
+- Link 1 has length $L_1$.  
+- Link 2 has length $L_2$.  
+- Joint angles $\theta_1$ and $\theta_2$ are measured from the x-axis (or from the previous link’s axis).
+
+**Kinematic Equations:**  
+$
+\begin{aligned}
+x &= L_1 \cos(\theta_1) + L_2 \cos(\theta_1 + \theta_2) \\
+y &= L_1 \sin(\theta_1) + L_2 \sin(\theta_1 + \theta_2)
+\end{aligned}
+$
+
+**Instructions:**  
+1. Define a Python function called `forward_kinematics_2link(theta1, theta2, L1, L2)` that returns `(x, y)`.  
+2. Test your function with different angle values to see if the outputs make sense.
+
+```python
+def forward_kinematics_2link(theta1, theta2, L1, L2):
+    """
+    Calculate the (x, y) position of the end-effector of a 2-link planar robot arm.
+    
+    Parameters:
+    - theta1: angle of the first joint (in radians)
+    - theta2: angle of the second joint (in radians)
+    - L1: length of the first link
+    - L2: length of the second link
+    
+    Returns:
+    - (x, y): A tuple containing the x and y coordinates of the end-effector
+    """
+    import math
+    
+    x = L1 * math.cos(theta1) + L2 * math.cos(theta1 + theta2)
+    y = L1 * math.sin(theta1) + L2 * math.sin(theta1 + theta2)
+    
+    return (x, y)
+
+# Example usage:
+if __name__ == "__main__":
+    # Let's assume each link is 1 meter long:
+    L1, L2 = 1.0, 1.0
+    
+    # Test the function with some angle values (in radians)
+    angles = [
+        (0.0, 0.0),
+        (math.pi/4, math.pi/4),
+        (math.pi/2, 0.0),
+        (math.pi/3, -math.pi/6)
+    ]
+    
+    for (t1, t2) in angles:
+        x, y = forward_kinematics_2link(t1, t2, L1, L2)
+        print(f"Theta1={t1:.2f}, Theta2={t2:.2f} => (x={x:.2f}, y={y:.2f})")
+```
+
 
 ## Key Definitions and Concepts in Kinematics
 
