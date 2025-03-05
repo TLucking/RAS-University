@@ -8,6 +8,10 @@ layout: default
 - Table of Contents
 {:toc}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4990bf860551b5a21bdcccc4a55dd415230ffba6
 ## Motivation
 
 ![Delta Robot Pick and Place](https://www.youtube.com/watch?v=8j5hPlHTZI8)

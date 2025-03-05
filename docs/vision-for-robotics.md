@@ -96,10 +96,6 @@ One common approach to pose estimation is the Perspective-n-Point (PnP) problem.
 
 ![](https://www.youtube.com/watch?v=RR8WXL-kMzA)
 
-#### Exercise
-
-test
-
 ### Chapter 1.4 : Triangulation
 
 See corresponding chapter in the PDF [*Springer Handbook of Robotics*](#chapter-1-vision)
@@ -120,5 +116,45 @@ In essence, triangulation involves using the principle of geometry to intersect 
 ### Chapter 1.6 : Structure from Motion
 
 See corresponding chapter in the PDF [*Springer Handbook of Robotics*](#chapter-1-vision)
+
+## Exercise
+
+### Exercise 1
+
+- Determine the Intrinsic Parameter Matrix (𝑲) of a digital camera with an image size 640×480 pixels and a horizontal field of view of 90°
+- Assume square pixels and the principal point as the center of the diagonals
+- What is the vertical field of view?
+- What’s the projection on the image plane of $cP = [1, 1, 2]^T$
+
+<details markdown="1">
+  <summary>Solution</summary>
+
+  ![img-description]({{ site.baseurl }}/assets/images/ex1_1.png)
+
+  ![img-description]({{ site.baseurl }}/assets/images/ex1_2.png)
+
+</details>
+
+
+## Additional content
+
+### Camera Notation Tutorial
+
+<details markdown="1">
+  <summary>See pdf</summary>
+
+  <iframe src="{{ site.baseurl }}{{'/assets/pdfs/01_Camera_Notation_Tutorial.pdf'}}" width="100%" height="600px"></iframe>
+
+</details>
+
+### SVD for DLT
+
+<details markdown="1">
+  <summary>See pdf</summary>
+
+  <iframe src="{{ site.baseurl }}{{'/assets/pdfs/02_SVD.pdf'}}" width="100%" height="600px"></iframe>
+
+</details>
+
 
 [Back to Top](#start)

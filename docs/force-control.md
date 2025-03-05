@@ -37,11 +37,11 @@ That’s why In the recent decade, research with robot force control has been in
 Two broad paradigms exist: passive versus active interaction control:
 * Passive interaction control: the trajectory of the end-effector is driven by the interaction forces due to the inherent nature or compliance of the robot (i.e., internally, such as joints, servo, joints, etc.). In passive control, the end-effector’s motion naturally deflects under force, as in soft robots – but this lacks flexibility (every specific task might require a special end-effector to be designed and it can also have position and orientation deviations)​ and high contact forces could occur because there is no force force measurement. 
 
-    ![Illustrative Video](https://youtu.be/4fnPVRWWEU8)
+![Illustrative Video](https://youtu.be/4fnPVRWWEU8)
 
 * Active interaction control: uses sensors (e.g. force/torque sensors) and feedback controllers to measure interaction forces and adjust accordingly the robot’s commands in terms of trajectory or object manipulation.  Active control can react to forces in real-time, providing flexibility and accuracy at the cost of added complexity and speed limitations. To obtain a reasonable task execution speed and disturbance rejection capability, active interaction control has to be used in combination with some degree of passive compliance. Active interaction control can be further grouped into indirect (such as admittance and impedance control) and direct force control strategies (such as hybrid force/motion control).
     
-    ![Illustrative video](https://www.youtube.com/watch?v=7Nvlki1xo-c)	
+![Illustrative video](https://www.youtube.com/watch?v=7Nvlki1xo-c)	
 
 **Conceptual exercise**
 
