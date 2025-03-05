@@ -47,7 +47,39 @@ In this chapter, you’ll explore different ways of representing positions and o
 
 ## Chapter 1: Coordinate Transformations in 2D | Mapping {#chapter-1-coordinate-transformations-in-2D}
 
-![Coordinate Transformations in 2D : Mapping](https://www.youtube.com/watch?v=H_94DTWd8ck&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=2)
+![Coordinate Transformations in 2D : Mapping Part 1](https://www.youtube.com/watch?v=H_94DTWd8ck&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=2)
+
+![Coordinate Transformations in 2D : Mapping Part 2](https://www.youtube.com/watch?v=TWTMoFvcBFc&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=3)
+
+![Coordinate Transformations in 2D : Mapping Part 3](https://www.youtube.com/watch?v=R_hxO5xBYfI&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=4)
+
+## Chapter 2: Forward Kinematics of robots | Planar 2D robots
+![Forward Kinematics of robots](https://www.youtube.com/watch?v=svyhLDAoyKc&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=5)
+
+## Chapter 3: Forward Kinematics (with solved examples) | Homogeneous Transformations 
+![examples](https://www.youtube.com/watch?v=mO7JJxaVtkE&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=6)
+
+![examples2](https://www.youtube.com/watch?v=zg5sS9LZGAM&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=7)
+
+## Chapter 4: How do robots avoid collisions? | Branched Homogeneous Transforms
+![Homogeneous Transforms](https://www.youtube.com/watch?v=WQTnCIhkzNc&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=8)
+
+## Chapter 5: Inverse Kinematics of Robots
+![Inverse Kinematics of Robots](https://www.youtube.com/watch?v=1-FJhmey7vk&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=9)
+
+![example_inverse_kinematics](https://www.youtube.com/watch?v=EzZDRwmk8Nw&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=10)
+
+## Chapter 6: Velocity Kinematics
+![Velocity Kinematics & Jacobian Matrix](https://www.youtube.com/watch?v=Wud3aCXiSm8&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=11)
+
+![Velocity Kinematics & Manipulability Ellipsoids](https://www.youtube.com/watch?v=gdSTcJwf3L0&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=12)
+
+## Chapter 7: How to find Jacobian Matrix? | Solved Examples
+![how to find Jacobian Matrix](https://www.youtube.com/watch?v=EdvAHmIONMs&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=13)
+
+## Chapter 8: Robot Singularities & how to find them
+![Robot Singularities & how to find them](https://www.youtube.com/watch?v=WXEOr7X2bPE&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=14)
+
 
 ## Exercises
 
@@ -105,11 +137,11 @@ A **homogeneous transformation** matrix represents both rotation and translation
 
 $$
 \text{Rot}(z, \theta) = 
-\begin{bmatrix}
-\cos \theta & -\sin \theta & 0 & 0 \\
-\sin \theta & \cos \theta  & 0 & 0 \\
-0           & 0            & 1 & 0 \\
-0           & 0            & 0 & 1
+    \begin{bmatrix}
+    \cos \theta & -\sin \theta & 0 & 0 \\
+    \sin \theta & \cos \theta  & 0 & 0 \\
+    0           & 0            & 1 & 0 \\
+    0           & 0            & 0 & 1
 \end{bmatrix}
 $$  
 
@@ -192,30 +224,33 @@ where $\text{MO}_i$ is the contribution to mobility from the $ i $-th joint (oft
 - **Rotation about the x-axis by $\alpha$**  
 
   $$
-  R_x(\alpha) = \begin{bmatrix}
-  1 & 0 & 0 \\
-  0 & \cos \alpha & -\sin \alpha \\
-  0 & \sin \alpha & \cos \alpha
+  R_x(\alpha) = 
+  \begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & \cos \alpha & -\sin \alpha \\
+    0 & \sin \alpha & \cos \alpha
   \end{bmatrix}
   $$
 
 - **Rotation about the y-axis by $\beta$**  
 
   $$
-  R_y(\beta) = \begin{bmatrix}
-  \cos \beta & 0 & \sin \beta \\
-  0 & 1 & 0 \\
-  -\sin \beta & 0 & \cos \beta
+  R_y(\beta) = 
+  \begin{bmatrix}
+    \cos \beta & 0 & \sin \beta \\
+    0 & 1 & 0 \\
+    -\sin \beta & 0 & \cos \beta
   \end{bmatrix}
   $$
 
 - **Rotation about the z-axis by $\gamma$**  
 
   $$
-  R_z(\gamma) = \begin{bmatrix}
-  \cos \gamma & -\sin \gamma & 0 \\
-  \sin \gamma & \cos \gamma & 0 \\
-  0 & 0 & 1
+  R_z(\gamma) = 
+  \begin{bmatrix}
+    \cos \gamma & -\sin \gamma & 0 \\
+    \sin \gamma & \cos \gamma & 0 \\
+    0 & 0 & 1
   \end{bmatrix}
   $$
 
