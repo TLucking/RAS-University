@@ -95,7 +95,7 @@ Once you’ve grasped the basics, you can further strengthen your understanding 
 
 #### Exercise 1:
 For the following structures:
-![Kinematics Example](./assets/images/kinematics/ex1_1.png)
+![](/assets/images/kinematics/ex1_1.png)
 
 What is the: 
 1. Number of motors? 
@@ -136,8 +136,8 @@ Write a function that computes the end-effector position (x, y) of a 2-link plan
 **Kinematic Equations:**  
 $
 \begin{aligned}
-x &= L_1 \cos(\theta_1) + L_2 \cos(\theta_1 + \theta_2) \\
-y &= L_1 \sin(\theta_1) + L_2 \sin(\theta_1 + \theta_2)
+    x &= L_1 \cos(\theta_1) + L_2 \cos(\theta_1 + \theta_2) \\
+    y &= L_1 \sin(\theta_1) + L_2 \sin(\theta_1 + \theta_2)
 \end{aligned}
 $
 
@@ -231,7 +231,7 @@ A **homogeneous transformation** matrix represents both rotation and translation
 
 $$
 \text{Rot}(z, \theta) = 
-    \begin{bmatrix}
+\begin{bmatrix}
     \cos \theta & -\sin \theta & 0 & 0 \\
     \sin \theta & \cos \theta  & 0 & 0 \\
     0           & 0            & 1 & 0 \\
@@ -317,36 +317,36 @@ where $\text{MO}_i$ is the contribution to mobility from the $ i $-th joint (oft
 ### Rotation Matrices About Principal Axes
 - **Rotation about the x-axis by $\alpha$**  
 
-  $$
-  R_x(\alpha) = 
-  \begin{bmatrix}
-    1 & 0 & 0 \\
-    0 & \cos \alpha & -\sin \alpha \\
-    0 & \sin \alpha & \cos \alpha
-  \end{bmatrix}
-  $$
+    $$
+    R_x(\alpha) = 
+    \begin{bmatrix}
+        1 & 0 & 0 \\
+        0 & \cos \alpha & -\sin \alpha \\
+        0 & \sin \alpha & \cos \alpha
+    \end{bmatrix}
+    $$
 
 - **Rotation about the y-axis by $\beta$**  
 
-  $$
-  R_y(\beta) = 
-  \begin{bmatrix}
-    \cos \beta & 0 & \sin \beta \\
-    0 & 1 & 0 \\
-    -\sin \beta & 0 & \cos \beta
-  \end{bmatrix}
-  $$
+    $$
+    R_y(\beta) = 
+    \begin{bmatrix}
+        \cos \beta & 0 & \sin \beta \\
+        0 & 1 & 0 \\
+        -\sin \beta & 0 & \cos \beta
+    \end{bmatrix}
+    $$
 
 - **Rotation about the z-axis by $\gamma$**  
 
-  $$
-  R_z(\gamma) = 
-  \begin{bmatrix}
-    \cos \gamma & -\sin \gamma & 0 \\
-    \sin \gamma & \cos \gamma & 0 \\
-    0 & 0 & 1
-  \end{bmatrix}
-  $$
+    $$
+    R_z(\gamma) = 
+    \begin{bmatrix}
+        \cos \gamma & -\sin \gamma & 0 \\
+        \sin \gamma & \cos \gamma & 0 \\
+        0 & 0 & 1
+    \end{bmatrix}
+    $$
 
 Any 3D rotation can be expressed as a product of these fundamental rotations.
 
