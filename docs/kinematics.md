@@ -95,7 +95,7 @@ Once you’ve grasped the basics, you can further strengthen your understanding 
 
 #### Exercise 1:
 For the following structures:
-![](/assets/images/kinematics/ex1_1.png)
+![examples]({{ site.baseurl }}/assets/images/kinematics/ex1_1.png)
 
 What is the: 
 1. Number of motors? 
