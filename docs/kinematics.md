@@ -44,10 +44,9 @@ In this chapter, you’ll explore different ways of representing positions and o
 
 ### Free Online Courses
 
+## Chapter 0 : Introduction to Robotics 
 
-
-
-## Chapter 0 : Introduction
+![Robotics 101: Introduction to Robotics | Kinematics & Modeling | Full course for beginners](https://www.youtube.com/watch?v=K_xIJBlbjg4&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA)
 
 ## Chapter 1: Geometric Vision {#chapter-1-vision}
 
@@ -56,6 +55,8 @@ In this chapter, you’ll explore different ways of representing positions and o
 ### Pen & Paper Exercises
 
 ### Coding Exercises
+
+## Corrections
 
 ## Key Definitions and Concepts in Kinematics
 
@@ -238,7 +239,5 @@ where:
 Quaternions provide a non-singular way to interpolate and compute 3D orientations, often used in control and simulation.
 
 ---
-
-## Corrections
 
 [Back to Top](#start)
