@@ -190,8 +190,6 @@ if __name__ == "__main__":
 Below is a set of definitions and concepts that will help you navigate the topics in this chapter on Kinematics. Some are foundational from trigonometry, and others relate specifically to robotics and the modeling of mechanical structures. Feel free to reference these as you study.
 
 ### Degrees of Freedom (DoF)
-
-#### Definition  
 The **number of degrees of freedom** is the number of independent variables (or coordinates) needed to define the configuration of a system.  
 - *Example:* A free rigid body in 3D has 6 DoF (3 translational + 3 rotational).
 
