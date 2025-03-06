@@ -76,7 +76,7 @@ This approach can also have nice advantages for guaranteeing that your robot won
 
 Indirect forced control can be further classified as Impedance control if the robot responds by generating forces (i.e., through joint moment(s) and/or force(s)) or Admittance control if the robot responds by imposing a deviation from desired trajectory as a result of interaction with the environment.
 
-#### Chapter 2.1.1 : Impedance control
+### Chapter 2.1.1 : Impedance control
 In principle, the fundamental idea builds from the fact that 
 mechanical impedance is a measure of how a structure resists motion when it is 
 subjected to a force [18]. As described before, using impedance control results in 
@@ -151,7 +151,7 @@ Stiffness control allows to keep the interaction force and moment limited at the
 
 ![Illustrative example](https://www.youtube.com/watch?v=pXH7rwrzh6s)
 
-#### Chapter 2.1.2: Admittance control
+### Chapter 2.1.2: Admittance control
 It is conceptually the dual of impedance. In admittance control, the robot (or its controller) monitors the forces and adjusts the motion commands in response​. Instead of directly outputting a force for a given motion error, an admittance controller takes a measured force input and yields a position or velocity adjustment. Practically, the robot is typically position-controlled at its core, but an outer loop takes the force error and computes a small shift in the commanded position (or trajectory) to relieve or accommodate that force​. For instance, if a force of 10 N is pushing the robot off its path, an admittance controller might say “yield by 1 mm” (depending on a compliance setting) – effectively, the robot moves slightly until the force reduces. 
 Admittance control often involves two loops: an inner high-bandwidth control loop where the compliant velocity/position is controlled, and an outer force loop that modifies the target position based on force input.
 
@@ -235,15 +235,18 @@ But in general, the task complexity is much higher where we may have to provide 
 
 Pose estimation is the process of determining the position and orientation (pose) of a camera or object relative to a known reference frame, typically using 2D images and 3D world points. It plays a crucial role in robotics, augmented reality, and computer vision applications like object tracking, autonomous navigation, and grasping.
 
-#### Chapter 2.2.1: Hybrid Force Control
+### Chapter 2.2.1: Hybrid Force Control
 ![Intuition](https://www.youtube.com/watch?v=BXu9C3joUSk)	
 
 The aim of hybrid force/motion control is to split up simultaneous control of both end-effector motion and contact forces into two separate decoupled subproblems
 [Controller](https://rocco.faculty.polimi.it/cir/Control%20of%20the%20interaction.pdf)(P 38)
+
 The idea is to separate all 6 axes of the task (3 force and 3 torque) and apply either a motion based control or a force based control onto each of the axes. Unconstrained (free) axes are controlled in position while constrained axes are controlled by applying a constant force 
+
 An example setup shown in Figure 3.10 can be used to demonstrate the principle of hybrid motion/force control (osrobotics.org). Imagine a table and a multi DOF robot that comes in contact with the surface and then proceeds to have a sliding motion. These types of tasks are very common in grinding, polishing kind of jobs in industries [26]. Here the contact force is being controlled in the Z direction while keeping the motion in X direction using a PD controller and a force sensor attached to the end-effector of the robot.
 
-![Fig 3.10](https://opentextbooks.clemson.edu/me8930/chapter/force-control-of-a-manipulator)(Fig 3.10)
+![Fig3.10]({{ site.baseurl }}/assets/images/Force/hybrid_1.png)(Figure 3.10. End-effector sliding and corresponding block diagram to control normal contact force in Z and position in X.)
+
 
 The basic model can be given by the concept that connects constraints for doing a task that requires force feedback to control design. $\{C\}$ is the constraint coordinate system and transformation form $\{C\}$ is given such that for controlling one manipulator joint involves every dimension in $\{C\}$:
 
@@ -264,7 +267,7 @@ may however occur in the measurements, due e.g. to:
 direction which is nominally constrained in motion)
 3. uncertainty in the environment geometry at the contact
 
-![Hybrid motion/force control](https://modernrobotics.northwestern.edu/nu-gm-book-resource/11-6-hybrid-motion-force-control/#department) --> A short video explaining in more mathematical terms what was presented in this section
+![Hybrid motion/force control](https://youtu.be/UR0GpaaBVKk?si=_8KyDB-Hhl7YSeX9) --> A short video explaining in more mathematical terms what was presented in this section
 
 
 ![Video to go deeper into theory](https://www.youtube.com/watch?v=TyzTkIbWPyQ) --> This is a much longer video but very interesting and didactic
@@ -272,19 +275,18 @@ direction which is nominally constrained in motion)
 # Summary
 A simulation summarizing the different types of force control presented here 
 using ROS and on Linux (code hard to understand but a readme helps to run the simulation) ???
-
 [simulation](https://github.com/MingshanHe/Compliant-Control-and-Application/tree/noetic)
 
-[More theory](https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/127c560e6052cb02ed3f7adc8d3c1512_chapter9.pdf#:~:text=accommodate%20the%20pressure%20with%20which,former%20is%20x%20and%20y)
+[More theory](https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/127c560e6052cb02ed3f7adc8d3c1512_chapter9.pdf#:~:text=accommodate%20the%20pressure%20with%20which,former%20is%20x%20and%20y) 
+--> a complete university course in PDF from MIT
 
 # Final Project
 [Complete project with hardware and software implementation in python](https://github.com/SamoaChen/2-Linkages-Robotic-Arm-Hybrid-Position-Force-Control/tree/master)
 
-https://github.com/MingshanHe/Compliant-Control-and-Application/tree/noetic --> This is a simulation using ROS
+[https://github.com/MingshanHe/Compliant-Control-and-Application/tree/noetic] --> This is a simulation using ROS
 ### Free Online Courses
 
-- [Lecture 13 | MIT 6.881 (Robotic Manipulation), Fall 2020 | Force Control (part 2)
-](https://www.youtube.com/watch?v=WX03NqnKVywl)
+- [Lecture 13 | MIT 6.881 (Robotic Manipulation), Fall 2020 | Force Control (part 2)](https://www.youtube.com/watch?v=WX03NqnKVywl)
 
 
 
