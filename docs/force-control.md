@@ -277,6 +277,8 @@ direction which is nominally constrained in motion)
 This is an assignment given in the [Robotic Manipulation course](https://manipulation.csail.mit.edu/force.html#example2) given in MIT. It uses Python with a custom library that can be easily installed on mac or Ubuntu ```pip install manipulation``` or directly executing in DeepNote.
 It comprises conceptual exercises as well as programming. The only problem is that a solution is not provided. 
 
+![Hybrid_assignment]({{ site.baseurl }}/assets/images/Force/hybrid_assignment.png)
+
 # Summary
 A simulation summarizing the different types of force control presented here 
 using ROS and on Linux (code hard to understand but a readme helps to run the simulation) ???
@@ -288,7 +290,6 @@ using ROS and on Linux (code hard to understand but a readme helps to run the si
 # Final Project
 [Complete project with hardware and software implementation in python](https://github.com/SamoaChen/2-Linkages-Robotic-Arm-Hybrid-Position-Force-Control/tree/master)
 
-[https://github.com/MingshanHe/Compliant-Control-and-Application/tree/noetic] --> This is a simulation using ROS
 ### Free Online Courses
 
 - [Lecture 13 - MIT 6.881 (Robotic Manipulation), Fall 2020 - Force Control (part 2)](https://www.youtube.com/watch?v=WX03NqnKVywl)
