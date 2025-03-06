@@ -10,7 +10,6 @@ math: mathjax
 {:toc}
 
 
-![img-description]({{ site.baseurl }}/assets/images/Screenshot%20from%202025-03-01%2018-54-00.png)
 
 ### Books
 
@@ -115,9 +114,9 @@ $$
 
 where $x$ is the position of the system with mass ($m$), damping coefficient ($b$), stiffness ($k$), input control ($u$) and interaction force ($f_e$). Input control equations are given in 3.7.
 
-![fig3.3]({{ site.baseurl }}/assets/images/impedance_1.png)(Fig 3.3 Diagram to describe impedance control)
+![fig3.3]({{ site.baseurl }}/assets/images/Force/impedance_1.png)(Fig 3.3 Diagram to describe impedance control)
 
-![fig3.4]({{ site.baseurl }}/assets/images/impedance_2.png)(Fig 3.4 Mechanical system in contact with the environment)
+![fig3.4]({{ site.baseurl }}/assets/images/Force/impedance_2.png)(Fig 3.4 Mechanical system in contact with the environment)
 
 Created by Rahul Narasimhan Raghuraman based on information from [1]
 
@@ -140,7 +139,7 @@ $$
 
 where $m_d$, $b_d$, and $k_d$ are the impedance coefficients for the controller (Al-Shuka et al. 2018).
 
-![fig3.5]({{ site.baseurl }}/assets/images/impedance_3.png)(Fig 3.5. A robotic manipulator in contact with the environment using impedance control principle)
+![fig3.5]({{ site.baseurl }}/assets/images/Force/impedance_3.png)(Fig 3.5. A robotic manipulator in contact with the environment using impedance control principle)
 
 Hence, by controlling the impedance of the robot we can manipulate the behavior of the end-effector depending on the interaction with the environment. For example, we can set very low impedance (or high compliance) and make it act like a very loose spring or we can set the stiffness very high where the robot would only move to the desired position without much oscillation.
 
@@ -156,12 +155,12 @@ Stiffness control allows to keep the interaction force and moment limited at the
 It is conceptually the dual of impedance. In admittance control, the robot (or its controller) monitors the forces and adjusts the motion commands in response​. Instead of directly outputting a force for a given motion error, an admittance controller takes a measured force input and yields a position or velocity adjustment. Practically, the robot is typically position-controlled at its core, but an outer loop takes the force error and computes a small shift in the commanded position (or trajectory) to relieve or accommodate that force​. For instance, if a force of 10 N is pushing the robot off its path, an admittance controller might say “yield by 1 mm” (depending on a compliance setting) – effectively, the robot moves slightly until the force reduces. 
 Admittance control often involves two loops: an inner high-bandwidth control loop where the compliant velocity/position is controlled, and an outer force loop that modifies the target position based on force input.
 
-![fig3.6]({{ site.baseurl }}/assets/images/admittance_1.png)(Fig 3.6. Diagram to describe admittance control)
+![fig3.6]({{ site.baseurl }}/assets/images/Force/admittance_1.png)(Fig 3.6. Diagram to describe admittance control)
 Created by Rahul Narasimhan Raghuraman based on information from [4]
 
 For a similar example as described before (see Fig. 3.7) but with an additional reference trajectory to use and command the manipulator, xc.
 
-![fig3.7]({{ site.baseurl }}/assets/images/admittance_2.png)(Figure 3.7. System in contact with environment to show changes in target dynamics due to the commanded trajectory xc)
+![fig3.7]({{ site.baseurl }}/assets/images/Force/admittance_2.png)(Figure 3.7. System in contact with environment to show changes in target dynamics due to the commanded trajectory xc)
 Created by Rahul Narasimhan Raghuraman based on information from [4]
 
 Based on this, the outer admittance filter is described by Equation (3.8) as –
@@ -216,10 +215,10 @@ In other words, stiffness control tries to cancel out the gravity and any other 
 Direct force control uses explicit control based on the interaction with the environment and based on the interaction and contact force, the force at joint(s) of the robot can be controlled so as to complete the task.
 
 Consider a 1-DOF, linear, position-controlled robot as in the figure below. One would like to control the contact force \( f \) between the robot end-effector and the wall so as to track a reference \( f_{ref} \), where \( f_{ref} \) is, for example, a constant positive value.
-![direct_1]({{ site.baseurl }}/assets/images/direct_1.png)(Contact interaction between a one-dof robot and a wall.)
+![direct_1]({{ site.baseurl }}/assets/images/Force/direct_1.png)(Contact interaction between a one-dof robot and a wall.)
 
 For that, one can use a Proportional-Derivative (PD) control law as below. Note that the command sent to the robot is \( x_{com} \), which is a desired position.
-![direct_2]({{ site.baseurl }}/assets/images/direct_2.png)(Block diagram of a force controller to control the contact force between the robot end-effector and the environment. The Laplace variable s stands for differentiation with respect to time (d/dt).)
+![direct_2]({{ site.baseurl }}/assets/images/Force/direct_2.png)(Block diagram of a force controller to control the contact force between the robot end-effector and the environment. The Laplace variable s stands for differentiation with respect to time (d/dt).)
 
 
 The Force/Torque (F/T) sensor measures the contact force between the end-effector and the wall. When there is no contact (first figure, top sketch), the contact force is zero, thus $f_{sensed} = 0$ yielding $f_{err} > 0.$
