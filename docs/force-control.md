@@ -269,8 +269,13 @@ direction which is nominally constrained in motion)
 
 ![Hybrid motion/force control](https://youtu.be/UR0GpaaBVKk?si=_8KyDB-Hhl7YSeX9) --> A short video explaining in more mathematical terms what was presented in this section
 
-
 ![Video to go deeper into theory](https://www.youtube.com/watch?v=TyzTkIbWPyQ) --> This is a much longer video but very interesting and didactic
+
+**Exercise**
+
+[Hybrid Force/Position control Assignment](https://deepnote.com/workspace/Manipulation-ac8201a1-470a-4c77-afd0-2cc45bc229ff/project/87d8044f-3eb2-4f25-b52f-f51a5eca68b7/notebook/hybridforceposition-25104d02b7bc429bb3d71ef7e5d1c2bb)
+This is an assignment given in the [Robotic Manipulation course](https://manipulation.csail.mit.edu/force.html#example2) given in MIT. It uses Python with a custom library that can be easily installed on mac or Ubuntu ```pip install manipulation``` or directly executing in DeepNote.
+It comprises conceptual exercises as well as programming. The only problem is that a solution is not provided. 
 
 # Summary
 A simulation summarizing the different types of force control presented here 
@@ -286,7 +291,7 @@ using ROS and on Linux (code hard to understand but a readme helps to run the si
 [https://github.com/MingshanHe/Compliant-Control-and-Application/tree/noetic] --> This is a simulation using ROS
 ### Free Online Courses
 
-- [Lecture 13 | MIT 6.881 (Robotic Manipulation), Fall 2020 | Force Control (part 2)](https://www.youtube.com/watch?v=WX03NqnKVywl)
+- [Lecture 13 - MIT 6.881 (Robotic Manipulation), Fall 2020 - Force Control (part 2)](https://www.youtube.com/watch?v=WX03NqnKVywl)
 
 
 
