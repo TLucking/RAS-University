@@ -60,9 +60,14 @@ Once you’ve grasped the basics, you can further strengthen your understanding 
 This video gives you an introduction of the meaning of kineamtics and modeling and will present you how his videos will be strucured.
 ![Robotics 101: Full course for beginners](https://www.youtube.com/watch?v=K_xIJBlbjg4&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA)
 
-#### Conceptual Questions
+#### Questions
 
-<p><strong>Question:</strong> How long are Mohammad's videos typically?</p>
+<!-- Conceputal questions -->
+<details markdown="1">
+  <summary>Conceptual Questions</summary>
+
+<!-- First question  -->
+<p><strong>Question 1: How long are Mohammad's videos typically?</strong></p>
 <form id="mcq1">
   <input type="radio" name="duration" value="10"> Less than 10 minutes<br>
   <input type="radio" name="duration" value="30"> Around 30 minutes<br>
@@ -99,7 +104,8 @@ function checkMCQ1() {
 }
 </script>
 
-<p><strong>Question: Forward kinematics (FK) is...</strong></p>
+<!-- Second question  -->
+<p><strong>Question 2: Forward kinematics (FK) is...</strong></p>
 <form id="mcq-fk">
   <!-- Option 1 (Correct) -->
   <input type="radio" name="fk" value="option1"> How changing robot parameters (joint angles, link lengths) affects the end-effector’s position and orientation<br>
@@ -135,7 +141,7 @@ function checkFKMCQ() {
   }
 
   if (selectedValue === "option1") {
-    feedback.textContent = "Correct! Forward kinematics calculates how changes in joint angles or link lengths affect the end-effector pose.";
+    feedback.textContent = "Correct! Forward kinematics calculates how changes in joint angles or link lengths affect the end-effector pose. The inverse is simply called **Inverse Kinematics**";
     feedback.style.color = "green";
   } else {
     feedback.textContent = "Incorrect. Please try again!";
@@ -144,15 +150,152 @@ function checkFKMCQ() {
 }
 </script>
 
+</details>
 
+### Chapter 1: Coordinate Transformations in 2D | Mapping {#chapter-1-coordinate-transformations-in-2D}
 
-## Chapter 1: Coordinate Transformations in 2D | Mapping {#chapter-1-coordinate-transformations-in-2D}
+In this chapter, we focus on 2D coordinate transformations—specifically, pure translations and pure rotations for planar (serial) robots.
 
+An introduction to 2D translations and rotations:
 ![Coordinate Transformations in 2D : Mapping Part 1](https://www.youtube.com/watch?v=H_94DTWd8ck&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=2)
 
+Explains how translations and rotations combine simultaneously:
 ![Coordinate Transformations in 2D : Mapping Part 2](https://www.youtube.com/watch?v=TWTMoFvcBFc&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=3)
 
+Discusses how to handle successive coordinate transformations step by step:
 ![Coordinate Transformations in 2D : Mapping Part 3](https://www.youtube.com/watch?v=R_hxO5xBYfI&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=4)
+
+As you’ve seen, a **general motion in the plane** can be expressed as a combination of **translations** (vector addition) and **rotations** (matrix multiplication) about the origin. It’s often convenient to represent both in a **single operation**—that’s where **homogeneous matrices** come in. By increasing the matrix dimension by one, we can integrate the translation vector into the transformation matrix. Specifically, we add the translation vector \(\mathbf{t}\) to the last column and a row \([\,0\;0\;1\,]\) at the bottom:
+
+\[
+\begin{bmatrix}
+R & \mathbf{t} \\
+0 & 1 
+\end{bmatrix}
+=
+\begin{bmatrix}
+\cos \theta & -\sin \theta & t_x \\
+\sin \theta & \cos \theta  & t_y \\
+0           & 0            & 1 
+\end{bmatrix}
+\]
+
+This matrix, known as the **homogeneous transformation matrix**, acts on a **homogeneous vector** in 2D, which is simply:
+
+\[
+\mathbf{v} =
+\begin{bmatrix}
+x \\
+y \\
+1
+\end{bmatrix}.
+\]
+
+To recover the usual 2D coordinates, you discard the last element. In three dimensions, these matrices and vectors have four rows (and columns), allowing them to include a \(z\)-coordinate and still handle translations and rotations in a unified way.
+
+<!-- Conceptual Questions -->
+<details markdown="1">
+  <summary>Conceptual Questions</summary>
+
+<!-- Question 1 -->
+<p><strong>Question 1: Is the following equality true?</strong></p>
+<p>R(θ<sub>1</sub>) · R(θ<sub>2</sub>) = R(θ<sub>2</sub>) · R(θ<sub>1</sub>)</p>
+
+<form id="q1-form">
+  <input type="radio" name="q1" value="true"> True<br>
+  <input type="radio" name="q1" value="false"> False<br>
+  <button type="button" onclick="checkQ1()">Check Answer</button>
+  <p id="q1-feedback"></p>
+</form>
+
+
+
+<!-- Second question  -->
+<p><strong>Question 2: The matrix 
+  <code>[[c, -s, tx], [s, c, ty], [0, 0, 1]]</code> 
+  correspond to ...</strong></p>
+<form id="mcq-fk">
+  <!-- Option 1 (Incorrect) -->
+  <input type="radio" name="fk" value="option1"> a translation followed by a rotation<br>
+  
+  <!-- Option 2 (Correct) -->
+  <input type="radio" name="fk" value="option2"> a rotation followed by a translation<br>
+  
+  <button type="button" onclick="checkhomo()">Check Answer</button>
+  <p id="fk-feedback"></p>
+</form>
+
+<script>
+function checkhomo() {
+  const options = document.getElementsByName('fk');
+  let selectedValue = null;
+
+  for (let i = 0; i < options.length; i++) {
+    if (options[i].checked) {
+      selectedValue = options[i].value;
+      break;
+    }
+  }
+
+  const feedback = document.getElementById('fk-feedback');
+
+  if (!selectedValue) {
+    feedback.textContent = "Please select an option.";
+    feedback.style.color = "red";
+    return;
+  }
+
+  if (selectedValue === "option2") {
+    feedback.textContent = "Correct! (prove can be found in the mathematical development question)";
+    feedback.style.color = "green";
+  } else {
+    feedback.textContent = "Incorrect. Please try again!";
+    feedback.style.color = "red";
+  }
+}
+</script>
+
+<script>
+function checkQ1() {
+  // Grab the value of the selected radio button for question 1
+  const q1Options = document.getElementsByName("q1");
+  let q1Selected = null;
+  for (let i = 0; i < q1Options.length; i++) {
+    if (q1Options[i].checked) {
+      q1Selected = q1Options[i].value;
+      break;
+    }
+  }
+
+  const q1Feedback = document.getElementById("q1-feedback");
+
+  // Ensure an option was selected
+  if (!q1Selected) {
+    q1Feedback.textContent = "Please select True or False.";
+    q1Feedback.style.color = "red";
+    return;
+  }
+
+  // Question 1 is TRUE
+  if (q1Selected === "true") {
+    q1Feedback.textContent = "Correct! Rotations about the same axis in 2D commute.";
+    q1Feedback.style.color = "green";
+  } else {
+    q1Feedback.textContent = "Incorrect. R(θ1)*R(θ2) = R(θ2+θ1) = R(θ1+θ2) = R(θ2)*R(θ1).";
+    q1Feedback.style.color = "red";
+  }
+}
+
+</script>
+</details>
+
+<!-- Mathematical Development Questions -->
+<details markdown="1">
+  <summary>Mathematical Development Questions</summary>
+
+</details>
+
+
 
 ## Chapter 2: Forward Kinematics of robots | Planar 2D robots
 ![Forward Kinematics of robots](https://www.youtube.com/watch?v=svyhLDAoyKc&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=5)
