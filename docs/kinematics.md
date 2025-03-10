@@ -231,10 +231,10 @@ function checkQ1() {
 
   // Question 1 is TRUE
   if (q1Selected === "true") {
-    q1Feedback.textContent = "Correct! Rotations about the same axis in 2D commute.";
+    q1Feedback.textContent = "Correct! R(θ1)*R(θ2) = R(θ1+θ2) = R(θ2+θ1) = R(θ2)*R(θ1).";
     q1Feedback.style.color = "green";
   } else {
-    q1Feedback.textContent = "Incorrect. R(θ1)*R(θ2) = R(θ2+θ1) = R(θ1+θ2) = R(θ2)*R(θ1).";
+    q1Feedback.textContent = "Incorrect. Please try again !";
     q1Feedback.style.color = "red";
   }
 }
