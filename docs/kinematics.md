@@ -208,50 +208,7 @@ To find the familiar vectors, just delete the last element. Matrices and homogen
   <p id="q1-feedback"></p>
 </form>
 
-<!-- Second question  -->
-<p><strong>Question 2: The matrix 
-  <code>[[c, -s, tx], [s, c, ty], [0, 0, 1]]</code> 
-  correspond to ...</strong></p>
-<form id="mcq-fk">
-  <!-- Option 1 (Incorrect) -->
-  <input type="radio" name="fk" value="option1"> a translation followed by a rotation<br>
-  
-  <!-- Option 2 (Correct) -->
-  <input type="radio" name="fk" value="option2"> a rotation followed by a translation<br>
-  
-  <button type="button" onclick="checkhomo()">Check Answer</button>
-  <p id="fk-feedback"></p>
-</form>
-
 <script>
-function checkhomo() {
-  const options = document.getElementsByName('fk');
-  let selectedValue = null;
-
-  for (let i = 0; i < options.length; i++) {
-    if (options[i].checked) {
-      selectedValue = options[i].value;
-      break;
-    }
-  }
-
-  const feedback = document.getElementById('fk-feedback');
-
-  if (!selectedValue) {
-    feedback.textContent = "Please select an option.";
-    feedback.style.color = "red";
-    return;
-  }
-
-  if (selectedValue === "option2") {
-    feedback.textContent = "Correct! (prove can be found in the mathematical development question)";
-    feedback.style.color = "green";
-  } else {
-    feedback.textContent = "Incorrect. Please try again!";
-    feedback.style.color = "red";
-  }
-}
-
 function checkQ1() {
   // Grab the value of the selected radio button for question 1
   const q1Options = document.getElementsByName("q1");
@@ -282,6 +239,52 @@ function checkQ1() {
   }
 }
 </script>
+
+<!-- Second question  -->
+<p><strong>Question 2: The matrix 
+  <code>[[c, -s, tx], [s, c, ty], [0, 0, 1]]</code> 
+  correspond to ...</strong></p>
+<form id="mcq-ho">
+  <!-- Option 1 (Incorrect) -->
+  <input type="radio" name="ho" value="option1"> a translation followed by a rotation<br>
+  
+  <!-- Option 2 (Correct) -->
+  <input type="radio" name="ho" value="option2"> a rotation followed by a translation<br>
+  
+  <button type="button" onclick="checkhomo()">Check Answer</button>
+  <p id="ho-feedback"></p>
+</form>
+
+<script>
+function checkhomo() {
+  const options = document.getElementsByName('ho');
+  let selectedValue = null;
+
+  for (let i = 0; i < options.length; i++) {
+    if (options[i].checked) {
+      selectedValue = options[i].value;
+      break;
+    }
+  }
+
+  const feedback = document.getElementById('ho-feedback');
+
+  if (!selectedValue) {
+    feedback.textContent = "Please select an option.";
+    feedback.style.color = "red";
+    return;
+  }
+
+  if (selectedValue === "option2") {
+    feedback.textContent = "Correct! (prove can be found in the mathematical development question)";
+    feedback.style.color = "green";
+  } else {
+    feedback.textContent = "Incorrect. Please try again!";
+    feedback.style.color = "red";
+  }
+}
+</script>
+
 
 </details>
 
