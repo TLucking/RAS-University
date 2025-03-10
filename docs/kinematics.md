@@ -9,7 +9,27 @@ math: mathjax
 - Table of Contents
 {:toc}
 
-## Motivation
+## 1. Prerequisites
+
+To get the most out of this Kinematics module, it’s helpful to have:
+
+1. **Basic Mathematics**  
+   - Familiarity with **trigonometry** (sine, cosine, angle addition formulas).  
+   - Understanding of **linear algebra** (vectors, matrices, basic matrix operations).  
+   - Comfort with **calculus** (especially differentiation), which is useful for topics like velocity kinematics and the Jacobian.
+
+2. **Fundamental Physics or Mechanics**  
+   - Basic concepts of **rigid-body motion** (translational and rotational movement).  
+   - General understanding of **forces** and **torques** can be helpful, though kinematics itself does not address them directly.
+
+3. **Programming Skills (Recommended)**  
+   - Some experience with **Python** or a similar high-level language for implementing coding exercises.  
+   - Familiarity with using libraries like `math` (or NumPy/Matplotlib if you want to do more advanced plotting and calculations).
+
+While you don’t need to be an expert in any one of these areas, having a comfortable grasp of each will make your study of kinematics more productive and enjoyable.
+
+
+## 2. General Motivation
 
 ![Delta Robot Pick and Place](https://www.youtube.com/watch?v=8j5hPlHTZI8)
 
@@ -25,33 +45,106 @@ Kinematics, often referred to as the “**geometry of movement**,” is the stud
 
 In this chapter, you’ll explore different ways of representing positions and orientations in 3D space, understand the kinematics behind common robotic joints, and learn a systematic way to map your robot’s geometry into the equations that bring the entire mechanism to life. By mastering kinematics, you’ll have a strong foundation for making robots move **precisely** and **reliably**, unlocking a world of innovative possibilities.
 
-## Ressources
 
-### Books
-
-- [Springer Handbook of Robotics ](https://link.springer.com/chapter/10.1007/978-3-319-32552-1_2) (Chapter 2. Kinematics)
-
-- [Robotic Manipulation](https://manipulation.csail.mit.edu/pick.html) (Chapter 3. Basic Pick and Place)
-
-### Videos
-
-- [Introduction to Robotics: Kinematics & Modeling](https://www.youtube.com/watch?v=K_xIJBlbjg4&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA) (Youtube Channel by Mohammad Zainullah Khan)
-
-- [Robotic Manipulation](https://www.youtube.com/watch?v=ZOXp_wixIzo&list=PLkx8KyIQkMfVRPReg9FHtBk_RGEwnVxU-&index=3) (MIT 2020)
-
-## Free Online Courses
-
+## 3. Course Content
 This section of the course is primarily based on content shared by **Mohammad Zainullah Khan**, an engineer with a Master’s degree in Mechanical Engineering (specializing in robotics, design, and mechatronics) from the University of Dayton. You can find more information on his website: [www.zainullah.com](https://www.zainullah.com/).
 
-Mohammad’s videos are well-structured and visually engaging, making them an excellent resource for anyone beginning to study kinematics for robotics. We recommend starting with the videos listed below to build a solid foundation. 
+Mohammad’s videos are **well-structured**, **visually engaging** and **not very long** (less than 10 minute), making them an excellent resource for anyone beginning to study kinematics for robotics. We recommend starting with the videos listed below to build a solid foundation. 
 
 Once you’ve grasped the basics, you can further strengthen your understanding by working through both pen-and-paper exercises and coding tasks. These hands-on activities will help you verify that you have truly mastered the core concepts.
 
 
 
-## Chapter 0 : Introduction to Robotics | Kinematics & Modeling
+### Chapter 0 : Introduction to Robotics | Kinematics & Modeling
 
+This video gives you an introduction of the meaning of kineamtics and modeling and will present you how his videos will be strucured.
 ![Robotics 101: Full course for beginners](https://www.youtube.com/watch?v=K_xIJBlbjg4&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA)
+
+#### Conceptual Questions
+
+<p><strong>Question:</strong> How long are Mohammad's videos typically?</p>
+<form id="mcq1">
+  <input type="radio" name="duration" value="10"> Less than 10 minutes<br>
+  <input type="radio" name="duration" value="30"> Around 30 minutes<br>
+  <input type="radio" name="duration" value="60"> Around 1 hour<br>
+  <button type="button" onclick="checkMCQ1()">Check Answer</button>
+  <p id="mcq1-feedback"></p>
+</form>
+
+<script>
+function checkMCQ1() {
+  const options = document.getElementsByName('duration');
+  let selectedValue = null;
+  for (let i = 0; i < options.length; i++) {
+    if (options[i].checked) {
+      selectedValue = options[i].value;
+      break;
+    }
+  }
+  
+  const feedback = document.getElementById('mcq1-feedback');
+  if (!selectedValue) {
+    feedback.textContent = "Please select an option.";
+    feedback.style.color = "red";
+    return;
+  }
+  
+  if (selectedValue === "10") {
+    feedback.textContent = "Correct! Mohammad's videos usually last less than 10 minutes.";
+    feedback.style.color = "green";
+  } else {
+    feedback.textContent = "Incorrect. Try again.";
+    feedback.style.color = "red";
+  }
+}
+</script>
+
+<p><strong>Question: Forward kinematics (FK) is...</strong></p>
+<form id="mcq-fk">
+  <!-- Option 1 (Correct) -->
+  <input type="radio" name="fk" value="option1"> How changing robot parameters (joint angles, link lengths) affects the end-effector’s position and orientation<br>
+  
+  <!-- Option 2 (Incorrect) -->
+  <input type="radio" name="fk" value="option2"> A method for computing the joint torques necessary for stable contact with the environment<br>
+  
+  <!-- Option 3 (Incorrect) -->
+  <input type="radio" name="fk" value="option3"> Given a desired position and orientation of the end-effector, find the joint variables<br>
+  
+  <button type="button" onclick="checkFKMCQ()">Check Answer</button>
+  <p id="fk-feedback"></p>
+</form>
+
+<script>
+function checkFKMCQ() {
+  const options = document.getElementsByName('fk');
+  let selectedValue = null;
+
+  for (let i = 0; i < options.length; i++) {
+    if (options[i].checked) {
+      selectedValue = options[i].value;
+      break;
+    }
+  }
+
+  const feedback = document.getElementById('fk-feedback');
+
+  if (!selectedValue) {
+    feedback.textContent = "Please select an option.";
+    feedback.style.color = "red";
+    return;
+  }
+
+  if (selectedValue === "option1") {
+    feedback.textContent = "Correct! Forward kinematics calculates how changes in joint angles or link lengths affect the end-effector pose.";
+    feedback.style.color = "green";
+  } else {
+    feedback.textContent = "Incorrect. Please try again!";
+    feedback.style.color = "red";
+  }
+}
+</script>
+
+
 
 ## Chapter 1: Coordinate Transformations in 2D | Mapping {#chapter-1-coordinate-transformations-in-2D}
 
@@ -352,6 +445,21 @@ Any 3D rotation can be expressed as a product of these fundamental rotations.
 
 
 Quaternions provide a non-singular way to interpolate and compute 3D orientations, often used in control and simulation.
+
+
+## Ressources
+
+### Books
+
+- [Springer Handbook of Robotics ](https://link.springer.com/chapter/10.1007/978-3-319-32552-1_2) (Chapter 2. Kinematics)
+
+- [Robotic Manipulation](https://manipulation.csail.mit.edu/pick.html) (Chapter 3. Basic Pick and Place)
+
+### Videos
+
+- [Introduction to Robotics: Kinematics & Modeling](https://www.youtube.com/watch?v=K_xIJBlbjg4&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA) (Youtube Channel by Mohammad Zainullah Khan)
+
+- [Robotic Manipulation](https://www.youtube.com/watch?v=ZOXp_wixIzo&list=PLkx8KyIQkMfVRPReg9FHtBk_RGEwnVxU-&index=3) (MIT 2020)
 
 ---
 
