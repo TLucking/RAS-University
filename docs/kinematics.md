@@ -165,33 +165,33 @@ Explains how translations and rotations combine simultaneously:
 Discusses how to handle successive coordinate transformations step by step:
 ![Coordinate Transformations in 2D : Mapping Part 3](https://www.youtube.com/watch?v=R_hxO5xBYfI&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=4)
 
-As you’ve seen, a **general motion in the plane** can be expressed as a combination of **translations** (vector addition) and **rotations** (matrix multiplication) about the origin. It’s often convenient to represent both in a **single operation**—that’s where **homogeneous matrices** come in. By increasing the matrix dimension by one, we can integrate the translation vector into the transformation matrix. Specifically, we add the translation vector \(\mathbf{t}\) to the last column and a row \([\,0\;0\;1\,]\) at the bottom:
+As you've seen, a **general motion in the plane** can be described by a combination of translations and rotations around the origin. A sequence of translations and rotations comes up against the fact that the translation is a vector addition while the rotation a matrix multiplication.
 
-\[
+It would be very desirable to be able to integrate rotation and translation in a single operation in order to be able to link them together. The **homogeneous matrices** allow this integration of the translation into the transformation matrix. The price to pay is to increase the order of the matrix by one. The translation vector t is added to the right and a line [0 0 1] at the bottom:
+
+$$
 \begin{bmatrix}
-R & \mathbf{t} \\
-0 & 1 
-\end{bmatrix}
-=
+    R & \mathbf{t} \\
+    0 & 1 
+\end{bmatrix} = 
 \begin{bmatrix}
-\cos \theta & -\sin \theta & t_x \\
-\sin \theta & \cos \theta  & t_y \\
-0           & 0            & 1 
+    \cos \theta & -\sin \theta & t_x  \\
+    \sin \theta & \cos \theta  & t_y  \\
+    0           & 0            & 1 
 \end{bmatrix}
-\]
+$$  
 
-This matrix, known as the **homogeneous transformation matrix**, acts on a **homogeneous vector** in 2D, which is simply:
-
-\[
+This is **the homogeneous matrix** of transformation in a two‐dimensional space (a plane), the third line has no spatial significance (no z axis for the moment !!). This matrix acts on a **homogeneous vector** in a two‐dimensional space which consists of its two coordinates plus a "scale factor" equal to one:
+$$
 \mathbf{v} =
 \begin{bmatrix}
 x \\
 y \\
 1
 \end{bmatrix}.
-\]
+$$   
 
-To recover the usual 2D coordinates, you discard the last element. In three dimensions, these matrices and vectors have four rows (and columns), allowing them to include a \(z\)-coordinate and still handle translations and rotations in a unified way.
+To find the familiar vectors, just delete the last element. Matrices and homogeneous vectors for three dimensions contain four elements.
 
 <!-- Conceptual Questions -->
 <details markdown="1">
@@ -207,8 +207,6 @@ To recover the usual 2D coordinates, you discard the last element. In three dime
   <button type="button" onclick="checkQ1()">Check Answer</button>
   <p id="q1-feedback"></p>
 </form>
-
-
 
 <!-- Second question  -->
 <p><strong>Question 2: The matrix 
@@ -253,9 +251,7 @@ function checkhomo() {
     feedback.style.color = "red";
   }
 }
-</script>
 
-<script>
 function checkQ1() {
   // Grab the value of the selected radio button for question 1
   const q1Options = document.getElementsByName("q1");
@@ -285,8 +281,8 @@ function checkQ1() {
     q1Feedback.style.color = "red";
   }
 }
-
 </script>
+
 </details>
 
 <!-- Mathematical Development Questions -->
