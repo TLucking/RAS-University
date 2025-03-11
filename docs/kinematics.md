@@ -241,6 +241,16 @@ function checkQ1() {
 </script>
 
 <!-- Second question  -->
+
+<p>\[
+\begin{bmatrix}
+c & -s & tx \\
+s & c & ty \\
+0 & 0 & 1
+\end{bmatrix}
+\]</p>
+
+
 <p><strong>Question 2: The matrix 
   <code>[[c, -s, tx], [s, c, ty], [0, 0, 1]]</code> 
   correspond to ...</strong></p>
