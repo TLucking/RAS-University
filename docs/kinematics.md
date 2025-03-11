@@ -169,7 +169,7 @@ As you've seen, a **general motion in the plane** can be described by a combinat
 
 It would be very desirable to be able to integrate rotation and translation in a single operation in order to be able to link them together. The **homogeneous matrices** allow this integration of the translation into the transformation matrix. The price to pay is to increase the order of the matrix by one. The translation vector t is added to the right and a line [0 0 1] at the bottom:
 
-\[
+$$
 \begin{bmatrix}
     R & \mathbf{t} \\
     0 & 1 
@@ -179,17 +179,17 @@ It would be very desirable to be able to integrate rotation and translation in a
     \sin \theta & \cos \theta  & t_y  \\
     0           & 0            & 1 
 \end{bmatrix}
-\[ 
+$$  
 
 This is **the homogeneous matrix** of transformation in a two‐dimensional space (a plane), the third line has no spatial significance (no z axis for the moment !!). This matrix acts on a **homogeneous vector** in a two‐dimensional space which consists of its two coordinates plus a "scale factor" equal to one:
-\[
+$$
 \mathbf{v} =
 \begin{bmatrix}
 x \\
 y \\
 1
 \end{bmatrix}.
-\[   
+$$   
 
 To find the familiar vectors, just delete the last element. Matrices and homogeneous vectors for three dimensions contain four elements.
 
@@ -202,16 +202,16 @@ To find the familiar vectors, just delete the last element. Matrices and homogen
 <p>R(θ<sub>1</sub>) · R(θ<sub>2</sub>) = R(θ<sub>2</sub>) · R(θ<sub>1</sub>)</p>
 
 <form id="q1-form">
-  <input type="radio" name="q1" value="true"> True<br>
-  <input type="radio" name="q1" value="false"> False<br>
+  <input type="radio" name="form" value="true"> True<br>
+  <input type="radio" name="form" value="false"> False<br>
   <button type="button" onclick="checkQ1()">Check Answer</button>
-  <p id="q1-feedback"></p>
+  <p id="form-feedback"></p>
 </form>
 
 <script>
 function checkQ1() {
   // Grab the value of the selected radio button for question 1
-  const q1Options = document.getElementsByName("q1");
+  const q1Options = document.getElementsByName("form");
   let q1Selected = null;
   for (let i = 0; i < q1Options.length; i++) {
     if (q1Options[i].checked) {
@@ -220,7 +220,7 @@ function checkQ1() {
     }
   }
 
-  const q1Feedback = document.getElementById("q1-feedback");
+  const q1Feedback = document.getElementById("form-feedback");
 
   // Ensure an option was selected
   if (!q1Selected) {
@@ -241,16 +241,6 @@ function checkQ1() {
 </script>
 
 <!-- Second question  -->
-
-
-<p>\[
-\begin{bmatrix}
-c & -s & tx \\
-s & c & ty \\
-0 & 0 & 1
-\end{bmatrix}
-\]</p>
-
 <p><strong>Question 2: The matrix 
   <p>\[
 \begin{bmatrix}
