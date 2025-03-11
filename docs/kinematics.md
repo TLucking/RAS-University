@@ -200,7 +200,6 @@ To find the familiar vectors, just delete the last element. Matrices and homogen
 <!-- Question 1 -->
 <p><strong>Question 1: Is the following equality true?</strong></p>
 <p>R(θ<sub>1</sub>) · R(θ<sub>2</sub>) = R(θ<sub>2</sub>) · R(θ<sub>1</sub>)</p>
-
 <form id="q1-form">
   <input type="radio" name="form" value="true"> True<br>
   <input type="radio" name="form" value="false"> False<br>
