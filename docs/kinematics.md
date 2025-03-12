@@ -291,17 +291,110 @@ function checkhomo() {
 
 
 </details>
-
 <!-- Mathematical Development Questions -->
 <details markdown="1">
   <summary>Mathematical Development Questions</summary>
+
+  <!-- Question 1 -->
+  <p><strong>Question 1: </strong> Express the homogeneous transformation matrix representing a rotation by angle θ followed by translation (t_x, t_y) in a 2D plane.</p>
+
+  <details markdown="1">
+    <summary>Answer</summary>
+    \[
+    \begin{aligned}
+    T &= \begin{bmatrix}
+    \cos\theta & -\sin\theta & t_x \\
+    \sin\theta & \cos\theta & t_y \\
+    0 & 0 & 1
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+    R(\theta) & t \\
+    0 & 1
+    \end{bmatrix}
+    \quad\text{where}\quad
+    R(\theta) = 
+    \begin{bmatrix}
+    \cos\theta & -\sin\theta \\
+    \sin\theta & \cos\theta
+    \end{bmatrix}\]
+    </details>
+
+  <!-- Question 2 -->
+  <p><strong>Question 2: </strong> Express the homogeneous transformation matrix representing a translation \( t = (t_x, t_y) \) followed by a rotation by angle \( \theta \) in a 2D plane.</p>
+
+  <details markdown="1">
+    <summary>Answer</summary>
+    \[
+    \begin{aligned}
+    T &= \begin{bmatrix}
+    \cos\theta & -\sin\theta & \cos\theta \cdot t_x - \sin\theta \cdot t_y \\
+    \sin\theta & \cos\theta & \sin\theta \cdot t_x + \cos\theta \cdot t_y \\
+    0 & 0 & 1
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+    R(\theta) & R(\theta) \cdot t \\
+    0 & 1
+    \end{bmatrix}
+    \quad\text{where}\quad
+    R(\theta) = 
+    \begin{bmatrix}
+    \cos\theta & -\sin\theta \\
+    \sin\theta & \cos\theta
+    \end{bmatrix}
+    \]
+  </details>
+
+<!-- Question 3 -->
+  <p><strong>Question 3: </strong> Express the homogeneous transformation matrix representing the following sequence: rotation by \( \theta_1 \), translation by \( t_1 = (t_{1x}, t_{1y}) \), rotation by \( \theta_2 \), and finally translation by \( t_2 = (t_{2x}, t_{2y}) \).</p>
+
+  <details markdown="1">
+    <summary>Answer</summary>
+
+    \[
+    \begin{aligned}
+    T &= \begin{bmatrix}
+    \cos(\theta_1+\theta_2) & -\sin(\theta_1+\theta_2) & t_{1x}\cos\theta_1 - t_{1y}\sin\theta_1 + t_{2x}\cos(\theta_1+\theta_2) - t_{2y}\sin(\theta_1+\theta_2) \\
+    \sin(\theta_1+\theta_2) & \cos(\theta_1+\theta_2) & t_{1x}\sin\theta_1 + t_{1y}\cos\theta_1 + t_{2x}\sin(\theta_1+\theta_2) + t_{2y}\cos(\theta_1+\theta_2) \\
+    0 & 0 & 1
+    \end{bmatrix}
+    \]
+
+    This matrix can also be expressed compactly as:
+    \[
+    T = R(\theta_1) T(t_1) R(\theta_2) T(t_2)
+    \]
+      
+      where each matrix is defined accordingly:
+      
+    \[
+    R(\theta) = \begin{bmatrix}
+    \cos\theta & -\sin\theta & 0 \\
+    \sin\theta & \cos\theta & 0 \\
+    0 & 0 & 1
+    \end{bmatrix}, \quad
+    T(t) = \begin{bmatrix}
+    1 & 0 & t_x \\
+    0 & 1 & t_y \\
+    0 & 0 & 1
+    \end{bmatrix}
+    \]
+
+  </details>
+
 
 </details>
 
 
 
 ## Chapter 2: Forward Kinematics of robots | Planar 2D robots
+
+This chapter introduces [forward kinematics](#forward-and-inverse-kinematics) 
+
 ![Forward Kinematics of robots](https://www.youtube.com/watch?v=svyhLDAoyKc&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=5)
+
+
 
 ## Chapter 3: Forward Kinematics (with solved examples) | Homogeneous Transformations 
 ![examples](https://www.youtube.com/watch?v=mO7JJxaVtkE&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=6)
@@ -493,7 +586,7 @@ Constraints that **cannot** be expressed solely in terms of the position variabl
 
 ---
 
-### Forward and Inverse Kinematics
+<h2 id="forward-and-inverse-kinematics"> Forward and Inverse Kinematics:
 
 #### Direct (Forward) Geometric Model (DGM)  
 Also called **forward kinematics**, it provides the **position and orientation** of the robot’s end-effector as a function of the robot’s joint variables $ \Theta $. Formally:
