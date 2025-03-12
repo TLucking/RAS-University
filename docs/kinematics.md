@@ -53,14 +53,56 @@ Mohammad’s videos are **well-structured**, **visually engaging** and **not ver
 
 Once you’ve grasped the basics, you can further strengthen your understanding by working through both pen-and-paper exercises and coding tasks. These hands-on activities will help you verify that you have truly mastered the core concepts.
 
+But before we start to watch videos let's check some basic notions, defintions that could be useful:
+
+<!-- Conceputal questions -->
+<details markdown="1">
+  <summary>Conceptual Questions</summary>
+
+<!-- First question  -->
+<p><strong>Question 1: A serial robot is a closed kinematic chain structure</strong></p>
+<form id="q1">
+    <input type="radio" name="serial_robot" value="True"> True<br>
+    <input type="radio" name="serial_robot" value="False"> False<br>
+    <button type="button" onclick="checkQ1()">Check Answer</button>
+    <p id="q1-feedback"></p>
+  </form>
+
+<script>
+function checkQ1() {
+  const options = document.getElementsByName('serial_robot');
+  let selectedValue = null;
+  for (let i = 0; i < options.length; i++) {
+    if (options[i].checked) {
+      selectedValue = options[i].value;
+      break;
+    }
+  }
+  
+  const feedback = document.getElementById('q1-feedback');
+  if (!selectedValue) {
+    feedback.textContent = "Please select an option.";
+    feedback.style.color = "red";
+    return;
+  }
+  
+  if (selectedValue === "False") {
+    feedback.textContent = "Correct! A serial robot has an open kinematic chain structure.";
+    feedback.style.color = "green";
+  } else {
+    feedback.textContent = "Incorrect. A serial robot is an open kinematic chain, not closed.";
+    feedback.style.color = "red";
+  }
+}
+</script>
+
+</details>
 
 
 ### Chapter 0 : Introduction to Robotics | Kinematics & Modeling
 
 This video gives you an introduction of the meaning of kineamtics and modeling and will present you how his videos will be strucured.
 ![Robotics 101: Full course for beginners](https://www.youtube.com/watch?v=K_xIJBlbjg4&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA)
-
-#### Questions
 
 <!-- Conceputal questions -->
 <details markdown="1">
@@ -152,6 +194,7 @@ function checkFKMCQ() {
 
 </details>
 
+
 ### Chapter 1: Coordinate Transformations in 2D | Mapping {#chapter-1-coordinate-transformations-in-2D}
 
 In this chapter, we focus on 2D coordinate transformations—specifically, pure translations and pure rotations for planar (serial) robots.
@@ -200,17 +243,17 @@ To find the familiar vectors, just delete the last element. Matrices and homogen
 <!-- Question 1 -->
 <p><strong>Question 1: Is the following equality true?</strong></p>
 <p>R(θ<sub>1</sub>) · R(θ<sub>2</sub>) = R(θ<sub>2</sub>) · R(θ<sub>1</sub>)</p>
-<form id="q1-form">
-  <input type="radio" name="form" value="true"> True<br>
-  <input type="radio" name="form" value="false"> False<br>
+<form id="q1-eq">
+  <input type="radio" name="eq" value="true"> True<br>
+  <input type="radio" name="eq" value="false"> False<br>
   <button type="button" onclick="checkQ1()">Check Answer</button>
-  <p id="form-feedback"></p>
+  <p id="eq-feedback"></p>
 </form>
 
 <script>
 function checkQ1() {
   // Grab the value of the selected radio button for question 1
-  const q1Options = document.getElementsByName("form");
+  const q1Options = document.getElementsByName("eq");
   let q1Selected = null;
   for (let i = 0; i < q1Options.length; i++) {
     if (q1Options[i].checked) {
@@ -219,7 +262,7 @@ function checkQ1() {
     }
   }
 
-  const q1Feedback = document.getElementById("form-feedback");
+  const q1Feedback = document.getElementById("eq-feedback");
 
   // Ensure an option was selected
   if (!q1Selected) {
@@ -243,8 +286,8 @@ function checkQ1() {
 <p><strong>Question 2: The matrix 
   <p>\[
   \begin{bmatrix}
-  c & -s & tx \\
-  s & c & ty \\
+  c & -s & t_x \\
+  s & c & t_y \\
   0 & 0 & 1
   \end{bmatrix}
   \]</p> correspond to ...</strong></p>
@@ -370,16 +413,16 @@ function checkhomo() {
     $
     \begin{aligned}
     M_{t_2} \cdot M_{r_2} \cdot M_{t_1} \cdot M_{r_1} &= \begin{bmatrix}
-    R{(\theta)_2} & t_2 \\
+    R{(\theta_2)} & t_2 \\
     0 & 1
     \end{bmatrix} \cdot 
     \begin{bmatrix}
-    R{(\theta)_1} & t_1 \\
+    R{(\theta_1)} & t_1 \\
     0 & 1
     \end{bmatrix}
     = 
     \begin{bmatrix}
-    R{(\theta)_1} \cdot R{(\theta)_2} & R{(\theta)_2} \cdot t_1 + t_2 \\
+    R{(\theta_1)} \cdot R{(\theta_2)} & R{(\theta_2)} \cdot t_1 + t_2 \\
     0 & 1
     \end{bmatrix} 
     \end{aligned}
@@ -391,26 +434,70 @@ function checkhomo() {
 
 
 
-## Chapter 2: Forward Kinematics of robots | Planar 2D robots
+### Chapter 2: Forward Kinematics of robots | Planar 2D robots
 
-This chapter introduces [forward kinematics](#forward-and-inverse-kinematics) 
+
+In robotics, understanding how each joint movement translates into precise actions is essential. In this chapter, we'll dive into [forward kinematics](#forward-and-inverse-kinematics) (also called Direct Geometric Model, DGM), a fundamental method that allows us to calculate exactly where a robot’s end-effector (such as a gripper or tool) ends up in space based on its joint configurations (for example its position (x,y) and orientation(θ) in 2D). We'll start by exploring simple planar 2D robots, laying a clear foundation for mastering more complex robotic systems.
+
+Watch the following video for an intuitive overview before we delve into the mathematical details.
 
 ![Forward Kinematics of robots](https://www.youtube.com/watch?v=svyhLDAoyKc&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=5)
 
 
 
-## Chapter 3: Forward Kinematics (with solved examples) | Homogeneous Transformations 
+### Chapter 3: Forward Kinematics (with solved examples) | Homogeneous Transformations 
 
-
+Here you will see some examples of how to find this end effector positions in 2D using homogeneous transforms as we have seen in Chapter 1. 
 
 ![examples](https://www.youtube.com/watch?v=mO7JJxaVtkE&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=6)
 
 ![examples2](https://www.youtube.com/watch?v=zg5sS9LZGAM&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=7)
 
-## Chapter 4: How do robots avoid collisions? | Branched Homogeneous Transforms
+Now that we've seen how to compute forward kinematics using homogeneous transformations, let's explore **another insightful way** to approach planar rotations. Sometimes, it's more intuitive or practical to represent motion as rotation around an **arbitrary point \( p \)** rather than just around the origin.
+
+A rotation around an arbitrary point \( p \) can be expressed through three intuitive steps:
+
+1. **Translate** the point \( p \) to the origin.
+2. **Rotate** around the origin by angle \(\theta\).
+3. **Translate back** by moving the origin back to point \( p \).
+
+Mathematically, this can be represented as:
+
+$$
+\begin{bmatrix}
+    I & p \cr
+    0 & 1 
+\end{bmatrix} \cdot
+\begin{bmatrix}
+    R & 0 \cr
+    0 & 1 
+\end{bmatrix} \cdot
+\begin{bmatrix}
+    I & -p \cr
+    0 & 1 
+\end{bmatrix} = 
+\begin{bmatrix}
+    R & p - R \cdot p \cr
+    0 & 1 
+\end{bmatrix}
+$$
+
+This expression clearly shows that:
+
+- **A rotation about any point \( p \)** is equivalent to **a rotation about the origin**, followed by a particular translation \( p - R p \).
+- Conversely, **any combination of rotation and translation** in the plane can be represented as a pure rotation around a certain center \( p \).
+
+Understanding this concept is powerful because it provides deeper insight into robot movements, especially when dealing with practical scenarios involving complex rotations or articulations around joints positioned away from the base.
+
+
+
+### Chapter 4: How do robots avoid collisions? | Branched Homogeneous Transforms
 ![Homogeneous Transforms](https://www.youtube.com/watch?v=WQTnCIhkzNc&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=8)
 
-## Chapter 5: Inverse Kinematics of Robots
+### Chapter 5: Inverse Kinematics of Robots
+
+Inversly as the forward kinematics, inverse kinematics (also called Indirect Geometric Model, IGM) allow us to find the values of the joint positions given the position and oreintation of the end-effector relative to the base and the values of all the geometric link parameters.
+
 ![Inverse Kinematics of Robots](https://www.youtube.com/watch?v=1-FJhmey7vk&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=9)
 
 ![example_inverse_kinematics](https://www.youtube.com/watch?v=EzZDRwmk8Nw&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=10)
