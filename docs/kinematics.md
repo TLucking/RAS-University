@@ -171,12 +171,12 @@ It would be very desirable to be able to integrate rotation and translation in a
 
 $
 \begin{bmatrix}
-    R & \mathbf{t} \\
+    R & \mathbf{t} \
     0 & 1 
 \end{bmatrix} = 
 \begin{bmatrix}
-    \cos \theta & -\sin \theta & t_x  \\
-    \sin \theta & \cos \theta  & t_y  \\
+    \cos \theta & -\sin \theta & t_x  \
+    \sin \theta & \cos \theta  & t_y  \
     0           & 0            & 1 
 \end{bmatrix}
 $  
@@ -185,8 +185,8 @@ This is **the homogeneous matrix** of transformation in a two‐dimensional spac
 $$
 \mathbf{v} =
 \begin{bmatrix}
-x \\
-y \\
+x \
+y \
 1
 \end{bmatrix}.
 $$   
@@ -297,7 +297,7 @@ function checkhomo() {
 <!-- Question 1 -->
 <p><strong>Question 1: </strong> Express the homogeneous transformation matrix representing a rotation by angle θ followed by translation \( t = (t_x, t_y) \) in a 2D plane.</p>
 
-  <details markdown="1">
+  <details markdown="2">
     <summary>Answer Q1</summary>
     $
     \begin{aligned}
@@ -349,9 +349,8 @@ function checkhomo() {
 <!-- Question 3 -->
 <p><strong>Question 3: </strong> Express the homogeneous transformation matrix representing the following sequence: rotation by \( \theta_1 \), translation by \( t_1 = (t_{1x}, t_{1y}) \), rotation by \( \theta_2 \), and finally translation by \( t_2 = (t_{2x}, t_{2y}) \).</p>
 
-  <details markdown="1">
+  <details markdown="2">
     <summary>Answer Q3</summary>
-    $$
     \begin{aligned}
     T &= 
     \begin{bmatrix}
@@ -360,13 +359,13 @@ function checkhomo() {
     0 & 0 & 1
     \end{bmatrix}
     \end{aligned}
-    $$
+
     This transformation can also be expressed compactly as the product of rotations and translations:
-    $$
+
     T = R(\theta_1) \cdot T(t_1) \cdot R(\theta_2) \cdot T(t_2)
-    $$
+
     where the matrices are defined as:
-    $$
+
     R(\theta) = 
     \begin{bmatrix}
     \cos\theta & -\sin\theta & 0 \\
@@ -380,7 +379,6 @@ function checkhomo() {
     0 & 1 & t_y \\
     0 & 0 & 1
     \end{bmatrix}
-    $$
   </details>
 
 
