@@ -242,12 +242,12 @@ function checkQ1() {
 <!-- Second question  -->
 <p><strong>Question 2: The matrix 
   <p>\[
-\begin{bmatrix}
-c & -s & tx \\
-s & c & ty \\
-0 & 0 & 1
-\end{bmatrix}
-\]</p> correspond to ...</strong></p>
+  \begin{bmatrix}
+  c & -s & tx \\
+  s & c & ty \\
+  0 & 0 & 1
+  \end{bmatrix}
+  \]</p> correspond to ...</strong></p>
 <form id="mcq-ho">
   <!-- Option 1 (Incorrect) -->
   <input type="radio" name="ho" value="option1"> a translation followed by a rotation<br>
@@ -288,9 +288,8 @@ function checkhomo() {
   }
 }
 </script>
-
-
 </details>
+
 <!-- Mathematical Development Questions -->
 <details markdown="1">
   <summary>Mathematical Development Questions</summary>
@@ -318,7 +317,7 @@ function checkhomo() {
     \cos\theta & -\sin\theta \\
     \sin\theta & \cos\theta
     \end{bmatrix}\]
-    </details>
+  </details>
 
   <!-- Question 2 -->
   <p><strong>Question 2: </strong> Express the homogeneous transformation matrix representing a translation \( t = (t_x, t_y) \) followed by a rotation by angle \( \theta \) in a 2D plane.</p>
