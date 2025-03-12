@@ -4,6 +4,10 @@ parent: Courses
 layout: default
 math: mathjax
 ---
+
+<!-- Link external JavaScript file -->
+<script src="questions.js"></script>
+
 # Kinematics
 
 - Table of Contents
@@ -62,39 +66,16 @@ But before we start to watch videos let's check some basic notions, defintions t
 <!-- First question  -->
 <p><strong>Question 1: A serial robot is a closed kinematic chain structure</strong></p>
 <form id="q1">
-    <input type="radio" name="serial_robot" value="True"> True<br>
-    <input type="radio" name="serial_robot" value="False"> False<br>
-    <button type="button" onclick="checkQ1()">Check Answer</button>
-    <p id="q1-feedback"></p>
-  </form>
-
-<script>
-function checkQ1() {
-  const options = document.getElementsByName('serial_robot');
-  let selectedValue = null;
-  for (let i = 0; i < options.length; i++) {
-    if (options[i].checked) {
-      selectedValue = options[i].value;
-      break;
-    }
-  }
-  
-  const feedback = document.getElementById('q1-feedback');
-  if (!selectedValue) {
-    feedback.textContent = "Please select an option.";
-    feedback.style.color = "red";
-    return;
-  }
-  
-  if (selectedValue === "False") {
-    feedback.textContent = "Correct! A serial robot has an open kinematic chain structure.";
-    feedback.style.color = "green";
-  } else {
-    feedback.textContent = "Incorrect. A serial robot is an open kinematic chain, not closed.";
-    feedback.style.color = "red";
-  }
-}
-</script>
+  <input type="radio" name="q1" value="True"> True<br>
+  <input type="radio" name="q1" value="False"> False<br>
+  <button type="button"
+    onclick="checkTrueFalse('q1', 'False', 
+      'Correct! A serial robot has an open kinematic chain structure.',
+      'Incorrect. A serial robot is an open kinematic chain, not closed.')">
+    Check Answer
+  </button>
+  <p id="q1-feedback"></p>
+</form>
 
 </details>
 
@@ -110,87 +91,34 @@ This video gives you an introduction of the meaning of kineamtics and modeling a
 
 <!-- First question  -->
 <p><strong>Question 1: How long are Mohammad's videos typically?</strong></p>
-<form id="mcq1">
-  <input type="radio" name="duration" value="10"> Less than 10 minutes<br>
-  <input type="radio" name="duration" value="30"> Around 30 minutes<br>
-  <input type="radio" name="duration" value="60"> Around 1 hour<br>
-  <button type="button" onclick="checkMCQ1()">Check Answer</button>
-  <p id="mcq1-feedback"></p>
-</form>
+<form id="q1-duration">
+  <input type="radio" name="q1-duration" value="10"> Less than 10 minutes<br>
+  <input type="radio" name="q1" value="30"> Around 30 minutes<br>
+  <input type="radio" name="q1" value="60"> Around 1 hour<br>
 
-<script>
-function checkMCQ1() {
-  const options = document.getElementsByName('duration');
-  let selectedValue = null;
-  for (let i = 0; i < options.length; i++) {
-    if (options[i].checked) {
-      selectedValue = options[i].value;
-      break;
-    }
-  }
-  
-  const feedback = document.getElementById('mcq1-feedback');
-  if (!selectedValue) {
-    feedback.textContent = "Please select an option.";
-    feedback.style.color = "red";
-    return;
-  }
-  
-  if (selectedValue === "10") {
-    feedback.textContent = "Correct! Mohammad's videos usually last less than 10 minutes.";
-    feedback.style.color = "green";
-  } else {
-    feedback.textContent = "Incorrect. Try again.";
-    feedback.style.color = "red";
-  }
-}
-</script>
+  <button type="button" onclick="checkMCQ('q1', '10', 
+    'Correct! Mohammad’s videos usually last less than 10 minutes.', 
+    'Incorrect. Try again!')">
+    Check Answer
+  </button>
+  <p id="q1-feedback"></p>
+</form>
 
 <!-- Second question  -->
 <p><strong>Question 2: Forward kinematics (FK) is...</strong></p>
-<form id="mcq-fk">
-  <!-- Option 1 (Correct) -->
-  <input type="radio" name="fk" value="option1"> How changing robot parameters (joint angles, link lengths) affects the end-effector’s position and orientation<br>
-  
-  <!-- Option 2 (Incorrect) -->
-  <input type="radio" name="fk" value="option2"> A method for computing the joint torques necessary for stable contact with the environment<br>
-  
-  <!-- Option 3 (Incorrect) -->
-  <input type="radio" name="fk" value="option3"> Given a desired position and orientation of the end-effector, find the joint variables<br>
-  
-  <button type="button" onclick="checkFKMCQ()">Check Answer</button>
-  <p id="fk-feedback"></p>
+<form id="q2">
+  <input type="radio" name="q2" value="option1"> How to calculate the position/orientation from given joint variables<br>
+  <input type="radio" name="q2" value="option2"> Finding joint variables from end-effector position and orientation<br>
+  <input type="radio" name="q2" value="option3"> Calculating robot dynamics<br>
+
+  <button type="button" onclick="checkMCQ('q2', 'option1',
+    'Correct! Forward Kinematics computes the position and orientation from joint variables.',
+    'Incorrect. Please try again!')">
+    Check Answer
+  </button>
+
+  <p id="q2-feedback"></p>
 </form>
-
-<script>
-function checkFKMCQ() {
-  const options = document.getElementsByName('fk');
-  let selectedValue = null;
-
-  for (let i = 0; i < options.length; i++) {
-    if (options[i].checked) {
-      selectedValue = options[i].value;
-      break;
-    }
-  }
-
-  const feedback = document.getElementById('fk-feedback');
-
-  if (!selectedValue) {
-    feedback.textContent = "Please select an option.";
-    feedback.style.color = "red";
-    return;
-  }
-
-  if (selectedValue === "option1") {
-    feedback.textContent = "Correct! Forward kinematics calculates how changes in joint angles or link lengths affect the end-effector pose. The inverse is simply called **Inverse Kinematics**";
-    feedback.style.color = "green";
-  } else {
-    feedback.textContent = "Incorrect. Please try again!";
-    feedback.style.color = "red";
-  }
-}
-</script>
 
 </details>
 
@@ -243,44 +171,21 @@ To find the familiar vectors, just delete the last element. Matrices and homogen
 <!-- Question 1 -->
 <p><strong>Question 1: Is the following equality true?</strong></p>
 <p>R(θ<sub>1</sub>) · R(θ<sub>2</sub>) = R(θ<sub>2</sub>) · R(θ<sub>1</sub>)</p>
-<form id="q1-eq">
-  <input type="radio" name="eq" value="true"> True<br>
-  <input type="radio" name="eq" value="false"> False<br>
-  <button type="button" onclick="checkQ1()">Check Answer</button>
-  <p id="eq-feedback"></p>
+<form id="eq-commutative">
+  <input type="radio" name="eq-commutative" value="true"> True<br>
+  <input type="radio" name="eq-commutative" value="false"> False<br>
+
+  <button type="button" onclick="checkTrueFalse(
+    'eq-commutative', 
+    'true', 
+    'Correct! R(θ₁)·R(θ₂)=R(θ₁+θ₂)=R(θ₂+θ₁)=R(θ₂)·R(θ₁).', 
+    'Incorrect. Rotation matrices commute in 2D rotations.'
+  )">
+    Check Answer
+  </button>
+
+  <p id="eq-commutative-feedback"></p>
 </form>
-
-<script>
-function checkQ1() {
-  // Grab the value of the selected radio button for question 1
-  const q1Options = document.getElementsByName("eq");
-  let q1Selected = null;
-  for (let i = 0; i < q1Options.length; i++) {
-    if (q1Options[i].checked) {
-      q1Selected = q1Options[i].value;
-      break;
-    }
-  }
-
-  const q1Feedback = document.getElementById("eq-feedback");
-
-  // Ensure an option was selected
-  if (!q1Selected) {
-    q1Feedback.textContent = "Please select True or False.";
-    q1Feedback.style.color = "red";
-    return;
-  }
-
-  // Question 1 is TRUE
-  if (q1Selected === "true") {
-    q1Feedback.textContent = "Correct! R(θ1)*R(θ2) = R(θ1+θ2) = R(θ2+θ1) = R(θ2)*R(θ1).";
-    q1Feedback.style.color = "green";
-  } else {
-    q1Feedback.textContent = "Incorrect. Please try again !";
-    q1Feedback.style.color = "red";
-  }
-}
-</script>
 
 <!-- Second question  -->
 <p><strong>Question 2: The matrix 
@@ -291,46 +196,22 @@ function checkQ1() {
   0 & 0 & 1
   \end{bmatrix}
   \]</p> correspond to ...</strong></p>
-<form id="mcq-ho">
-  <!-- Option 1 (Incorrect) -->
-  <input type="radio" name="ho" value="option1"> a translation followed by a rotation<br>
-  
-  <!-- Option 2 (Correct) -->
-  <input type="radio" name="ho" value="option2"> a rotation followed by a translation<br>
-  
-  <button type="button" onclick="checkhomo()">Check Answer</button>
-  <p id="ho-feedback"></p>
+<form id="matrix-order">
+  <input type="radio" name="matrix-order" value="option1"> A translation followed by a rotation<br>
+  <input type="radio" name="matrix-order" value="option2"> A rotation followed by a translation<br>
+
+  <button type="button" onclick="checkMCQ(
+    'matrix-order', 
+    'option2', 
+    'Correct! This matrix represents a rotation followed by a translation (proved in mathematical development).',
+    'Incorrect. Please try again!'
+  )">
+    Check Answer
+  </button>
+
+  <p id="matrix-order-feedback"></p>
 </form>
 
-<script>
-function checkhomo() {
-  const options = document.getElementsByName('ho');
-  let selectedValue = null;
-
-  for (let i = 0; i < options.length; i++) {
-    if (options[i].checked) {
-      selectedValue = options[i].value;
-      break;
-    }
-  }
-
-  const feedback = document.getElementById('ho-feedback');
-
-  if (!selectedValue) {
-    feedback.textContent = "Please select an option.";
-    feedback.style.color = "red";
-    return;
-  }
-
-  if (selectedValue === "option2") {
-    feedback.textContent = "Correct! (prove can be found in the mathematical development question)";
-    feedback.style.color = "green";
-  } else {
-    feedback.textContent = "Incorrect. Please try again!";
-    feedback.style.color = "red";
-  }
-}
-</script>
 </details>
 
 <!-- Mathematical Development Questions -->
