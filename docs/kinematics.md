@@ -332,7 +332,7 @@ function checkhomo() {
   </details>
 
 <!-- Question 2 -->
-<p><strong>Question 2: </strong> Express the homogeneous transformation matrix representing a translation \( t = (t_x, t_y) \) followed by a rotation by angle \( \theta \) in a 2D plane.</p>
+<p><strong>Question 2: </strong> Express the homogeneous transformation matrix representing a translation \( t \) followed by a rotation by angle \( \theta \) in a 2D plane.</p>
 
   <details markdown="2">
     <summary>Answer Q2</summary>
@@ -363,13 +363,12 @@ function checkhomo() {
   </details>
 
 <!-- Question 3 -->
-<p><strong>Question 3: </strong> Express the homogeneous transformation matrix representing the following sequence: rotation by \( \theta_1 \), translation by \( t_1 = (t_{1x}, t_{1y}) \), rotation by \( \theta_2 \), and finally translation by \( t_2 = (t_{2x}, t_{2y}) \).</p>
+<p><strong>Question 3: </strong> Express the homogeneous transformation matrix representing the following sequence: rotation by \( \theta_1 \), translation by \( t_1 \), rotation by \( \theta_2 \), and finally translation by \( t_2 \).</p>
 
   <details markdown="2">
     <summary>Answer Q3</summary>
     $
-    M &=
-    \begin{bmatrix}
+    M_{t_2} \cdot M_{r_2} \cdot M_{t_1} \cdot M_{r_1} &= \begin{bmatrix}
     R(\theta)_2 & t_2 \\
     0 & 1
     \end{bmatrix} \cdot 
