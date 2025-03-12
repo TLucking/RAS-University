@@ -294,11 +294,11 @@ function checkhomo() {
 <details markdown="1">
   <summary>Mathematical Development Questions</summary>
 
-  <!-- Question 1 -->
-  <p><strong>Question 1: </strong> Express the homogeneous transformation matrix representing a rotation by angle θ followed by translation (t_x, t_y) in a 2D plane.</p>
+<!-- Question 1 -->
+<p><strong>Question 1: </strong> Express the homogeneous transformation matrix representing a rotation by angle θ followed by translation \( t = (t_x, t_y) \) in a 2D plane.</p>
 
   <details markdown="1">
-    <summary>Answer</summary>
+    <summary>Answer Q1</summary>
     \[
     \begin{aligned}
     T &= \begin{bmatrix}
@@ -319,11 +319,11 @@ function checkhomo() {
     \end{bmatrix}\]
   </details>
 
-  <!-- Question 2 -->
-  <p><strong>Question 2: </strong> Express the homogeneous transformation matrix representing a translation \( t = (t_x, t_y) \) followed by a rotation by angle \( \theta \) in a 2D plane.</p>
+<!-- Question 2 -->
+<p><strong>Question 2: </strong> Express the homogeneous transformation matrix representing a translation \( t = (t_x, t_y) \) followed by a rotation by angle \( \theta \) in a 2D plane.</p>
 
   <details markdown="1">
-    <summary>Answer</summary>
+    <summary>Answer Q2</summary>
     \[
     \begin{aligned}
     T &= \begin{bmatrix}
@@ -346,11 +346,10 @@ function checkhomo() {
   </details>
 
 <!-- Question 3 -->
-  <p><strong>Question 3: </strong> Express the homogeneous transformation matrix representing the following sequence: rotation by \( \theta_1 \), translation by \( t_1 = (t_{1x}, t_{1y}) \), rotation by \( \theta_2 \), and finally translation by \( t_2 = (t_{2x}, t_{2y}) \).</p>
+<p><strong>Question 3: </strong> Express the homogeneous transformation matrix representing the following sequence: rotation by \( \theta_1 \), translation by \( t_1 = (t_{1x}, t_{1y}) \), rotation by \( \theta_2 \), and finally translation by \( t_2 = (t_{2x}, t_{2y}) \).</p>
 
   <details markdown="1">
-    <summary>Answer</summary>
-
+    <summary>Answer Q3</summary>
     \[
     \begin{aligned}
     T &= \begin{bmatrix}
@@ -379,7 +378,6 @@ function checkhomo() {
     0 & 0 & 1
     \end{bmatrix}
     \]
-
   </details>
 
 
