@@ -299,7 +299,7 @@ function checkhomo() {
 
   <details markdown="1">
     <summary>Answer Q1</summary>
-    \[
+    $$
     \begin{aligned}
     T &= \begin{bmatrix}
     \cos\theta & -\sin\theta & t_x \\
@@ -316,7 +316,7 @@ function checkhomo() {
     \begin{bmatrix}
     \cos\theta & -\sin\theta \\
     \sin\theta & \cos\theta
-    \end{bmatrix}\]
+    \end{bmatrix}$$
   </details>
 
 <!-- Question 2 -->
@@ -324,7 +324,7 @@ function checkhomo() {
 
   <details markdown="1">
     <summary>Answer Q2</summary>
-    \[
+    $$
     \begin{aligned}
     T &= \begin{bmatrix}
     \cos\theta & -\sin\theta & \cos\theta \cdot t_x - \sin\theta \cdot t_y \\
@@ -342,7 +342,8 @@ function checkhomo() {
     \cos\theta & -\sin\theta \\
     \sin\theta & \cos\theta
     \end{bmatrix}
-    \]
+    \end{aligned}
+    $$
   </details>
 
 <!-- Question 3 -->
@@ -350,34 +351,36 @@ function checkhomo() {
 
   <details markdown="1">
     <summary>Answer Q3</summary>
-    \[
+    $$
     \begin{aligned}
-    T &= \begin{bmatrix}
+    T &= 
+    \begin{bmatrix}
     \cos(\theta_1+\theta_2) & -\sin(\theta_1+\theta_2) & t_{1x}\cos\theta_1 - t_{1y}\sin\theta_1 + t_{2x}\cos(\theta_1+\theta_2) - t_{2y}\sin(\theta_1+\theta_2) \\
     \sin(\theta_1+\theta_2) & \cos(\theta_1+\theta_2) & t_{1x}\sin\theta_1 + t_{1y}\cos\theta_1 + t_{2x}\sin(\theta_1+\theta_2) + t_{2y}\cos(\theta_1+\theta_2) \\
     0 & 0 & 1
     \end{bmatrix}
-    \]
-
-    This matrix can also be expressed compactly as:
-    \[
-    T = R(\theta_1) T(t_1) R(\theta_2) T(t_2)
-    \]
-      
-      where each matrix is defined accordingly:
-      
-    \[
-    R(\theta) = \begin{bmatrix}
+    \end{aligned}
+    $$
+    This transformation can also be expressed compactly as the product of rotations and translations:
+    $$
+    T = R(\theta_1) \cdot T(t_1) \cdot R(\theta_2) \cdot T(t_2)
+    $$
+    where the matrices are defined as:
+    $$
+    R(\theta) = 
+    \begin{bmatrix}
     \cos\theta & -\sin\theta & 0 \\
     \sin\theta & \cos\theta & 0 \\
     0 & 0 & 1
-    \end{bmatrix}, \quad
-    T(t) = \begin{bmatrix}
+    \end{bmatrix}, 
+    \quad
+    T(t) = 
+    \begin{bmatrix}
     1 & 0 & t_x \\
     0 & 1 & t_y \\
     0 & 0 & 1
     \end{bmatrix}
-    \]
+    $$
   </details>
 
 
