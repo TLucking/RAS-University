@@ -368,19 +368,21 @@ function checkhomo() {
   <details markdown="2">
     <summary>Answer Q3</summary>
     $
+    \begin{aligned}
     M_{t_2} \cdot M_{r_2} \cdot M_{t_1} \cdot M_{r_1} &= \begin{bmatrix}
-    R(\theta)_2 & t_2 \\
+    R{(\theta)_2} & t_2 \\
     0 & 1
     \end{bmatrix} \cdot 
     \begin{bmatrix}
-    R(\theta)_1 & t_1 \\
+    R{(\theta)_1} & t_1 \\
     0 & 1
     \end{bmatrix}
     = 
     \begin{bmatrix}
-    R(\theta)_1 \cdot R(\theta)_2 & R(\theta)_2 \cdot t_1 + t_2 \\
+    R{(\theta)_1} \cdot R{(\theta)_2} & R{(\theta)_2} \cdot t_1 + t_2 \\
     0 & 1
     \end{bmatrix} 
+    \end{aligned}
     $
   </details>
 
@@ -398,6 +400,9 @@ This chapter introduces [forward kinematics](#forward-and-inverse-kinematics)
 
 
 ## Chapter 3: Forward Kinematics (with solved examples) | Homogeneous Transformations 
+
+
+
 ![examples](https://www.youtube.com/watch?v=mO7JJxaVtkE&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=6)
 
 ![examples2](https://www.youtube.com/watch?v=zg5sS9LZGAM&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=7)
