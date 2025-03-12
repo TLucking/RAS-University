@@ -301,7 +301,17 @@ function checkhomo() {
     <summary>Answer Q1</summary>
     $
     \begin{aligned}
-    T &= \begin{bmatrix}
+    M_t \cdot M_r &= \begin{bmatrix}
+    1 & 0 & t_x \\
+    0 & 1 & t_y \\
+    0 & 0 & 1
+    \end{bmatrix} \cdot
+    \begin{bmatrix}
+    \cos\theta & -\sin\theta & 0 \\
+    \sin\theta & \cos\theta & 0 \\
+    0 & 0 & 1
+    \end{bmatrix} &=
+    \begin{bmatrix}
     \cos\theta & -\sin\theta & t_x \\
     \sin\theta & \cos\theta & t_y \\
     0 & 0 & 1
@@ -326,8 +336,19 @@ function checkhomo() {
 
   <details markdown="2">
     <summary>Answer Q2</summary>
+    $
     \begin{aligned}
-    T &= \begin{bmatrix}
+    M_r \cdot M_t &= \begin{bmatrix}
+    \cos\theta & -\sin\theta & 0 \\
+    \sin\theta & \cos\theta & 0 \\
+    0 & 0 & 1
+    \end{bmatrix} \cdot
+    \begin{bmatrix}
+    1 & 0 & t_x \\
+    0 & 1 & t_y \\
+    0 & 0 & 1
+    \end{bmatrix} &= 
+    \begin{bmatrix}
     \cos\theta & -\sin\theta & \cos\theta \cdot t_x - \sin\theta \cdot t_y \\
     \sin\theta & \cos\theta & \sin\theta \cdot t_x + \cos\theta \cdot t_y \\
     0 & 0 & 1
@@ -337,13 +358,8 @@ function checkhomo() {
     R(\theta) & R(\theta) \cdot t \\
     0 & 1
     \end{bmatrix}
-    \quad\text{where}\quad
-    R(\theta) = 
-    \begin{bmatrix}
-    \cos\theta & -\sin\theta \\
-    \sin\theta & \cos\theta
-    \end{bmatrix}
     \end{aligned}
+    $
   </details>
 
 <!-- Question 3 -->
@@ -351,34 +367,22 @@ function checkhomo() {
 
   <details markdown="2">
     <summary>Answer Q3</summary>
-    \begin{aligned}
-    T &= 
+    $
+    M &=
     \begin{bmatrix}
-    \cos(\theta_1+\theta_2) & -\sin(\theta_1+\theta_2) & t_{1x}\cos\theta_1 - t_{1y}\sin\theta_1 + t_{2x}\cos(\theta_1+\theta_2) - t_{2y}\sin(\theta_1+\theta_2) \\
-    \sin(\theta_1+\theta_2) & \cos(\theta_1+\theta_2) & t_{1x}\sin\theta_1 + t_{1y}\cos\theta_1 + t_{2x}\sin(\theta_1+\theta_2) + t_{2y}\cos(\theta_1+\theta_2) \\
-    0 & 0 & 1
+    R(\theta)_2 & t_2 \\
+    0 & 1
+    \end{bmatrix} \cdot 
+    \begin{bmatrix}
+    R(\theta)_1 & t_1 \\
+    0 & 1
     \end{bmatrix}
-    \end{aligned}
-
-    This transformation can also be expressed compactly as the product of rotations and translations:
-
-    T = R(\theta_1) \cdot T(t_1) \cdot R(\theta_2) \cdot T(t_2)
-
-    where the matrices are defined as:
-
-    R(\theta) = 
+    = 
     \begin{bmatrix}
-    \cos\theta & -\sin\theta & 0 \\
-    \sin\theta & \cos\theta & 0 \\
-    0 & 0 & 1
-    \end{bmatrix}, 
-    \quad
-    T(t) = 
-    \begin{bmatrix}
-    1 & 0 & t_x \\
-    0 & 1 & t_y \\
-    0 & 0 & 1
-    \end{bmatrix}
+    R(\theta)_1 \cdot R(\theta)_2 & R(\theta)_2 \cdot t_1 + t_2 \\
+    0 & 1
+    \end{bmatrix} 
+    $
   </details>
 
 
