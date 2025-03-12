@@ -169,7 +169,7 @@ As you've seen, a **general motion in the plane** can be described by a combinat
 
 It would be very desirable to be able to integrate rotation and translation in a single operation in order to be able to link them together. The **homogeneous matrices** allow this integration of the translation into the transformation matrix. The price to pay is to increase the order of the matrix by one. The translation vector t is added to the right and a line [0 0 1] at the bottom:
 
-$$
+$
 \begin{bmatrix}
     R & \mathbf{t} \\
     0 & 1 
@@ -179,7 +179,7 @@ $$
     \sin \theta & \cos \theta  & t_y  \\
     0           & 0            & 1 
 \end{bmatrix}
-$$  
+$  
 
 This is **the homogeneous matrix** of transformation in a two‐dimensional space (a plane), the third line has no spatial significance (no z axis for the moment !!). This matrix acts on a **homogeneous vector** in a two‐dimensional space which consists of its two coordinates plus a "scale factor" equal to one:
 $$
@@ -299,7 +299,7 @@ function checkhomo() {
 
   <details markdown="1">
     <summary>Answer Q1</summary>
-    $$
+    $
     \begin{aligned}
     T &= \begin{bmatrix}
     \cos\theta & -\sin\theta & t_x \\
@@ -316,13 +316,13 @@ function checkhomo() {
     \begin{bmatrix}
     \cos\theta & -\sin\theta \\
     \sin\theta & \cos\theta
-    \end{bmatrix}$$
+    \end{bmatrix}$
   </details>
 
 <!-- Question 2 -->
 <p><strong>Question 2: </strong> Express the homogeneous transformation matrix representing a translation \( t = (t_x, t_y) \) followed by a rotation by angle \( \theta \) in a 2D plane.</p>
 
-  <details markdown="1">
+  <details markdown="2">
     <summary>Answer Q2</summary>
     $$
     \begin{aligned}
