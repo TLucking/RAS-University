@@ -108,6 +108,20 @@ But before we start to watch videos let's check some basic notions, defintions t
 
 </details>
 
+#### Reminders:
+
+To simplify notation, we use the following abbreviations:  
+
+- \( \sin(\theta_1) = s_1 \)  
+- \( \cos(\theta_1) = c_1 \)  
+- \( 1 - \cos(\theta_1) = v_1 \)  
+- \( \sin(\theta_2) = s_2 \)  
+- \( \cos(\theta_2) = c_2 \)  
+- \( 1 - \cos(\theta_2) = v_2 \)  
+- \( \cos(\theta_1 + \theta_2) = c_{1+2} \)  
+- \( \sin(\theta_1 + \theta_2) = s_{1+2} \)  
+- \( L_1 + L_2 = L_{1+2} \) 
+
 
 ### Chapter 0 : Introduction to Robotics | Kinematics & Modeling
 
@@ -344,7 +358,187 @@ This expression clearly shows that:
 
 Understanding this concept is powerful because it provides deeper insight into robot movements, especially when dealing with practical scenarios involving complex rotations or articulations around joints positioned away from the base.
 
+Let's get familiriar with this type of method doing similar exercise:
 
+
+<!-- Mathematical Development Questions -->
+<details markdown="1">
+  <summary>Mathematical Development Questions</summary>
+
+<!-- Question 1 -->
+<p><strong>Question 1: </strong> In this exercise you will work on the geometric model of the SCARA robot. Here we won’t consider the rotation of the end effector. The output point will be the point P at the extremity of the second segment L2 (see figure). Give the direct geometric model (DGM) that expresses the coordinates (x, y) of point P as a function of the joint coordinates q_1 and q_2.</p>
+
+Hint: use the homogeneous matrices of the following transformations:
+1. Rotation of q_2 around P_{10} with coordinates (L_1 , 0)
+2. Rotation of q_1 around the origin
+
+![examples]({{ site.baseurl }}/assets/images/kinematics/dgm.png)
+
+  <details markdown="2">
+  <summary>Answer Q1</summary>
+
+  To obtain the **direct geometric model** that expresses the coordinates \((x, y)\) of the end effector \( P \) as a function of the  
+  joint coordinates \( q_1 \) and \( q_2 \), we follow these steps:  
+
+  1. **Reference Position:**  
+    First, we position the robot in its **reference configuration** (see the figure below).  
+    Then, we develop the **homogeneous transformation matrices** at each joint, starting from the last one.
+
+    ![examples]({{ site.baseurl }}/assets/images/kinematics/dgm_correction.png)
+
+  2. **Homogeneous Matrices for Each Joint:**  
+    - Homogeneous matrix corresponding to the rotation \( q_2 \) around the point \( P_{10} \) with coordinates \((L_1, 0)\).  
+    - Homogeneous matrix corresponding to the rotation \( q_1 \) around the **origin**.  
+
+  3. **Final Transformation:**  
+    The **direct geometric model** is obtained by multiplying the sequence of homogeneous matrices, starting  
+    with the last transformation and moving towards the first, as explained in the lecture.  
+
+  ---
+
+  ### **Homogeneous Transformation for Rotation Around an Arbitrary Point**  
+
+  The **general form** of a homogeneous transformation matrix for a rotation around an arbitrary point \( p \) is:
+
+  $$
+  H = 
+  \begin{bmatrix}
+      R & p - R \cdot p \\
+      0 & 1 
+  \end{bmatrix}
+  $$
+
+  Using this relation, we calculate the **homogeneous matrix** \( H_2 \), which corresponds to the rotation by \( q_2 \)  
+  around the point \( P_{10} \) with coordinates \((L_1, 0)\):
+
+  $$
+  H_2 = 
+  \begin{bmatrix}
+      R_2 & p_{10} - R_2 \cdot p_{10} \cr
+      0 & 1 
+  \end{bmatrix}
+  $$
+
+  where:
+
+  $$
+  p_{10} - R_2 \cdot p_{10} =
+  \begin{bmatrix}
+      L_1 \cr
+      0
+  \end{bmatrix}
+  -
+  \begin{bmatrix}
+      c_2 & -s_2 \cr
+      s_2 & c_2
+  \end{bmatrix}
+  \cdot
+  \begin{bmatrix}
+      L_1 \cr
+      0
+  \end{bmatrix}
+  $$
+
+  Expanding the multiplication:
+
+  $$
+  = \begin{bmatrix}
+      L_1 - c_2 \cdot L_1 \cr
+      -s_2 \cdot L_1
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+      L_1 \cdot v_2 \cr
+      -L_1 \cdot s_2
+  \end{bmatrix}
+  $$
+  
+  The **homogeneous matrix** \( H_1 \), which corresponds to the rotation by \( q_1 \) around the origin is expressed as follows:
+
+  H_1 = 
+  $$
+  \begin{bmatrix}
+      R_1 & 0 \cdot p \cr
+      0 & 1 
+  \end{bmatrix}
+  $$
+
+  The combined homogenous matrix of the sequence of the two rotations, respectively represented by the homogenous matrix H_2 (of angle q_2) then H_1 (of angle q_1), is equal to the following product: 
+
+  $$
+  H = H_1 H_2 =
+  \begin{bmatrix}
+      c_1 & -s_1 & 0 \cr
+      s_1 & c_1 & 0 \cr
+      0 & 0 & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+      c_2 & -s_2 & L_1 v_2 \cr
+      s_2 & c_2 & -L_1 s_2 \cr
+      0 & 0 & 1
+  \end{bmatrix}
+  $$
+  =
+  $$
+  \begin{bmatrix}
+      c_{1+2} & -s_{1+2} & L_1 (c_1 v_2 + s_1 s_2) \cr
+      s_{1+2} & c_{1+2} & L_1 (s_1 v_2 - c_1 s_2) \cr
+      0 & 0 & 1
+  \end{bmatrix}
+  $$
+
+  To find the coordinates \((x, y)\) of the point \( P \) (which is the **Tool Center Point**), we proceed as follows:
+
+  $$
+  \begin{bmatrix}
+      x \cr
+      y \cr
+      1
+  \end{bmatrix}
+  =
+  H \cdot P_{20}
+  $$
+
+  Thus, applying the homogeneous transformation matrix to \( P_{20} \):
+
+  $$
+  \begin{bmatrix}
+      x \cr
+      y \cr
+      1
+  \end{bmatrix}
+  =
+  H \cdot
+  \begin{bmatrix}
+      L_{12} \cr
+      0 \cr
+      1
+  \end{bmatrix}
+  $$
+
+  Using the previously computed homogeneous matrix, this results in:
+
+  $$
+  \begin{bmatrix}
+      x \cr
+      y \cr
+      1
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+      L_1 c_1 + L_2 c_{1+2} \cr
+      L_1 s_1 + L_2 s_{1+2} \cr
+      1
+  \end{bmatrix}
+  $$
+
+  This final equation gives the direct geometric model expressing the position of the tool center point \( P \) in terms of the link lengths and joint angles.
+
+  </details>
+
+
+
+</details>
 
 
 
