@@ -77,6 +77,35 @@ But before we start to watch videos let's check some basic notions, defintions t
   <p id="q1-feedback"></p>
 </form>
 
+<!-- Second question  -->
+<p><strong>Question 2: In general, a parallel robot is more rigid than a serial robot</strong></p>
+<form id="q2">
+  <input type="radio" name="q2" value="True"> True<br>
+  <input type="radio" name="q2" value="False"> False<br>
+  <button type="button"
+    onclick="checkTrueFalse('q2', 'True', 
+      'Correct! ',
+      'Incorrect. Refer to the definition of parallel and serial robot')">
+    Check Answer
+  </button>
+  <p id="q2-feedback"></p>
+</form>
+
+<!-- Third question  -->
+<p><strong>Question 3: A parallel robot is a structure characterized by a closed kinematic loop</strong></p>
+<form id="q3">
+  <input type="radio" name="q3" value="True"> True<br>
+  <input type="radio" name="q3" value="False"> False<br>
+  <button type="button"
+    onclick="checkTrueFalse('q3', 'True', 
+      'Correct!',
+      'Incorrect.')">
+    Check Answer
+  </button>
+  <p id="q3-feedback"></p>
+</form>
+
+
 </details>
 
 
@@ -255,61 +284,6 @@ To find the familiar vectors, just delete the last element. Matrices and homogen
     $
   </details>
 
-<!-- Question 2 -->
-<p><strong>Question 2: </strong> Express the homogeneous transformation matrix representing a translation \( t \) followed by a rotation by angle \( \theta \) in a 2D plane.</p>
-
-  <details markdown="2">
-    <summary>Answer Q2</summary>
-    $
-    \begin{aligned}
-    M_r \cdot M_t &= \begin{bmatrix}
-    \cos\theta & -\sin\theta & 0 \\
-    \sin\theta & \cos\theta & 0 \\
-    0 & 0 & 1
-    \end{bmatrix} \cdot
-    \begin{bmatrix}
-    1 & 0 & t_x \\
-    0 & 1 & t_y \\
-    0 & 0 & 1
-    \end{bmatrix} &= 
-    \begin{bmatrix}
-    \cos\theta & -\sin\theta & \cos\theta \cdot t_x - \sin\theta \cdot t_y \\
-    \sin\theta & \cos\theta & \sin\theta \cdot t_x + \cos\theta \cdot t_y \\
-    0 & 0 & 1
-    \end{bmatrix}
-    = 
-    \begin{bmatrix}
-    R(\theta) & R(\theta) \cdot t \\
-    0 & 1
-    \end{bmatrix}
-    \end{aligned}
-    $
-  </details>
-
-<!-- Question 3 -->
-<p><strong>Question 3: </strong> Express the homogeneous transformation matrix representing the following sequence: rotation by \( \theta_1 \), translation by \( t_1 \), rotation by \( \theta_2 \), and finally translation by \( t_2 \).</p>
-
-  <details markdown="2">
-    <summary>Answer Q3</summary>
-    $
-    \begin{aligned}
-    M_{t_2} \cdot M_{r_2} \cdot M_{t_1} \cdot M_{r_1} &= \begin{bmatrix}
-    R{(\theta_2)} & t_2 \\
-    0 & 1
-    \end{bmatrix} \cdot 
-    \begin{bmatrix}
-    R{(\theta_1)} & t_1 \\
-    0 & 1
-    \end{bmatrix}
-    = 
-    \begin{bmatrix}
-    R{(\theta_1)} \cdot R{(\theta_2)} & R{(\theta_2)} \cdot t_1 + t_2 \\
-    0 & 1
-    \end{bmatrix} 
-    \end{aligned}
-    $
-  </details>
-
 
 </details>
 
@@ -369,6 +343,9 @@ This expression clearly shows that:
 - Conversely, **any combination of rotation and translation** in the plane can be represented as a pure rotation around a certain center \( p \).
 
 Understanding this concept is powerful because it provides deeper insight into robot movements, especially when dealing with practical scenarios involving complex rotations or articulations around joints positioned away from the base.
+
+
+
 
 
 
