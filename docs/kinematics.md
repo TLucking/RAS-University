@@ -108,20 +108,6 @@ But before we start to watch videos let's check some basic notions, defintions t
 
 </details>
 
-#### Reminders:
-
-To simplify notation, we use the following abbreviations:  
-
-- \( \sin(\theta_1) = s_1 \)  
-- \( \cos(\theta_1) = c_1 \)  
-- \( 1 - \cos(\theta_1) = v_1 \)  
-- \( \sin(\theta_2) = s_2 \)  
-- \( \cos(\theta_2) = c_2 \)  
-- \( 1 - \cos(\theta_2) = v_2 \)  
-- \( \cos(\theta_1 + \theta_2) = c_{1+2} \)  
-- \( \sin(\theta_1 + \theta_2) = s_{1+2} \)  
-- \( L_1 + L_2 = L_{1+2} \) 
-
 
 ### Chapter 0 : Introduction to Robotics | Kinematics & Modeling
 
@@ -366,11 +352,11 @@ Let's get familiriar with this type of method doing similar exercise:
   <summary>Mathematical Development Questions</summary>
 
 <!-- Question 1 -->
-<p><strong>Question 1: </strong> In this exercise you will work on the geometric model of the SCARA robot. Here we won’t consider the rotation of the end effector. The output point will be the point P at the extremity of the second segment L2 (see figure). Give the direct geometric model (DGM) that expresses the coordinates (x, y) of point P as a function of the joint coordinates q_1 and q_2.</p>
+<p><strong>Question 1: </strong> In this exercise you will work on the geometric model of the SCARA robot. Here we won’t consider the rotation of the end effector. The output point will be the point P at the extremity of the second segment L2 (see figure). Give the direct geometric model (DGM) that expresses the coordinates (x, y) of point P as a function of the joint coordinates \( q_1 \) and \( q_2 \).</p>
 
 Hint: use the homogeneous matrices of the following transformations:
-1. Rotation of q_2 around P_{10} with coordinates (L_1 , 0)
-2. Rotation of q_1 around the origin
+1. Rotation of \( q_2 \) around P_{10} with coordinates (\( L_1 \) , 0)
+2. Rotation of \( q_1 \) around the origin
 
 ![examples]({{ site.baseurl }}/assets/images/kinematics/dgm.png)
 
@@ -384,7 +370,7 @@ Hint: use the homogeneous matrices of the following transformations:
     First, we position the robot in its **reference configuration** (see the figure below).  
     Then, we develop the **homogeneous transformation matrices** at each joint, starting from the last one.
 
-    ![examples]({{ site.baseurl }}/assets/images/kinematics/dgm_correction.png)
+  ![examples]({{ site.baseurl }}/assets/images/kinematics/dgm_correction.png)
 
   2. **Homogeneous Matrices for Each Joint:**  
     - Homogeneous matrix corresponding to the rotation \( q_2 \) around the point \( P_{10} \) with coordinates \((L_1, 0)\).  
@@ -400,8 +386,9 @@ Hint: use the homogeneous matrices of the following transformations:
 
   The **general form** of a homogeneous transformation matrix for a rotation around an arbitrary point \( p \) is:
 
-  $$
+  
   H = 
+  $$
   \begin{bmatrix}
       R & p - R \cdot p \\
       0 & 1 
@@ -411,8 +398,9 @@ Hint: use the homogeneous matrices of the following transformations:
   Using this relation, we calculate the **homogeneous matrix** \( H_2 \), which corresponds to the rotation by \( q_2 \)  
   around the point \( P_{10} \) with coordinates \((L_1, 0)\):
 
-  $$
+  
   H_2 = 
+  $$
   \begin{bmatrix}
       R_2 & p_{10} - R_2 \cdot p_{10} \cr
       0 & 1 
@@ -421,8 +409,9 @@ Hint: use the homogeneous matrices of the following transformations:
 
   where:
 
-  $$
+  
   p_{10} - R_2 \cdot p_{10} =
+  $$
   \begin{bmatrix}
       L_1 \cr
       0
@@ -437,11 +426,6 @@ Hint: use the homogeneous matrices of the following transformations:
       L_1 \cr
       0
   \end{bmatrix}
-  $$
-
-  Expanding the multiplication:
-
-  $$
   = \begin{bmatrix}
       L_1 - c_2 \cdot L_1 \cr
       -s_2 \cdot L_1
@@ -455,7 +439,7 @@ Hint: use the homogeneous matrices of the following transformations:
   
   The **homogeneous matrix** \( H_1 \), which corresponds to the rotation by \( q_1 \) around the origin is expressed as follows:
 
-  H_1 = 
+  \( H_1 \) = 
   $$
   \begin{bmatrix}
       R_1 & 0 \cdot p \cr
@@ -471,15 +455,13 @@ Hint: use the homogeneous matrices of the following transformations:
       c_1 & -s_1 & 0 \cr
       s_1 & c_1 & 0 \cr
       0 & 0 & 1
-  \end{bmatrix}
+  \end{bmatrix} \cdot
   \begin{bmatrix}
       c_2 & -s_2 & L_1 v_2 \cr
       s_2 & c_2 & -L_1 s_2 \cr
       0 & 0 & 1
   \end{bmatrix}
-  $$
   =
-  $$
   \begin{bmatrix}
       c_{1+2} & -s_{1+2} & L_1 (c_1 v_2 + s_1 s_2) \cr
       s_{1+2} & c_{1+2} & L_1 (s_1 v_2 - c_1 s_2) \cr
@@ -494,9 +476,7 @@ Hint: use the homogeneous matrices of the following transformations:
       x \cr
       y \cr
       1
-  \end{bmatrix}
-  =
-  H \cdot P_{20}
+  \end{bmatrix} = H \cdot P_{20}
   $$
 
   Thus, applying the homogeneous transformation matrix to \( P_{20} \):
@@ -507,8 +487,7 @@ Hint: use the homogeneous matrices of the following transformations:
       y \cr
       1
   \end{bmatrix}
-  =
-  H \cdot
+  = H \cdot
   \begin{bmatrix}
       L_{12} \cr
       0 \cr
@@ -523,9 +502,7 @@ Hint: use the homogeneous matrices of the following transformations:
       x \cr
       y \cr
       1
-  \end{bmatrix}
-  =
-  \begin{bmatrix}
+  \end{bmatrix} = \begin{bmatrix}
       L_1 c_1 + L_2 c_{1+2} \cr
       L_1 s_1 + L_2 s_{1+2} \cr
       1
@@ -539,8 +516,6 @@ Hint: use the homogeneous matrices of the following transformations:
 
 
 </details>
-
-
 
 
 ### Chapter 4: How do robots avoid collisions? | Branched Homogeneous Transforms
