@@ -367,27 +367,29 @@ Hint: use the homogeneous matrices of the following transformations:
 
   <p>To obtain the <strong>direct geometric model</strong> that expresses the coordinates \((x, y)\) of the end effector \( P \) as a function of the joint coordinates \( q_1 \) and \( q_2 \), we follow these steps:  </p>
 
-  1. **Reference Position:**  
-    First, we position the robot in its **reference configuration** (see the figure below).  
-    Then, we develop the **homogeneous transformation matrices** at each joint, starting from the last one.
+  <p>
+  1. <strong>Reference Position:</strong>  
+    First, we position the robot in its reference configuration (see the figure below).  
+    Then, we develop the homogeneous transformation matrices at each joint, starting from the last one.
+  </p>
 
-  <!-- ![examples]({{ site.baseurl }}/assets/images/kinematics/dgm_correction.png) -->
-  ![examples](/assets/images/kinematics/dgm_correction.png)
+  ![examples]({{ site.baseurl }}/assets/images/kinematics/dgm_correction.png)
+  <!-- ![examples](/assets/images/kinematics/dgm_correction.png) -->
 
-
-  2. **Homogeneous Matrices for Each Joint:**  
+  <p>
+  2. <strong>Homogeneous Matrices for Each Joint:</strong>  
     - Homogeneous matrix corresponding to the rotation \( q_2 \) around the point \( P_{10} \) with coordinates \((L_1, 0)\).  
-    - Homogeneous matrix corresponding to the rotation \( q_1 \) around the **origin**.  
+    - Homogeneous matrix corresponding to the rotation \( q_1 \) around the origin.  
 
-  3. **Final Transformation:**  
-    The **direct geometric model** is obtained by multiplying the sequence of homogeneous matrices, starting  
+  3. <strong>Final Transformation:</strong>  
+    The direct geometric model is obtained by multiplying the sequence of homogeneous matrices, starting  
     with the last transformation and moving towards the first, as explained in the lecture.  
+  </p>
+  
+  <strong>Homogeneous Transformation for Rotation Around an Arbitrary Point</strong>  
 
-  ---
-
-  ### **Homogeneous Transformation for Rotation Around an Arbitrary Point**  
-
-  The **general form** of a homogeneous transformation matrix for a rotation around an arbitrary point \( p \) is:
+  <p>The general form of a homogeneous transformation matrix for a rotation around an arbitrary point \( p \) is: 
+  </p>
 
   
   H = 
@@ -398,8 +400,9 @@ Hint: use the homogeneous matrices of the following transformations:
   \end{bmatrix}
   $
 
-  Using this relation, we calculate the **homogeneous matrix** \( H_2 \), which corresponds to the rotation by \( q_2 \)  
-  around the point \( P_{10} \) with coordinates \((L_1, 0)\):
+  <p>
+  Using this relation, we calculate the homogeneous matrix \( H_2 \), which corresponds to the rotation by \( q_2 \)  
+  around the point \( P_{10} \) with coordinates \((L_1, 0)\):</p>
 
   
   H_2 = 
@@ -412,9 +415,8 @@ Hint: use the homogeneous matrices of the following transformations:
 
   where:
 
-  
-  p_{10} - R_2 \cdot p_{10} =
   $
+  p_{10} - R_2 \cdot p_{10} =
   \begin{bmatrix}
       L_1 \cr
       0
@@ -440,7 +442,8 @@ Hint: use the homogeneous matrices of the following transformations:
   \end{bmatrix}
   $
   
-  The **homogeneous matrix** \( H_1 \), which corresponds to the rotation by \( q_1 \) around the origin is expressed as follows:
+
+  The homogeneous matrix \( H_1 \), which corresponds to the rotation by \( q_1 \) around the origin is expressed as follows:
 
   \( H_1 \) = 
   $
@@ -450,10 +453,10 @@ Hint: use the homogeneous matrices of the following transformations:
   \end{bmatrix}
   $
 
-  The combined homogenous matrix of the sequence of the two rotations, respectively represented by the homogenous matrix H_2 (of angle q_2) then H_1 (of angle q_1), is equal to the following product: 
+  The combined homogenous matrix of the sequence of the two rotations, respectively represented by the homogenous matrix \( H_2 \) (of angle \( q_2 \)) then \( H_1 \) (of angle \( q_1 \) ), is equal to the following product: 
 
   $
-  H = H_1 H_2 =
+  H = H_1 \cdot H_2 =
   \begin{bmatrix}
       c_1 & -s_1 & 0 \cr
       s_1 & c_1 & 0 \cr
@@ -472,7 +475,7 @@ Hint: use the homogeneous matrices of the following transformations:
   \end{bmatrix}
   $
 
-  To find the coordinates \((x, y)\) of the point \( P \) (which is the **Tool Center Point**), we proceed as follows:
+  To find the coordinates \((x, y)\) of the point \( P \) (which is the Tool Center Point), we proceed as follows:
 
   $
   \begin{bmatrix}
@@ -521,7 +524,12 @@ Hint: use the homogeneous matrices of the following transformations:
 </details>
 
 
-### Chapter 4: How do robots avoid collisions? | Branched Homogeneous Transforms
+## Chapter 4: Collision Detection using Homogeneous Transforms  
+
+In this chapter, we'll explore how **collision detection** between robots can be performed using homogeneous transformations. Specifically, you'll compute a new homogeneous transformation matrix that describes the relationship between two end-effectors, given two separate transformation matrices (\(H_1\) and \(H_2\)). This new matrix will provide the relative distances \(d_x\) and \(d_y\) between the two end-effectors. When both \(d_x\) and \(d_y\) become zero, it indicates that the two robots are in collision.
+
+Watch the following video to see this concept illustrated clearly:
+
 ![Homogeneous Transforms](https://www.youtube.com/watch?v=WQTnCIhkzNc&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=8)
 
 ### Chapter 5: Inverse Kinematics of Robots
