@@ -551,7 +551,7 @@ Inversly as the forward kinematics, inverse kinematics (also called Indirect Geo
 ## Chapter 8: Robot Singularities & how to find them
 ![Robot Singularities & how to find them](https://www.youtube.com/watch?v=WXEOr7X2bPE&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=14)
 
-
+<!-- 
 ## Exercises
 
 ### Pen & Paper Exercises
@@ -814,7 +814,7 @@ where $\text{MO}_i$ is the contribution to mobility from the $ i $-th joint (oft
 Any 3D rotation can be expressed as a product of these fundamental rotations.
 
 
-Quaternions provide a non-singular way to interpolate and compute 3D orientations, often used in control and simulation.
+Quaternions provide a non-singular way to interpolate and compute 3D orientations, often used in control and simulation. -->
 
 
 ## Ressources
