@@ -373,7 +373,7 @@ Hint: use the homogeneous matrices of the following transformations:
     Then, we develop the homogeneous transformation matrices at each joint, starting from the last one.
   </p>
 
-  ![examples]({{ site.baseurl }}/assets/images/kinematics/dgm_correction.png)
+  ![dgm_correction]({{ site.baseurl }}/assets/images/kinematics/dgm_correction.png)
   <!-- ![examples](/assets/images/kinematics/dgm_correction.png) -->
 
   <p>
@@ -405,7 +405,7 @@ Hint: use the homogeneous matrices of the following transformations:
   around the point \( P_{10} \) with coordinates \((L_1, 0)\):</p>
 
   
-  H_2 = 
+  \( H_2 \) = 
   $
   \begin{bmatrix}
       R_2 & p_{10} - R_2 \cdot p_{10} \cr
@@ -452,6 +452,7 @@ Hint: use the homogeneous matrices of the following transformations:
       0 & 1 
   \end{bmatrix}
   $
+
 
   The combined homogenous matrix of the sequence of the two rotations, respectively represented by the homogenous matrix \( H_2 \) (of angle \( q_2 \)) then \( H_1 \) (of angle \( q_1 \) ), is equal to the following product: 
 
@@ -524,7 +525,7 @@ Hint: use the homogeneous matrices of the following transformations:
 </details>
 
 
-## Chapter 4: Collision Detection using Homogeneous Transforms  
+### Chapter 4: Collision Detection using Homogeneous Transforms  
 
 In this chapter, we'll explore how **collision detection** between robots can be performed using homogeneous transformations. Specifically, you'll compute a new homogeneous transformation matrix that describes the relationship between two end-effectors, given two separate transformation matrices (\(H_1\) and \(H_2\)). This new matrix will provide the relative distances \(d_x\) and \(d_y\) between the two end-effectors. When both \(d_x\) and \(d_y\) become zero, it indicates that the two robots are in collision.
 
@@ -533,12 +534,74 @@ Watch the following video to see this concept illustrated clearly:
 ![Homogeneous Transforms](https://www.youtube.com/watch?v=WQTnCIhkzNc&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=8)
 
 ### Chapter 5: Inverse Kinematics of Robots
+<!-- 
+Inversly as the forward kinematics, inverse kinematics (also called Indirect Geometric Model, IGM) allow us to find the values of the joint positions given the position and orientation of the end-effector relative to the base and the values of all the geometric link parameters. -->
 
-Inversly as the forward kinematics, inverse kinematics (also called Indirect Geometric Model, IGM) allow us to find the values of the joint positions given the position and oreintation of the end-effector relative to the base and the values of all the geometric link parameters.
+Inverse Kinematics (IK), also known as the **Indirect Geometric Model (IGM)**, allows us to determine the required joint positions (angles and link lengths) based on the desired position and orientation of the robot's end-effector, given the geometric parameters of its links. This process is essentially the opposite of forward kinematics.
+
+**What exactly is Inverse Kinematics, and how can we use it to move a robot from point A to point B?**  
+IK is one of the most intriguing and broadly used concepts in robotics. Simply put, inverse kinematics involves calculating the robot’s joint parameters (such as angles and link lengths) to position its end-effector precisely at a specified location and orientation.
+
+If you have a solid understanding of forward kinematics, inverse kinematics becomes straightforward and intuitive.
+
+Watch the following video for a clear introduction to inverse kinematics:
 
 ![Inverse Kinematics of Robots](https://www.youtube.com/watch?v=1-FJhmey7vk&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=9)
 
+In this next video, you will explore another example of inverse kinematics using a planar robot. Interestingly, this robot features both revolute and prismatic joints, making its parameters a combination of joint angles and link lengths. This type of robot is specifically known as an **'RRP' robot**.
+
 ![example_inverse_kinematics](https://www.youtube.com/watch?v=EzZDRwmk8Nw&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=10)
+
+
+<!-- Conceptual Questions -->
+<details markdown="1">
+  <summary>Conceptual Questions</summary>
+
+<!-- Question 1 -->
+<p><strong>Question 1: Inverse kinematics gives position and orientation of the end-effector in function of joint angles</strong></p>
+<form id="inv-kin">
+  <input type="radio" name="inv-kin" value="true"> True<br>
+  <input type="radio" name="inv-kin" value="false"> False<br>
+
+  <button type="button" onclick="checkTrueFalse(
+    'inv-kin', 
+    'false', 
+    'Correct!', 
+    'Incorrect. It is the definition of direct kinematics.'
+  )">
+    Check Answer
+  </button>
+
+  <p id="inv-kin-feedback"></p>
+</form>
+
+</details>
+
+<!-- Mathematical Development Questions -->
+<details markdown="1">
+  <summary>Mathematical Development Questions</summary>
+
+<!-- Question 1 -->
+<p><strong>Question 1: </strong> Find the IGM (Inverse geometric model) of a 2DOF planar robot (see figure below): given x and y, what are \(theta_1\) and \(theta_2\)?</p>
+
+$
+x = L_1 \cos{\theta_1} + L_2 \cos{(\theta_1 + \theta_2)}
+$
+
+$
+y = L_1 \sin{\theta_1} + L_2 \sin{(\theta_1 + \theta_2)}
+$
+
+<p>
+Hint : use the trigonometric formulas for the sine
+and cosine of the sum of two angles, as well as the
+one of the sum of squares of sine and cosine.
+</p>
+
+![examples]({{ site.baseurl }}/assets/images/kinematics/inv.png)
+
+
+</details>
 
 ## Chapter 6: Velocity Kinematics
 ![Velocity Kinematics & Jacobian Matrix](https://www.youtube.com/watch?v=Wud3aCXiSm8&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=11)
