@@ -605,10 +605,98 @@ one of the sum of squares of sine and cosine.
 
 </details>
 
-### Chapter 6: Velocity Kinematics
+### Chapter 6: Velocity Kinematics - Meet the Jacobian !
+
+Ready to dive deeper into robotics? This chapter introduces you to one of the coolest concepts in robot motion: the **Jacobian Matrix**! 
+
+Ever wondered how quickly and smoothly a robot's gripper moves in space? Here you'll learn exactly how to calculate both the linear and angular velocities of a robot's end-effector. But that's not all—the Jacobian acts like a map , converting **joint velocities** into precise **end-effector movements**. Mastering it means you're unlocking a powerful tool that robotics experts use every day!
+
+Watch the following video to get an understanding of velocity kinematics and the powerful Jacobian matrix:
+
 ![Velocity Kinematics & Jacobian Matrix](https://www.youtube.com/watch?v=Wud3aCXiSm8&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=11)
 
+And there's even more! Discover how the Jacobian connects to the fascinating world of **Manipulability Ellipsoids**, showing you visually how robots move, avoid obstacles, and perform complex tasks efficiently.
+
+Check it this video here:
 ![Velocity Kinematics & Manipulability Ellipsoids](https://www.youtube.com/watch?v=gdSTcJwf3L0&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=12)
+
+<!-- Conceptual Questions -->
+<details markdown="1">
+  <summary>Conceptual Questions</summary>
+
+<!-- Question 1 -->
+<p><strong>Question 1: The Jacobian matrix of a robot related the joint positions with the joint torques</strong></p>
+<form id="jac">
+  <input type="radio" name="jac" value="true"> True<br>
+  <input type="radio" name="jac" value="false"> False<br>
+
+  <button type="button" onclick="checkTrueFalse(
+    'jac', 
+    'false', 
+    'Correct!', 
+    'Incorrect. See next question'
+  )">
+    Check Answer
+  </button>
+
+  <p id="jac-feedback"></p>
+</form>
+
+<!-- Question 2 -->
+<p><strong>Question 2: The Jacobian matrix of a robot relates the position at the level of the tool woth the articular positions</strong></p>
+<form id="jac2">
+  <input type="radio" name="jac2" value="true"> True<br>
+  <input type="radio" name="jac2" value="false"> False<br>
+
+  <button type="button" onclick="checkTrueFalse(
+    'jac2', 
+    'false', 
+    'Correct!', 
+    'Incorrect.'
+  )">
+    Check Answer
+  </button>
+
+  <p id="jac2-feedback"></p>
+</form>
+
+<!-- Question 3 -->
+<p><strong>Question 3: The Jacobian matrix of a robot relates the force applied to the level of the tool with the joint torques</strong></p>
+<form id="jac3">
+  <input type="radio" name="jac3" value="true"> True<br>
+  <input type="radio" name="jac3" value="false"> False<br>
+
+  <button type="button" onclick="checkTrueFalse(
+    'jac3', 
+    'true', 
+    'Correct!', 
+    'Incorrect.'
+  )">
+    Check Answer
+  </button>
+
+  <p id="jac3-feedback"></p>
+</form>
+
+</details>
+
+
+<!-- Mathematical Development Questions -->
+<details markdown="1">
+  <summary>Mathematical Development Questions</summary>
+
+<!-- Question 1 -->
+<p><strong>Question 1: </strong> Exercise set 5 exo 1 en manip</p>
+
+
+</details>
+
+<!-- Question 2 -->
+<p><strong>Question 2: </strong> Exercise set 5 exo 2 en manip</p>
+
+
+</details>
+
 
 ### Chapter 7: How to find Jacobian Matrix? | Solved Examples
 ![how to find Jacobian Matrix](https://www.youtube.com/watch?v=EdvAHmIONMs&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=13)
