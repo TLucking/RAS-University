@@ -379,8 +379,10 @@ Hint: use the homogeneous matrices of the following transformations:
   <p>
   2. <strong>Homogeneous Matrices for Each Joint:</strong>  
     - Homogeneous matrix corresponding to the rotation \( q_2 \) around the point \( P_{10} \) with coordinates \((L_1, 0)\).  
-    - Homogeneous matrix corresponding to the rotation \( q_1 \) around the origin.  
+    - Homogeneous matrix corresponding to the rotation \( q_1 \) around the origin. 
+  </p> 
 
+  <p>
   3. <strong>Final Transformation:</strong>  
     The direct geometric model is obtained by multiplying the sequence of homogeneous matrices, starting  
     with the last transformation and moving towards the first, as explained in the lecture.  
@@ -582,7 +584,7 @@ In this next video, you will explore another example of inverse kinematics using
   <summary>Mathematical Development Questions</summary>
 
 <!-- Question 1 -->
-<p><strong>Question 1: </strong> Find the IGM (Inverse geometric model) of a 2DOF planar robot (see figure below): given x and y, what are \(theta_1\) and \(theta_2\)?</p>
+<p><strong>Question 1: </strong> Find the IGM (Inverse geometric model) of a 2DOF planar robot (see figure below): given x and y, what are \(θ_1\) and \(θ_2\)?</p>
 
 $
 x = L_1 \cos{\theta_1} + L_2 \cos{(\theta_1 + \theta_2)}
@@ -603,15 +605,15 @@ one of the sum of squares of sine and cosine.
 
 </details>
 
-## Chapter 6: Velocity Kinematics
+### Chapter 6: Velocity Kinematics
 ![Velocity Kinematics & Jacobian Matrix](https://www.youtube.com/watch?v=Wud3aCXiSm8&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=11)
 
 ![Velocity Kinematics & Manipulability Ellipsoids](https://www.youtube.com/watch?v=gdSTcJwf3L0&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=12)
 
-## Chapter 7: How to find Jacobian Matrix? | Solved Examples
+### Chapter 7: How to find Jacobian Matrix? | Solved Examples
 ![how to find Jacobian Matrix](https://www.youtube.com/watch?v=EdvAHmIONMs&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=13)
 
-## Chapter 8: Robot Singularities & how to find them
+### Chapter 8: Robot Singularities & how to find them
 ![Robot Singularities & how to find them](https://www.youtube.com/watch?v=WXEOr7X2bPE&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=14)
 
 <!-- 
