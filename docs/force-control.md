@@ -678,6 +678,7 @@ function checkAnswer(exerciseNum) {
     feedback.style.color = "red";
   }
 }
+</script>
 
 </body>
 </html>
