@@ -202,9 +202,29 @@ where:
 
 This equation governs how the robot yields to or resists external forces. A high $k_d$ makes the robot stiffer, resisting deviations from $x_r$; a high $b_d$ suppresses oscillations; and a high $m_d$ adds inertia to sudden force changes. The system doesn’t track force — the force arises naturally through this interaction law.
 
-![fig3.5]({{ site.baseurl }}/assets/images/Force/impedance_3.png)(Fig 3.5. A robotic manipulator in contact with the environment using impedance control principle)
-
 Hence, by controlling the impedance of the robot we can manipulate the behavior of the end-effector depending on the interaction with the environment. For example, we can set very low impedance (or high compliance) and make it act like a very loose spring or we can set the stiffness very high where the robot would only move to the desired position without much oscillation.
+
+But how is this mechanical behavior actually implemented in a robot? More specifically, how do we compute the joint torques $\tau$ that produce a response matching this desired impedance?
+
+The key idea is to design a control law that cancels the robot’s internal dynamics and replaces them with the behavior of a virtual mass-spring-damper system. This is typically done in task space using the following impedance-control algorithm:
+$$
+\tau = J^T(\theta) \left( \tilde{\Lambda}(\theta)\ddot{x} + \tilde{\eta}(\theta, \dot{x}) - (M\ddot{x} + B\dot{x} + Kx) \right) \tag{3.6}
+$$
+
+Here:
+\begin{itemize}
+  \item $\tau$ is the commanded joint torque,
+  \item $J(\theta)$ is the manipulator Jacobian,
+  \item $\tilde{\Lambda}(\theta)\ddot{x} + \tilde{\eta}(\theta, \dot{x})$ represents a model-based estimate of the robot’s actual dynamics (inertia, Coriolis, and gravity effects),
+  \item $M$, $B$, and $K$ are the virtual impedance parameters — the desired inertia, damping, and stiffness,
+  \item $(M\ddot{x} + B\dot{x} + Kx)$ defines the force that would arise if the robot behaved like the desired mechanical system.
+\end{itemize}
+
+![fig3.3]({{ site.baseurl }}/assets/images/Force/impedance_1.png)(Fig 3.3 Diagram to describe impedance control)
+
+This controller ensures that the end-effector behaves as if it were part of a virtual mechanical environment. When contact occurs, the response will reflect the tuned virtual dynamics — not necessarily the real robot’s native dynamics. For instance, you can make a light robot behave like a massive, heavily damped system, enhancing safety and predictability during contact.
+
+This control strategy can be visualized as compensating for the robot's true dynamics while injecting the desired mechanical impedance behavior.
 
 ![Illustrative example 1](https://youtu.be/KJ8s1BUHoks)
 ![Illustrative example 2](https://www.youtube.com/watch?v=WS1gSRcJbJQ)
