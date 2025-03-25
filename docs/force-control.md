@@ -84,6 +84,45 @@ This feedback formulation enables the robot to track the desired contact force e
 
 <h2>⚙️ Exercise 4: Passive vs. Active Interaction Control</h2>
 <p>Drag each item into the correct category below:</p>
+
+<style>
+  .drag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .drop-zone {
+    border: 2px dashed #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    min-height: 150px;
+    width: 45%;
+    background-color: #f9f9f9;
+  }
+
+  .drag-item {
+    background-color: #e3e3e3;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: move;
+    user-select: none;
+    margin: 4px;
+  }
+
+  .check-button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+
+  .feedback {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+</style>
+
 <div class="drag-container">
   <div class="drop-zone" id="passive4" ondrop="drop(event)" ondragover="allowDrop(event)">
     <h3>🟦 Passive Interaction Control</h3>
@@ -92,23 +131,50 @@ This feedback formulation enables the robot to track the desired contact force e
     <h3>🟨 Active Interaction Control</h3>
   </div>
 </div>
+
 <div class="drag-container" id="drag-items-4">
-  <div class="drag-item" draggable="true">don’t “sense” or adjust – they just deform</div>
-  <div class="drag-item" draggable="true">requires the measurement of the contact force and moment</div>
-  <div class="drag-item" draggable="true">Simpler and cheap</div>
-  <div class="drag-item" draggable="true">involve feedback to a stable controller in order to deliberately adjust force</div>
-  <div class="drag-item" draggable="true">Limited to its design characteristics</div>
-  <div class="drag-item" draggable="true">more precise and versatile (you can program different force targets)</div>
-  <div class="drag-item" draggable="true">the preprogrammed trajectory of the end-effector must not be changed at execution time → can only deal with small position and orientation deviations of the programmed trajectory</div>
-  <div class="drag-item" draggable="true">More expensive</div>
-  <div class="drag-item" draggable="true">Fast</div>
-  <div class="drag-item" draggable="true">Slower</div>
-  <div class="drag-item" draggable="true">it can not guarantee that high contact forces will never occur.</div>
+  <div class="drag-item" draggable="true" ondragstart="drag(event)">don’t “sense” or adjust – they just deform</div>
+  <div class="drag-item" draggable="true" ondragstart="drag(event)">requires the measurement of the contact force and moment</div>
+  <div class="drag-item" draggable="true" ondragstart="drag(event)">Simpler and cheap</div>
+  <div class="drag-item" draggable="true" ondragstart="drag(event)">involve feedback to a stable controller in order to deliberately adjust force</div>
+  <div class="drag-item" draggable="true" ondragstart="drag(event)">Limited to its design characteristics</div>
+  <div class="drag-item" draggable="true" ondragstart="drag(event)">more precise and versatile (you can program different force targets)</div>
+  <div class="drag-item" draggable="true" ondragstart="drag(event)">the preprogrammed trajectory of the end-effector must not be changed at execution time → can only deal with small position and orientation deviations of the programmed trajectory</div>
+  <div class="drag-item" draggable="true" ondragstart="drag(event)">More expensive</div>
+  <div class="drag-item" draggable="true" ondragstart="drag(event)">Fast</div>
+  <div class="drag-item" draggable="true" ondragstart="drag(event)">Slower</div>
+  <div class="drag-item" draggable="true" ondragstart="drag(event)">it can not guarantee that high contact forces will never occur.</div>
 </div>
+
 <button class="check-button" onclick="checkInteractionControlAnswer()">Check Answer</button>
 <div class="feedback" id="feedback4"></div>
 
 <script>
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
+
+  function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.innerHTML);
+    ev.dataTransfer.setData("id", ev.target.id);
+    ev.dataTransfer.setData("class", ev.target.className);
+    ev.dataTransfer.effectAllowed = "move";
+  }
+
+  function drop(ev) {
+    ev.preventDefault();
+    const data = ev.dataTransfer.getData("text");
+    const className = ev.dataTransfer.getData("class");
+
+    const newNode = document.createElement("div");
+    newNode.className = className;
+    newNode.draggable = true;
+    newNode.ondragstart = drag;
+    newNode.innerHTML = data;
+
+    ev.target.appendChild(newNode);
+  }
+
   function checkInteractionControlAnswer() {
     const passiveCorrect = [
       "don’t “sense” or adjust – they just deform",
@@ -142,6 +208,7 @@ This feedback formulation enables the robot to track the desired contact force e
     }
   }
 </script>
+
 
 * Active Interaction Control: This type of control involves actively applying forces/moments to manipulate the environment. This type of control may make use of sensors, feedback controls to generate forces/moments that is appropriate. It is commonly used in tasks that require precision control like assembly, manipulation and where the robot has to actively push, grasp or move objects in the environment.
 * Passive Interaction Control: It involves designing the robot or its end-effector to be compliant to external forces. Instead of active force application, mechanical design or the compliance of the robot allows it to naturally respond to external forces. Compliant materials such as springs, soft materials can be used for such use. By passive absorption or by dampening external forces safe and adaptive interaction with the environment is enabled. This type of control is common where human robot interaction is involved and sometimes it is used in combination with active based control.
@@ -212,13 +279,12 @@ $$
 $$
 
 Here:
-\begin{itemize}
-  \item $\tau$ is the commanded joint torque,
-  \item $J(\theta)$ is the manipulator Jacobian,
-  \item $\tilde{\Lambda}(\theta)\ddot{x} + \tilde{\eta}(\theta, \dot{x})$ represents a model-based estimate of the robot’s actual dynamics (inertia, Coriolis, and gravity effects),
-  \item $M$, $B$, and $K$ are the virtual impedance parameters — the desired inertia, damping, and stiffness,
-  \item $(M\ddot{x} + B\dot{x} + Kx)$ defines the force that would arise if the robot behaved like the desired mechanical system.
-\end{itemize}
+  * $\tau$ is the commanded joint torque,
+  * $J(\theta)$ is the manipulator Jacobian,
+  * $\tilde{\Lambda}(\theta)\ddot{x} + \tilde{\eta}(\theta, \dot{x})$ represents a model-based estimate of the robot’s actual dynamics (inertia, Coriolis, and gravity effects),
+  * $M$, $B$, and $K$ are the virtual impedance parameters — the desired inertia, damping, and stiffness,
+  * $(M\ddot{x} + B\dot{x} + Kx)$ defines the force that would arise if the robot behaved like the desired mechanical system.
+
 
 ![fig3.3]({{ site.baseurl }}/assets/images/Force/impedance_1.png)(Fig 3.3 Diagram to describe impedance control)
 
@@ -484,7 +550,7 @@ This structure allows the robot to behave appropriately in tasks with partial co
 <p>Drag each axis into the correct constraint category..</p>
 
 <h3>Sliding on a Flat Surface</h3>
-<img class="example-image" src="assets/images/Force/flat.png" alt="Peg insertion">
+<img class="example-image" src="{{ site.baseurl }}assets/images/Force/flat.png">
 <div class="drag-container" id="drag-items">
   <div class="drag-item" draggable="true">&dot;p<sub>z</sub><sup>c</sup></div>
   <div class="drag-item" draggable="true">&omega;<sub>x</sub><sup>c</sup></div>
@@ -513,7 +579,7 @@ This structure allows the robot to behave appropriately in tasks with partial co
 <div class="feedback" id="feedback"></div>
 
 <h3>Peg Insertion</h2>
-<img class="example-image" src="assets/images/Force/peg.png" alt="Peg insertion">
+<img class="example-image" src="{{ site.baseurl }}assets/images/Force/peg.png">
 <div class="drag-container">
   <div class="drop-zone" id="natural2" ondrop="drop(event)" ondragover="allowDrop(event)">
     <h3>🟦 Natural Constraints</h3>
@@ -540,7 +606,7 @@ This structure allows the robot to behave appropriately in tasks with partial co
 <div class="feedback" id="feedback2"></div>
 
 <h3>Crank Rotation</h3>
-<img class="example-image" src="assets/images/Force/rotation.png" alt="Crank rotation example">
+<img class="example-image" src="{{ site.baseurl }}assets/images/Force/rotation.png">
 <div class="drag-container">
   <div class="drop-zone" id="natural3" ondrop="drop(event)" ondragover="allowDrop(event)">
     <h3>🟦 Natural Constraints</h3>
@@ -564,58 +630,54 @@ This structure allows the robot to behave appropriately in tasks with partial co
 </div>
 <button class="check-button" onclick="checkAnswer(3)">Check Answer</button>
 <div class="feedback" id="feedback3"></div>
+
+
 <script>
-  function allowDrop(ev) {
-    ev.preventDefault();
-  }
+function allowDrop(ev) {
+  ev.preventDefault();
+}
 
-  function drop(ev) {
-    ev.preventDefault();
-    const data = ev.dataTransfer.getData("text");
-    ev.target.closest(".drop-zone").insertAdjacentHTML("beforeend", data);
-    const draggedItem = document.querySelector('.drag-item[style*="display: none"]');
-    if (draggedItem) draggedItem.remove();
-  }
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.outerHTML);
+  ev.target.style.display = "none";
+}
 
-  function checkAnswer(exerciseNum) {
-    const feedback = document.getElementById("feedback" + exerciseNum);
+function drop(ev) {
+  ev.preventDefault();
+  const data = ev.dataTransfer.getData("text");
+  ev.target.insertAdjacentHTML("beforeend", data);
+}
 
-    const answers = {
-      1: {
-        natural: ["&dot;p<sub>z</sub><sup>c</sup>", "&omega;<sub>x</sub><sup>c</sup>", "&omega;<sub>y</sub><sup>c</sup>"],
-        artificial: ["f<sub>x</sub><sup>c</sup>", "f<sub>y</sub><sup>c</sup>", "&mu;<sub>z</sub><sup>c</sup>", "f<sub>z</sub><sup>c</sup>", "&dot;p<sub>x</sub><sup>c</sup>", "&dot;p<sub>y</sub><sup>c</sup>", "&mu;<sub>x</sub><sup>c</sup>", "&mu;<sub>y</sub><sup>c</sup>", "&omega;<sub>z</sub><sup>c</sup>"]
-      },
-      2: {
-        natural: ["&dot;p<sub>x</sub><sup>c</sup>", "&dot;p<sub>y</sub><sup>c</sup>", "&omega;<sub>x</sub><sup>c</sup>", "&omega;<sub>y</sub><sup>c</sup>", "f<sub>z</sub><sup>c</sup>", "&mu;<sub>z</sub><sup>c</sup>"],
-        artificial: ["f<sub>x</sub><sup>c</sup>", "f<sub>y</sub><sup>c</sup>", "&mu;<sub>x</sub><sup>c</sup>", "&mu;<sub>y</sub><sup>c</sup>", "&dot;p<sub>z</sub><sup>c</sup>", "&omega;<sub>z</sub><sup>c</sup>"]
-      },
-      3: {
-        natural: ["&dot;p<sub>x</sub><sup>c</sup>", "&dot;p<sub>z</sub><sup>c</sup>", "&omega;<sub>x</sub><sup>c</sup>", "&omega;<sub>y</sub><sup>c</sup>", "f<sub>x</sub><sup>c</sup>", "f<sub>z</sub><sup>c</sup>", "&mu;<sub>x</sub><sup>c</sup>", "&mu;<sub>y</sub><sup>c</sup>"],
-        artificial: ["f<sub>y</sub><sup>c</sup>", "&dot;p<sub>y</sub><sup>c</sup>", "&omega;<sub>z</sub><sup>c</sup>"]
-      }
-    };
+function checkAnswer(exerciseNum) {
+  const feedback = document.getElementById("feedback" + exerciseNum);
 
-    const naturalZone = document.querySelector('#natural' + exerciseNum);
-    const artificialZone = document.querySelector('#artificial' + exerciseNum);
-
-    const userNatural = Array.from(naturalZone.querySelectorAll('.drag-item')).map(e => e.innerHTML.trim());
-    const userArtificial = Array.from(artificialZone.querySelectorAll('.drag-item')).map(e => e.innerHTML.trim());
-
-    const correctNatural = answers[exerciseNum].natural;
-    const correctArtificial = answers[exerciseNum].artificial;
-
-    const allNaturalCorrect = userNatural.every(item => correctNatural.includes(item)) && userNatural.length === correctNatural.length;
-    const allArtificialCorrect = userArtificial.every(item => correctArtificial.includes(item)) && userArtificial.length === correctArtificial.length;
-
-    if (allNaturalCorrect && allArtificialCorrect) {
-      feedback.textContent = "✅ Correct! Well done.";
-      feedback.style.color = "green";
-    } else {
-      feedback.textContent = "❌ Not quite. Try again!";
-      feedback.style.color = "red";
+  const answers = {
+    1: {
+      natural: ["&dot;p<sub>z</sub><sup>c</sup>", "&omega;<sub>x</sub><sup>c</sup>", "&omega;<sub>y</sub><sup>c</sup>"],
+      artificial: ["f<sub>x</sub><sup>c</sup>", "f<sub>y</sub><sup>c</sup>", "&mu;<sub>z</sub><sup>c</sup>", "f<sub>z</sub><sup>c</sup>", "&dot;p<sub>x</sub><sup>c</sup>", "&dot;p<sub>y</sub><sup>c</sup>", "&mu;<sub>x</sub><sup>c</sup>", "&mu;<sub>y</sub><sup>c</sup>", "&omega;<sub>z</sub><sup>c</sup>"]
     }
+  };
+
+  const naturalZone = document.querySelector('#natural' + exerciseNum);
+  const artificialZone = document.querySelector('#artificial' + exerciseNum);
+
+  const userNatural = Array.from(naturalZone.querySelectorAll('.drag-item')).map(e => e.innerHTML.trim());
+  const userArtificial = Array.from(artificialZone.querySelectorAll('.drag-item')).map(e => e.innerHTML.trim());
+
+  const correctNatural = answers[exerciseNum].natural;
+  const correctArtificial = answers[exerciseNum].artificial;
+
+  const allNaturalCorrect = userNatural.every(item => correctNatural.includes(item)) && userNatural.length === correctNatural.length;
+  const allArtificialCorrect = userArtificial.every(item => correctArtificial.includes(item)) && userArtificial.length === correctArtificial.length;
+
+  if (allNaturalCorrect && allArtificialCorrect) {
+    feedback.textContent = "✅ Correct! Well done.";
+    feedback.style.color = "green";
+  } else {
+    feedback.textContent = "❌ Not quite. Try again!";
+    feedback.style.color = "red";
   }
-</script>
+}
 
 </body>
 </html>
