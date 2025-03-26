@@ -10,11 +10,12 @@ math: mathjax
 
 # Kinematics
 
+<!-- bundle exec jekyll serve -->
+
 - Table of Contents
 {:toc}
 
 ## 1. Prerequisites
-
 To get the most out of this Kinematics module, it’s helpful to have:
 
 1. **Basic Mathematics**  
@@ -346,6 +347,22 @@ Understanding this concept is powerful because it provides deeper insight into r
 
 Let's get familiriar with this type of method doing similar exercise:
 
+<!-- Mathematical Development Questions -->
+<details markdown="1">
+  <summary>Mathematical Development Questions v2</summary>
+
+Practice what you've learned with Exercises **1**,**2** and **3**.
+
+
+<iframe src="{{ site.baseurl }}{{'/assets/pdfs/kinematics/Exercise_set_4_1-3.pdf'}}" width="100%" height="600px"></iframe>
+
+<details markdown="2">
+<summary><strong>Click here for Solutions</strong></summary>
+<iframe src="{{ site.baseurl }}{{'/assets/pdfs/kinematics/Solution_set_4_1-3.pdf'}}" width="100%" height="600px"></iframe>
+</details>
+
+</details>
+
 
 <!-- Mathematical Development Questions -->
 <details markdown="1">
@@ -529,7 +546,8 @@ Hint: use the homogeneous matrices of the following transformations:
 
 ### Chapter 4: Collision Detection using Homogeneous Transforms  
 
-In this chapter, we'll explore how **collision detection** between robots can be performed using homogeneous transformations. Specifically, you'll compute a new homogeneous transformation matrix that describes the relationship between two end-effectors, given two separate transformation matrices (\(H_1\) and \(H_2\)). This new matrix will provide the relative distances \(d_x\) and \(d_y\) between the two end-effectors. When both \(d_x\) and \(d_y\) become zero, it indicates that the two robots are in collision.
+In this chapter, we’ll explore how **collision detection** between robots can be performed using homogeneous transformations. Specifically, you’ll compute a new homogeneous transformation matrix that describes the relationship between two end-effectors, given two separate transformation matrices ($H_1$ and $H_2$). This new matrix will provide the relative distances $d_x$ and $d_y$ between the two end-effectors. When both $d_x$ and $d_y$ become zero, it indicates that the two robots are in collision.
+
 
 Watch the following video to see this concept illustrated clearly:
 
@@ -602,6 +620,11 @@ one of the sum of squares of sine and cosine.
 
 ![examples]({{ site.baseurl }}/assets/images/kinematics/inv.png)
 
+
+<details markdown="2">
+<summary><strong>Click here for Solutions</strong></summary>
+<iframe src="{{ site.baseurl }}{{'/assets/pdfs/kinematics/Solution_set_4_3.pdf'}}" width="100%" height="600px"></iframe>
+</details>
 
 </details>
 
@@ -680,29 +703,103 @@ Check it this video here:
 
 </details>
 
+Now that you've understood the exciting concept of the Jacobian, let's practice calculating it ourselves! Follow along with this detailed solved example in the video below, and then reinforce your skills with some hands-on exercises. Give it a try! 
+
+![how to find Jacobian Matrix](https://www.youtube.com/watch?v=EdvAHmIONMs&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=13)
+
 
 <!-- Mathematical Development Questions -->
 <details markdown="1">
   <summary>Mathematical Development Questions</summary>
 
-<!-- Question 1 -->
-<p><strong>Question 1: </strong> Exercise set 5 exo 1 en manip</p>
+Practice what you've learned with Exercises **1** and **2** below.
+*(Note: Exercise 2.8 on finding singularities will be introduced in the next video.)*
 
+
+<iframe src="{{ site.baseurl }}{{'/assets/pdfs/kinematics/Exercise_set_5.pdf'}}" width="100%" height="600px"></iframe>
+
+<details markdown="2">
+<summary><strong>Click here for Solutions</strong></summary>
+<iframe src="{{ site.baseurl }}{{'/assets/pdfs/kinematics/Solution_set_5.pdf'}}" width="100%" height="600px"></iframe>
+</details>
 
 </details>
+
+
+### Chapter 7: Robot Singularities & how to find them
+
+Singularities occur when a robot configuration causes it to lose the ability to move or become blocked in certain directions. Understanding and identifying these singularities is essential to safe and efficient robot operation.
+
+Watch the video below to clearly grasp what robot singularities are and how you can find them:
+
+![Robot Singularities & how to find them](https://www.youtube.com/watch?v=WXEOr7X2bPE&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=14)
+
+For *serial manipulators*, the singular positions result from the l**oss of degrees of freedom** while in a *parallel manipulator*, they result of the **gain of one or more degrees of freedom**. Most of the time, passing through a singularity causes **over constraint**, to then inducing the loss of control of one or more degrees of freedom. Which means, not controllable, which is not good. 
+
+<!-- Conceptual Questions -->
+<details markdown="1">
+  <summary>Conceptual Questions</summary>
+
+<!-- Question 1 -->
+<p><strong>Question 1: What condition must be satisfied to identify a robot's singularity ? det(J) = ...</strong></p>
+<form id="q1-sing">
+  <input type="radio" name="q1-sing" value="I"> Identity Matrix<br>
+  <input type="radio" name="q1-sing" value="0"> 0<br>
+  <input type="radio" name="q1-sing" value="non0"> Non-zero value<br>
+
+  <button type="button" onclick="checkMCQ('q1-sing', '0', 
+    'Correct! The determinant det(J) must equal 0 to identify singularities.', 
+    'Incorrect. Try again!')">
+    Check Answer
+  </button>
+
+  <p id="q1-sing-feedback"></p>
+</form>
 
 <!-- Question 2 -->
-<p><strong>Question 2: </strong> Exercise set 5 exo 2 en manip</p>
+**Question 2:** Consider the following Delta robot:
+
+![Delta robot]({{ site.baseurl }}/assets/images/kinematics/delta_robot.png)
+
+Which of the following diagrams represent singularities of this Delta robot? *(Multiple answers possible)*
+
+![Singularities of Delta robot]({{ site.baseurl }}/assets/images/kinematics/delta_robot_sing.png)
+
+<form id="q2-sing">
+  <input type="checkbox" name="q2-sing" value="a"> <strong>a)</strong> When the 6 bars (3 pairs) are all parallel in the same direction<br>
+  <input type="checkbox" name="q2-sing" value="b"> <strong>b)</strong> When 4 bars (2 pairs) are parallel<br>
+  <input type="checkbox" name="q2-sing" value="c"> <strong>c)</strong> When 4 bars (2 pairs) lie in the same plane or two parallel planes<br>
+  <input type="checkbox" name="q2-sing" value="d"> <strong>d)</strong> When the 3 parallelograms are arranged in three parallel or coincident planes<br><br>
+
+  <button type="button" onclick="checkMultipleAnswers('q2-sing', ['a', 'b', 'c', 'd'], 
+    'Correct! All four diagrams represent singularities of the Delta robot.<br><br>
+    <ul>
+      <li><strong>(a)</strong> The nacelle (platform connected by 6 bars) moves on a spherical surface and undesirably rotates around the vertical axis.</li>
+      <li><strong>(b)</strong> The nacelle retains only one degree of freedom, allowing movement along an arc of a circle.</li>
+      <li><strong>(c)</strong> The nacelle has one degree of freedom, rotating around the axis connecting the joints between the nacelle and the other two bars.</li>
+      <li><strong>(d)</strong> The nacelle acquires three degrees of freedom: two undesired rotations around horizontal axes within its plane, and a small translation perpendicular to that plane.</li>
+    </ul>
+    ', 
+    'Incorrect. Try again!')">
+    Check Answer
+  </button>
+
+  <p id="q2-sing-feedback"></p>
+</form>
+
+
 
 
 </details>
 
 
-### Chapter 7: How to find Jacobian Matrix? | Solved Examples
-![how to find Jacobian Matrix](https://www.youtube.com/watch?v=EdvAHmIONMs&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=13)
+<!-- Mathematical Development Questions -->
+<details markdown="1">
+  <summary>Mathematical Development Questions</summary>
 
-### Chapter 8: Robot Singularities & how to find them
-![Robot Singularities & how to find them](https://www.youtube.com/watch?v=WXEOr7X2bPE&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=14)
+Now, you can apply what you've learned by solving **Exercise 2.8** from the previous exercise set !
+
+</details>
 
 <!-- 
 ## Exercises
@@ -969,6 +1066,36 @@ Any 3D rotation can be expressed as a product of these fundamental rotations.
 
 Quaternions provide a non-singular way to interpolate and compute 3D orientations, often used in control and simulation. -->
 
+## Programming
+
+## Programming
+
+Let's move on to maybe the most exciting part: applying the kinematics concepts you've learned in code and seeing your robot working right in front of you!
+
+*(Please refer to the **Install Webots** section if you haven't installed it yet.)*
+
+
+### Step 1: Setup your environment
+
+1. 📁 [Download the `irl` folder](./assets/downloads/irl.zip)
+2. Extract the downloaded `.zip` file.
+3. Launch Webots. From the top-left corner select **File → Open World**.
+4. Navigate to the extracted `irl/worlds` folder and select your `.wbt` file.
+
+
+
+### Step 2: Let's start coding!
+
+Once successfully opened, your robot and its environment should appear, as illustrated in the screenshot below:
+
+<img src="{{ site.baseurl }}{{ '/assets/images/kinematics/webot_kin.png' }}" width="500px" alt="Kinematics Image">
+
+
+Now, follow the instructions provided on the right side panel within Webots, and complete the code to make your robot move.
+
+Once you've implemented all the "TODO" sections, click "Build" to compile your project, and then start the simulation.
+
+**Good luck and have fun!**
 
 ## Ressources
 

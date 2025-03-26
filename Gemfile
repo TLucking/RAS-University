@@ -8,3 +8,6 @@ gem "just-the-docs", "0.10.1" # pinned to the current release
 
 # Add the plugin here
 gem 'jekyll-spaceship', group: :jekyll_plugins
+
+# Silence the "bigdecimal" warning
+gem 'bigdecimal'
