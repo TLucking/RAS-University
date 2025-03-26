@@ -2,7 +2,6 @@
 title: Vision for Robotics
 parent: Courses
 layout: default
-math: mathjax
 ---
 # Vision for Robotics {#start}
 
@@ -10,40 +9,31 @@ math: mathjax
 {:toc}
 
 
-![img-description]({{ site.baseurl }}/assets/images/Screenshot%20from%202025-03-01%2018-54-00.png)
+![img-description]({{ site.baseurl }}/assets/images/Vision/Vision_intro.png)
 
 ## Motivation
 
 Cameras have become one of the most accessible and data-rich sensors for robots, offering a wealth of visual information compared to traditional positioning or distance sensors. Advances in hardware and algorithms, such as RGB-D cameras and visual-inertial fusion techniques, have significantly improved robot perception. In navigation, robots use vision to detect obstacles, estimate trajectories, and build 3D maps of their environment. For grasping, visual data helps identify objects, estimate their pose, and determine how to interact with them. The following sections will explore the geometric foundations of 3D vision and its applications in robotic grasping.
 
 
-## Ressources
-
-### Books
-
-- [Springer Handbook of Robotics ](https://link.springer.com/chapter/10.1007/978-3-319-32552-1_32) (Chapter 32. 3-D Vision for Navigation and Grasping)
-
-- [Springer Handbook of Robotics ](https://link.springer.com/chapter/10.1007/978-3-319-32552-1_34) (Chapter 34. Visual Servoing)
-
-- [Robotic Manipulation](https://manipulation.csail.mit.edu/pose.html) (Chapter 4. Geometric Pose Estimation)
-
-### Videos
-
-- [Intro to Machine Vision and Robotics - part 1](https://www.youtube.com/watch?v=SVcOWYfsBkc)
-
-- [Computer Vision](https://www.youtube.com/watch?v=DOf6ggQQ9ow&list=PLhwIOYE-ldwL6h-peJADfNm8bbO3GlKEy&index=1) (UC Berkley)
-
-- [Multiple View Geometry - Lecture 1 (Prof. Daniel Cremers)](https://www.youtube.com/watch?v=RDkwklFGMfo&list=PLTBdjV_4f-EJn6udZ34tht9EVIW7lbeo4) (TU Munchen)
-  
-- [First Principles of Computer Vision](https://www.youtube.com/@firstprinciplesofcomputerv3258) (Youtube Channel)
-  
-### Free Online Courses
-
-- [Vision Algorithms for Mobile Robotics](https://rpg.ifi.uzh.ch/teaching.html) (ETH)
-
-- [Computer Vision](http://www.vision.rwth-aachen.de/course/11/) (RWTH Aachen)
-
 ## Chapter 0 : Introduction
+Welcome to this introduction on how a camera projects the three-dimensional (3D) world onto a two-dimensional (2D) image plane. We will discuss how to describe a point in 3D space with respect to a camera coordinate system and how these 3D points get projected into pixel coordinates on an image. We will then move on to intrinsic calibration and the issue of lens distortion.
+
+By the end of this chapter, you should understand:
+
+- How a 3D point is mapped to a 2D image (the pinhole camera model).
+
+- How we define intrinsic and extrinsic camera parameters.
+
+- How lens distortion can affect the image and how it is modeled.
+
+We will keep the mathematical notation to a minimum but include enough details to grasp the core ideas. Small exercises are included to reinforce these concepts.
+
+This course closely follows the Chapter 32: 3-D Vision for Navigation and Grasping from the book *Springer Handbook of Robotics*. Which can be read below.
+
+<iframe src="{{ site.baseurl }}{{'/assets/pdfs/Vision/nav-vision.pdf'}}" width="100%" height="600px"></iframe>
+
+Here are 2 introduction videos to help understand the core problem.
 
 ![Intro to Machine Vision and Robotics - part 1](https://www.youtube.com/watch?v=SVcOWYfsBkc)
 
@@ -51,12 +41,59 @@ Cameras have become one of the most accessible and data-rich sensors for robots,
 
 ## Chapter 1: Geometric Vision {#chapter-1-vision}
 
+### Chapter 1.1: Camera and World Coordinate Systems 
 
-<iframe src="{{ site.baseurl }}{{'/assets/pdfs/nav-vision.pdf'}}" width="100%" height="600px"></iframe>
+Suppose there is a point in the real world, denoted as $(X,Y,Z)$. In order to describe how this point appears to a camera, we need to specify its location relative to the camera’s coordinate system. Usually, we place the camera coordinate system at its center of projection (roughly at the camera’s pinhole or main lens center) such that the $Z$-axis goes straight out from the camera (the optical axis).
+
+#### Transforming From World Coordinates to Camera Coordinates
+
+Let:
+
+- $X_{world}=(X,Y,Z)^T$ be the coordinates of the point in the world’s coordinate system.
+
+- $X_{ci}=(X_{ci},Y_{ci},Z_{ci})^T$ be the coordinates of the same point in the camera cici​’s coordinate system.
+
+The two sets of coordinates are related by:
+
+$$
+\begin{bmatrix}
+X_{ci} \cr
+Y_{ci} \cr
+Z_{ci}
+\end{bmatrix} = R_i * 
+\begin{bmatrix}
+X \cr
+Y \cr
+Z
+\end{bmatrix} + T_i,
+$$
+
+where:
+
+- $R_i$ is a $3 \times 3$ *rotation matrix* describing how the axes of the world coordinate system relate to the camera’s axes. Because it’s a rotation matrix, $R_i^T R_i = I$ and $\det(R_i) = 1$.
+- $T_i$ is a *translation vector* describing the shift from the camera’s origin to the world’s origin (or vice versa, depending on convention).
+
+This transformation says:  
+*“Take the point in world coordinates, rotate it so that the axes align with those of the camera, then translate it so the camera’s center is at the origin.”*
 
 
+#### Projection Onto the Image Plane
 
-(This chapter comes from the book *Springer Handbook of Robotics*, Chapter 32: 3-D Vision for Navigation and Grasping)
+
+In the classical pinhole camera model, we project a 3D point $X_{ci} = (X_{ci}, Y_{ci}, Z_{ci})$ onto a 2D image plane. Typically, we assume the image plane is at $Z_{ci} = 1$. (In reality, camera sensors sit behind the pinhole/center of projection by some distance, but mathematically it is simpler to place a plane in front.)
+
+If $\mathbf{X}_{ci}$ lies in front of the camera, the *normalized* image coordinates $(x_i, y_i)$ (before going into actual pixel coordinates) are:
+
+$$
+x_i = \frac{X_{ci}}{Z_{ci}}, \quad
+y_i = \frac{Y_{ci}}{Z_{ci}}.
+$$
+
+The quantities $x_i$ and $y_i$ are often called *normalized coordinates* because we have divided by $Z_{ci}$.
+
+##### Intuitive Explanation
+
+Think of rays of light traveling from the 3D point in the scene, through the camera center, to the image plane. The intersection of that ray with the image plane is how you figure out the 2D image location. Mathematically, it boils down to dividing by $Z_{ci}$ in the simplest pinhole model.
 
 
 
@@ -65,7 +102,6 @@ Cameras have become one of the most accessible and data-rich sensors for robots,
 Camera calibration is the process of determining a camera’s intrinsic and extrinsic parameters to accurately map 3D world points to 2D image points. This step is crucial in computer vision, robotics, and augmented reality to correct distortions and enable accurate measurements.
 
 Types of Camera Parameters :
-
 
 
 | **Camera Parameters**  | **Description** | **Symbol** |
@@ -129,11 +165,38 @@ See corresponding chapter in the PDF [*Springer Handbook of Robotics*](#chapter-
 <details markdown="1">
   <summary>Solution</summary>
 
-  ![img-description]({{ site.baseurl }}/assets/images/ex1_1.png)
+  ![img-description]({{ site.baseurl }}/assets/images/Vision/ex1_1.png)
 
-  ![img-description]({{ site.baseurl }}/assets/images/ex1_2.png)
+  ![img-description]({{ site.baseurl }}/assets/images/Vision/ex1_2.png)
 
 </details>
+
+
+## Ressources
+
+### Books
+
+- [Springer Handbook of Robotics ](https://link.springer.com/chapter/10.1007/978-3-319-32552-1_32) (Chapter 32. 3-D Vision for Navigation and Grasping)
+
+- [Springer Handbook of Robotics ](https://link.springer.com/chapter/10.1007/978-3-319-32552-1_34) (Chapter 34. Visual Servoing)
+
+- [Robotic Manipulation](https://manipulation.csail.mit.edu/pose.html) (Chapter 4. Geometric Pose Estimation)
+
+### Videos
+
+- [Intro to Machine Vision and Robotics - part 1](https://www.youtube.com/watch?v=SVcOWYfsBkc)
+
+- [Computer Vision](https://www.youtube.com/watch?v=DOf6ggQQ9ow&list=PLhwIOYE-ldwL6h-peJADfNm8bbO3GlKEy&index=1) (UC Berkley)
+
+- [Multiple View Geometry - Lecture 1 (Prof. Daniel Cremers)](https://www.youtube.com/watch?v=RDkwklFGMfo&list=PLTBdjV_4f-EJn6udZ34tht9EVIW7lbeo4) (TU Munchen)
+  
+- [First Principles of Computer Vision](https://www.youtube.com/@firstprinciplesofcomputerv3258) (Youtube Channel)
+  
+### Free Online Courses
+
+- [Vision Algorithms for Mobile Robotics](https://rpg.ifi.uzh.ch/teaching.html) (ETH)
+
+- [Computer Vision](http://www.vision.rwth-aachen.de/course/11/) (RWTH Aachen)
 
 
 ## Additional content
@@ -143,7 +206,7 @@ See corresponding chapter in the PDF [*Springer Handbook of Robotics*](#chapter-
 <details markdown="1">
   <summary>See pdf</summary>
 
-  <iframe src="{{ site.baseurl }}{{'/assets/pdfs/01_Camera_Notation_Tutorial.pdf'}}" width="100%" height="600px"></iframe>
+  <iframe src="{{ site.baseurl }}{{'/assets/pdfs/Vision/01_Camera_Notation_Tutorial.pdf'}}" width="100%" height="600px"></iframe>
 
 </details>
 
@@ -152,7 +215,7 @@ See corresponding chapter in the PDF [*Springer Handbook of Robotics*](#chapter-
 <details markdown="1">
   <summary>See pdf</summary>
 
-  <iframe src="{{ site.baseurl }}{{'/assets/pdfs/02_SVD.pdf'}}" width="100%" height="600px"></iframe>
+  <iframe src="{{ site.baseurl }}{{'/assets/pdfs/Vision/02_SVD.pdf'}}" width="100%" height="600px"></iframe>
 
 </details>
 
