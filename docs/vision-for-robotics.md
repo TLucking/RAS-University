@@ -43,15 +43,20 @@ Here are 2 introduction videos to help understand the core problem.
 
 ### Chapter 1.1: Camera and World Coordinate Systems 
 
+Here is a youtube video explaining in a visual way the content of this chapter
+![](https://www.youtube.com/watch?v=qByYk6JggQU&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=2)
+
 Suppose there is a point in the real world, denoted as $(X,Y,Z)$. In order to describe how this point appears to a camera, we need to specify its location relative to the camera’s coordinate system. Usually, we place the camera coordinate system at its center of projection (roughly at the camera’s pinhole or main lens center) such that the $Z$-axis goes straight out from the camera (the optical axis).
 
-#### Transforming From World Coordinates to Camera Coordinates
+---
+
+#### **Transforming From World Coordinates to Camera Coordinates**
 
 Let:
 
 - $X_{world}=(X,Y,Z)^T$ be the coordinates of the point in the world’s coordinate system.
 
-- $X_{ci}=(X_{ci},Y_{ci},Z_{ci})^T$ be the coordinates of the same point in the camera cici​’s coordinate system.
+- $X_{ci}=(X_{ci},Y_{ci},Z_{ci})^T$ be the coordinates of the same point in the camera $ci$​’s coordinate system.
 
 The two sets of coordinates are related by:
 
@@ -76,8 +81,17 @@ where:
 This transformation says:  
 *“Take the point in world coordinates, rotate it so that the axes align with those of the camera, then translate it so the camera’s center is at the origin.”*
 
+<details markdown="1">
+  <summary>Conceptual questions</summary>
 
-#### Projection Onto the Image Plane
+  **Question 1** (True/False):
+  True or False: The transformation from world coordinates to camera coordinates involves both a rotation and a translation.
+
+</details>
+
+---
+
+#### **Projection Onto the Image Plane**
 
 
 In the classical pinhole camera model, we project a 3D point $X_{ci} = (X_{ci}, Y_{ci}, Z_{ci})$ onto a 2D image plane. Typically, we assume the image plane is at $Z_{ci} = 1$. (In reality, camera sensors sit behind the pinhole/center of projection by some distance, but mathematically it is simpler to place a plane in front.)
@@ -91,11 +105,118 @@ $$
 
 The quantities $x_i$ and $y_i$ are often called *normalized coordinates* because we have divided by $Z_{ci}$.
 
-##### Intuitive Explanation
 
-Think of rays of light traveling from the 3D point in the scene, through the camera center, to the image plane. The intersection of that ray with the image plane is how you figure out the 2D image location. Mathematically, it boils down to dividing by $Z_{ci}$ in the simplest pinhole model.
+>**Intuitive Explanation**
+>Think of rays of light traveling from the 3D point in the scene, through the camera center, to the image plane. The intersection of that ray with the image plane is >how you figure out the 2D image location. Mathematically, it boils down to dividing by $Z_{ci}$ in the simplest pinhole model.
 
+Question 1 (True/False):
+True or False: The transformation from world coordinates to camera coordinates involves both a rotation and a translation.
+Answer: True.
 
+Question 2 (Multiple Choice):
+What does the rotation matrix RiRi​ represent in the transformation equation?
+A) Scaling of the coordinates
+B) Rotation to align the world axes with the camera axes
+C) Translation from the world origin to the camera origin
+D) Shearing of the coordinate system
+Answer: B.
+
+---
+
+#### **From Normalized Coordinates to Pixel Coordinates**
+
+In a real camera, the image you get consists of pixels indexed by $(u_i, v_i)$. To bridge the gap between the continuous $(x_i, y_i)$ and discrete pixel $(u_i, v_i)$, we often use an affine transformation:
+
+$$
+u_i = f \, \alpha \, x_i + \beta \, y_i + c_u, \quad
+v_i = f \, y_i + c_v.
+$$
+
+Let’s break down these parameters:
+
+1. $f$: The focal length in pixels. It combines the physical focal length (in millimeters) and the sensor’s pixel size (in millimeters per pixel).
+
+2. $\alpha$: The aspect ratio, allowing for rectangular (non-square) pixels or different horizontal vs. vertical sampling rates.
+
+3. $\beta$: The skew factor. In an ideal camera, $\beta$ is zero. In real cameras where the sensor or read-out lines might be slightly tilted, $\beta$ can model that small shear.
+
+4. $(c_u, c_v)$: The principal point, or image center. It is where the optical axis (the camera’s $Z$-axis) intersects the image plane, expressed in pixel coordinates.
+
+These parameters are called the *intrinsic parameters* of the camera. Determining them precisely is known as **intrinsic calibration** (How to find them will be seen in the next chapter )
+
+Question 1 (True/False):
+True or False: The conversion from normalized coordinates to pixel coordinates involves intrinsic parameters such as the focal length, aspect ratio, skew factor, and the image center.
+Answer: True.
+
+Question 2 (Multiple Choice):
+In the affine transformation ui=f α xi+β yi+cuui​=fαxi​+βyi​+cu​, which parameter determines the horizontal position of the image center?
+A) ff
+B) αα
+C) cucu​
+D) ββ
+Answer: C.
+
+---
+
+#### **Lens Distortion**
+
+Many practical camera systems, especially with wide-angle or fisheye lenses, introduce significant *radial distortion*. If you have ever seen lines near the edges of a photo curve outward (*"barrel distortion"*) or inward (*"pincushion distortion"*), that is due to lens imperfections.
+
+A common way to model this is by adding polynomial correction terms that depend on $(r^2, r^4, r^6, \dots)$, where $r^2 = x_i^2 + y_i^2$. Thus, the distorted coordinates $(x_i^{\text{dist}}, y_i^{\text{dist}})$ become something like:
+
+$$
+x_i^{\text{dist}} = x_i \left(1 + k_1 r^2 + k_2 r^4 + k_3 r^6 + \dots \right),
+$$
+
+$$
+y_i^{\text{dist}} = y_i \left(1 + k_1 r^2 + k_2 r^4 + k_3 r^6 + \dots \right).
+$$
+
+The coefficients $k_1, k_2, k_3, \dots$ are additional parameters to be calibrated, especially for wide-angle lenses.
+
+Question 1 (True/False):
+True or False: Radial lens distortion is modeled by applying a polynomial function to the normalized coordinates based on their distance from the image center.
+Answer: True.
+
+Question 2 (Multiple Choice):
+In the context of lens distortion, what does the variable rr represent?
+A) rr is the ratio of xixi​ and yiyi​
+B) rr is the focal length in pixels
+C) rr is the radial distance from the image center, defined as xi2+yi2xi2​+yi2​
+​
+D) rr is one of the distortion coefficients
+Answer: C.
+
+---
+
+#### **Putting It All Together: Calibrated Systems**
+
+When we say a system is *calibrated*, it typically means:
+
+1. We know the *intrinsic parameters* ($f, \alpha, \beta, c_u, c_v, k_1, k_2, \dots$).
+
+2. We know how the camera is positioned in some *external* coordinate system (its rotation $R_i$ and translation $T_i$), known as the *extrinsic* parameters.
+
+Once we have done an intrinsic calibration (which can be done using a checkerboard pattern or known calibration target) and accounted for distortion, we can confidently map between:
+
+- 3D coordinates $\boldsymbol{X}_{ci}$ in the camera’s frame
+- 2D pixel measurements $(u_i, v_i)$
+
+This is critical for many robotic tasks such as *navigation*, *obstacle avoidance*, *object tracking*, and *grasping*, since everything eventually must go from real-world distances and geometry to image pixel coordinates.
+
+Question 1 (True/False):
+True or False: A calibrated camera system requires knowing both its intrinsic parameters (e.g., focal length, skew, distortion coefficients) and its extrinsic parameters (e.g., rotation and translation relative to the world).
+Answer: True.
+
+Question 2 (Multiple Choice):
+What is the main benefit of calibrating a camera system in the context of robotic vision?
+A) It allows the accurate mapping between 3D world coordinates and 2D pixel coordinates
+B) It eliminates the need for a lens
+C) It simplifies only the calculation of the rotation matrix
+D) It converts analog images to digital images
+Answer: A.
+
+---
 
 ### Chapter 1.2 : Calibration
 
@@ -114,9 +235,6 @@ Types of Camera Parameters :
 | **Extrinsic Parameters** | Define the camera’s position and orientation in the world. | |
 | Rotation matrix      | Describes the camera’s orientation. | $ R $ |
 | Translation vector   | Specifies the camera’s position relative to a reference frame. | $ T $ |
-
-
-![](https://www.youtube.com/watch?v=qByYk6JggQU&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=2)
 
 ![](https://www.youtube.com/watch?v=GUbWsXU1mac&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=3)
 
