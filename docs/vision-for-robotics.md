@@ -116,7 +116,7 @@ True or False: The transformation from world coordinates to camera coordinates i
 Answer: True.
 
 Question 2 (Multiple Choice):
-What does the rotation matrix RiRi​ represent in the transformation equation?
+What does the rotation matrix Ri​ represent in the transformation equation?
 A) Scaling of the coordinates
 B) Rotation to align the world axes with the camera axes
 C) Translation from the world origin to the camera origin
@@ -154,10 +154,10 @@ Answer: True.
 
 Question 2 (Multiple Choice):
 In the affine transformation ui=f α xi+β yi+cuui​=fαxi​+βyi​+cu​, which parameter determines the horizontal position of the image center?
-A) ff
-B) αα
-C) cucu​
-D) ββ
+A) f
+B) α
+C) cu​
+D) β
 Answer: C.
 </details>
 ---
@@ -185,12 +185,12 @@ True or False: Radial lens distortion is modeled by applying a polynomial functi
 Answer: True.
 
 Question 2 (Multiple Choice):
-In the context of lens distortion, what does the variable rr represent?
-A) rr is the ratio of xixi​ and yiyi​
-B) rr is the focal length in pixels
-C) rr is the radial distance from the image center, defined as xi2+yi2xi2​+yi2​
+In the context of lens distortion, what does the variable r represent?
+A) r is the ratio of xi​ and yi
+B) r is the focal length in pixels
+C) r is the radial distance from the image center, defined as xi2+yi2xi2​+yi2​
 ​
-D) rr is one of the distortion coefficients
+D) r is one of the distortion coefficients
 Answer: C.
 </details>
 ---
