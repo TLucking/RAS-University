@@ -85,7 +85,7 @@ This transformation says:
   <summary>Conceptual questions</summary>
 
   **Question 1** (True/False):
-  True or False: The transformation from world coordinates to camera coordinates involves both a rotation and a translation.
+  The transformation from world coordinates to camera coordinates involves both a rotation and a translation.
 
 </details>
 
@@ -112,7 +112,7 @@ The quantities $x_i$ and $y_i$ are often called *normalized coordinates* because
 <details markdown="1">
   <summary>Conceptual questions</summary>
 Question 1 (True/False):
-True or False: The transformation from world coordinates to camera coordinates involves both a rotation and a translation.
+The transformation from world coordinates to camera coordinates involves both a rotation and a translation.
 Answer: True.
 
 Question 2 (Multiple Choice):
@@ -149,7 +149,7 @@ These parameters are called the *intrinsic parameters* of the camera. Determinin
   <summary>Conceptual questions</summary>
 
 Question 1 (True/False):
-True or False: The conversion from normalized coordinates to pixel coordinates involves intrinsic parameters such as the focal length, aspect ratio, skew factor, and the image center.
+The conversion from normalized coordinates to pixel coordinates involves intrinsic parameters such as the focal length, aspect ratio, skew factor, and the image center.
 Answer: True.
 
 Question 2 (Multiple Choice):
@@ -181,7 +181,7 @@ The coefficients $k_1, k_2, k_3, \dots$ are additional parameters to be calibrat
 <details markdown="1">
   <summary>Conceptual questions</summary>
 Question 1 (True/False):
-True or False: Radial lens distortion is modeled by applying a polynomial function to the normalized coordinates based on their distance from the image center.
+Radial lens distortion is modeled by applying a polynomial function to the normalized coordinates based on their distance from the image center.
 Answer: True.
 
 Question 2 (Multiple Choice):
@@ -213,7 +213,7 @@ This is critical for many robotic tasks such as *navigation*, *obstacle avoidanc
 <details markdown="1">
   <summary>Conceptual questions</summary>
 Question 1 (True/False):
-True or False: A calibrated camera system requires knowing both its intrinsic parameters (e.g., focal length, skew, distortion coefficients) and its extrinsic parameters (e.g., rotation and translation relative to the world).
+A calibrated camera system requires knowing both its intrinsic parameters (e.g., focal length, skew, distortion coefficients) and its extrinsic parameters (e.g., rotation and translation relative to the world).
 Answer: True.
 
 Question 2 (Multiple Choice):
