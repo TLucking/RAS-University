@@ -109,6 +109,8 @@ The quantities $x_i$ and $y_i$ are often called *normalized coordinates* because
 >**Intuitive Explanation**
 >Think of rays of light traveling from the 3D point in the scene, through the camera center, to the image plane. The intersection of that ray with the image plane is >how you figure out the 2D image location. Mathematically, it boils down to dividing by $Z_{ci}$ in the simplest pinhole model.
 
+<details markdown="1">
+  <summary>Conceptual questions</summary>
 Question 1 (True/False):
 True or False: The transformation from world coordinates to camera coordinates involves both a rotation and a translation.
 Answer: True.
@@ -120,7 +122,7 @@ B) Rotation to align the world axes with the camera axes
 C) Translation from the world origin to the camera origin
 D) Shearing of the coordinate system
 Answer: B.
-
+</details>
 ---
 
 #### **From Normalized Coordinates to Pixel Coordinates**
@@ -143,6 +145,8 @@ Let’s break down these parameters:
 4. $(c_u, c_v)$: The principal point, or image center. It is where the optical axis (the camera’s $Z$-axis) intersects the image plane, expressed in pixel coordinates.
 
 These parameters are called the *intrinsic parameters* of the camera. Determining them precisely is known as **intrinsic calibration** (How to find them will be seen in the next chapter )
+<details markdown="1">
+  <summary>Conceptual questions</summary>
 
 Question 1 (True/False):
 True or False: The conversion from normalized coordinates to pixel coordinates involves intrinsic parameters such as the focal length, aspect ratio, skew factor, and the image center.
@@ -155,7 +159,7 @@ B) αα
 C) cucu​
 D) ββ
 Answer: C.
-
+</details>
 ---
 
 #### **Lens Distortion**
@@ -174,6 +178,8 @@ $$
 
 The coefficients $k_1, k_2, k_3, \dots$ are additional parameters to be calibrated, especially for wide-angle lenses.
 
+<details markdown="1">
+  <summary>Conceptual questions</summary>
 Question 1 (True/False):
 True or False: Radial lens distortion is modeled by applying a polynomial function to the normalized coordinates based on their distance from the image center.
 Answer: True.
@@ -186,7 +192,7 @@ C) rr is the radial distance from the image center, defined as xi2+yi2xi2​+yi2
 ​
 D) rr is one of the distortion coefficients
 Answer: C.
-
+</details>
 ---
 
 #### **Putting It All Together: Calibrated Systems**
@@ -204,6 +210,8 @@ Once we have done an intrinsic calibration (which can be done using a checkerboa
 
 This is critical for many robotic tasks such as *navigation*, *obstacle avoidance*, *object tracking*, and *grasping*, since everything eventually must go from real-world distances and geometry to image pixel coordinates.
 
+<details markdown="1">
+  <summary>Conceptual questions</summary>
 Question 1 (True/False):
 True or False: A calibrated camera system requires knowing both its intrinsic parameters (e.g., focal length, skew, distortion coefficients) and its extrinsic parameters (e.g., rotation and translation relative to the world).
 Answer: True.
@@ -215,7 +223,7 @@ B) It eliminates the need for a lens
 C) It simplifies only the calculation of the rotation matrix
 D) It converts analog images to digital images
 Answer: A.
-
+</details>
 ---
 
 ### Chapter 1.2 : Calibration
