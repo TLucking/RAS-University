@@ -14,7 +14,7 @@ To engage practically with our robotics courses—coding, simulating, and visual
 
 Follow the official **Webots Installation Guide** below to quickly set up your simulation environment:
 
-- ➡️ [**Install Webots**](https://cyberbotics.com/doc/guide/installing-webots)
+- ➡️ [**Install Webots**](https://cyberbotics.com/#download)
 
 ---
 
