@@ -27,10 +27,6 @@ To get the most out of this Kinematics module, it’s helpful to have:
    - Basic concepts of **rigid-body motion** (translational and rotational movement).  
    - General understanding of **forces** and **torques** can be helpful, though kinematics itself does not address them directly.
 
-3. **Programming Skills (Recommended)**  
-   - Some experience with **Python** or a similar high-level language for implementing coding exercises.  
-   - Familiarity with using libraries like `math` (or NumPy/Matplotlib if you want to do more advanced plotting and calculations).
-
 While you don’t need to be an expert in any one of these areas, having a comfortable grasp of each will make your study of kinematics more productive and enjoyable.
 
 
@@ -63,6 +59,8 @@ But before we start to watch videos let's check some basic notions, defintions t
 <!-- Conceputal questions -->
 <details markdown="1">
   <summary>Conceptual Questions</summary>
+
+
 
 <!-- First question  -->
 <p><strong>Question 1: A serial robot is a closed kinematic chain structure</strong></p>

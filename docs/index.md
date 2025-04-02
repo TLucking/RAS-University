@@ -12,11 +12,11 @@ Explore the structured robotics courses below, designed to guide you from fundam
 ## Table of Contents 📚
 
 - [Kinematics](kinematics)
-- [Dynamics](docs/dynamics)
-- [Motion Control](docs/motion-control)
-- [Force Control](docs/force-control)
-- [Sensing and Perception](docs/sensing-and-perception)
-- [Vision for Robotics](docs/vision-for-robotics)
+- [Dynamics](dynamics)
+- [Motion Control](motion-control)
+- [Force Control](force-control)
+- [Sensing and Perception](sensing-and-perception)
+- [Vision for Robotics](vision-for-robotics)
 
 ---
 
