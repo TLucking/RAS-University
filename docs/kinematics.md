@@ -60,6 +60,37 @@ But before we start to watch videos let's check some basic notions, defintions t
 <details markdown="1">
   <summary>Conceptual Questions</summary>
 
+<p><strong>Question:</strong> Drag each characteristic to the correct robot category:</p>
+<link rel="stylesheet" href="./assets/css/styles.css">
+
+<div class="drag-container">
+  
+  <!-- Serial Robot Zone -->
+  <div class="drop-zone" id="serial-zone" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <h3>Serial Robot</h3>
+    <img src="./assets/images/kinematics/serial_robot.png" alt="Serial Robot" width="100%" style="max-width:200px; margin-bottom:10px;">
+  </div>
+
+  <!-- Parallel Robot Zone -->
+  <div class="drop-zone" id="parallel-zone" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <h3> Parallel Robot</h3>
+    <img src="./assets/images/kinematics/parallel_robot.png" alt="Parallel Robot" width="100%" style="max-width:200px; margin-bottom:10px;">
+  </div>
+
+</div>
+
+<!-- Draggable items -->
+<div class="drag-container" id="drag-items">
+  <div class="drag-item" id="open-chain" draggable="true" ondragstart="drag(event)">Open kinematic chain</div>
+  <div class="drag-item" id="serially-linked" draggable="true" ondragstart="drag(event)">Serially linked actuated segments</div>
+  <div class="drag-item" id="closed-chain" draggable="true" ondragstart="drag(event)">Closed kinematic chain robots</div>
+  <div class="drag-item" id="fixed-motors" draggable="true" ondragstart="drag(event)">Fixed motors on the base</div>
+</div>
+
+<button class="check-button" onclick="checkRobotStructure()">Check Answer</button>
+<div class="feedback" id="robot-feedback"></div>
+
+
 
 
 <!-- First question  -->
