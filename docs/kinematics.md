@@ -60,21 +60,59 @@ But before we start to watch videos let's check some basic notions, defintions t
 <details markdown="1">
   <summary>Conceptual Questions</summary>
 
-<p><strong>Question:</strong> Drag each characteristic to the correct robot category:</p>
-<link rel="stylesheet" href="./assets/css/styles.css">
+
+<p><strong>Question:</strong> Drag each characteristic to the correct robot category (2 per category):</p>
+
+<style>
+  .drag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .drop-zone {
+    border: 2px dashed #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    min-height: 150px;
+    width: 45%;
+    background-color: #f9f9f9;
+  }
+
+  .drag-item {
+    background-color: #e3e3e3;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: move;
+    user-select: none;
+    margin: 4px;
+  }
+
+  .check-button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+
+  .feedback {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+</style>
 
 <div class="drag-container">
   
   <!-- Serial Robot Zone -->
   <div class="drop-zone" id="serial-zone" ondrop="drop(event)" ondragover="allowDrop(event)">
     <h3>Serial Robot</h3>
-    <img src="./assets/images/kinematics/serial_robot.png" alt="Serial Robot" width="100%" style="max-width:200px; margin-bottom:10px;">
+    <img src="{{ site.baseurl }}/assets/images/kinematics/serial_robot.png" alt="Serial Robot" width="50%" style="max-width:70px; margin-bottom:10px;">
   </div>
 
   <!-- Parallel Robot Zone -->
   <div class="drop-zone" id="parallel-zone" ondrop="drop(event)" ondragover="allowDrop(event)">
     <h3> Parallel Robot</h3>
-    <img src="./assets/images/kinematics/parallel_robot.png" alt="Parallel Robot" width="100%" style="max-width:200px; margin-bottom:10px;">
+    <img src="{{ site.baseurl }}/assets/images/kinematics/parallel_robot.png" alt="Parallel Robot" width="50%" style="max-width:200px; margin-bottom:10px;">
   </div>
 
 </div>
@@ -141,7 +179,7 @@ But before we start to watch videos let's check some basic notions, defintions t
 
 ---
 
-<p><strong>1\. How many motors does each robot have?</strong></p>
+<p><strong>1. How many motors does each robot have?</strong></p>
 
 <p><strong>(a)</strong></p> Stäubli TX60:
 
