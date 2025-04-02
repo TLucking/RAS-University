@@ -15,12 +15,12 @@ Dive into a structured and comprehensive robotics course designed specifically f
 Explore in-depth topics including:
 
 
-- [Kinematics](docs/kinematics.md)
-- [Dynamics](docs/dynamics.md)
-- [Motion Control](docs/motion-control.md)
-- [Force Control](docs/force-control.md)
-- [Sensing and Perception](docs/sensing-and-perception.md)
-- [Vision for Robotics](docs/vision-for-robotics.md)
+- [Kinematics](docs/kinematics)
+- [Dynamics](docs/dynamics)
+- [Motion Control](docs/motion-control)
+- [Force Control](docs/force-control)
+- [Sensing and Perception](docs/sensing-and-perception)
+- [Vision for Robotics](docs/vision-for-robotics)
 
 Each module provides:
 
