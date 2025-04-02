@@ -106,6 +106,118 @@ But before we start to watch videos let's check some basic notions, defintions t
   <p id="q3-feedback"></p>
 </form>
 
+<!-- Fourth question  -->
+<p><strong>Question 4: Answer the following questions based on the robot structures shown below:</strong></p>
+![Robot_Structures]({{ site.baseurl }}/assets/images/kinematics/ex1_1.png)
+
+---
+
+<p><strong>1\. How many motors does each robot have?</strong></p>
+
+<p><strong>(a)</strong></p> Stäubli TX60:
+
+<form id="q1a-motors">
+  <input type="radio" name="q1a-motors" value="4"> 4 motors<br>
+  <input type="radio" name="q1a-motors" value="5"> 5 motors<br>
+  <input type="radio" name="q1a-motors" value="6"> 6 motors<br><br>
+
+  <button type="button" onclick="checkMCQ('q1a-motors', '6', 
+    'Correct! The Stäubli TX60 has 6 motorized joints (RRR handler + RRR wrist).', 
+    'Incorrect. Try again!')">
+    Check Answer
+  </button>
+
+  <p id="q1a-motors-feedback"></p>
+</form>
+
+**(b)** Second robot:
+
+<form id="q1b-motors">
+  <input type="radio" name="q1b-motors" value="3"> 3 motors<br>
+  <input type="radio" name="q1b-motors" value="5"> 5 motors<br>
+  <input type="radio" name="q1b-motors" value="6"> 6 motors<br><br>
+
+  <button type="button" onclick="checkMCQ('q1b-motors', '5', 
+    'Correct! The second robot has 5 motorized joints (RTT handler + RR wrist).', 
+    'Incorrect. Try again!')">
+    Check Answer
+  </button>
+
+  <p id="q1b-motors-feedback"></p>
+</form>
+
+---
+
+**2\. What is the Mobility (MO) of each robot?**
+
+**(a)** Stäubli TX60:
+
+<form id="q2a-mo">
+  <input type="radio" name="q2a-mo" value="4"> 4<br>
+  <input type="radio" name="q2a-mo" value="5"> 5<br>
+  <input type="radio" name="q2a-mo" value="6"> 6<br><br>
+
+  <button type="button" onclick="checkMCQ('q2a-mo', '6', 
+    'Correct! Mobility (MO) equals the number of motors (6).', 
+    'Incorrect. Try again!')">
+    Check Answer
+  </button>
+
+  <p id="q2a-mo-feedback"></p>
+</form>
+
+**(b)** Second robot:
+
+<form id="q2b-mo">
+  <input type="radio" name="q2b-mo" value="3"> 3<br>
+  <input type="radio" name="q2b-mo" value="5"> 5<br>
+  <input type="radio" name="q2b-mo" value="6"> 6<br><br>
+
+  <button type="button" onclick="checkMCQ('q2b-mo', '5', 
+    'Correct! Mobility (MO) equals the number of motors (5).', 
+    'Incorrect. Try again!')">
+    Check Answer
+  </button>
+
+  <p id="q2b-mo-feedback"></p>
+</form>
+
+---
+
+**3\. What is the number of Degrees of Freedom (DOF) for each robot?**
+
+**(a)** Stäubli TX60:
+
+<form id="q3a-dof">
+  <input type="radio" name="q3a-dof" value="3"> 3 DOF (translations only)<br>
+  <input type="radio" name="q3a-dof" value="5"> 5 DOF (3 translations + 2 rotations)<br>
+  <input type="radio" name="q3a-dof" value="6"> 6 DOF (3 translations + 3 rotations)<br><br>
+
+  <button type="button" onclick="checkMCQ('q3a-dof', '6', 
+    'Correct! Stäubli TX60 has 6 DOF (3 translations + 3 rotations).', 
+    'Incorrect. Try again!')">
+    Check Answer
+  </button>
+
+  <p id="q3a-dof-feedback"></p>
+</form>
+
+**(b)** Second robot:
+
+<form id="q3b-dof">
+  <input type="radio" name="q3b-dof" value="3"> 3 DOF (translations only)<br>
+  <input type="radio" name="q3b-dof" value="5"> 5 DOF (3 translations + 2 rotations)<br>
+  <input type="radio" name="q3b-dof" value="6"> 6 DOF (3 translations + 3 rotations)<br><br>
+
+  <button type="button" onclick="checkMCQ('q3b-dof', '5', 
+    'Correct! The second robot has 5 DOF (3 translations + 2 rotations).', 
+    'Incorrect. Try again!')">
+    Check Answer
+  </button>
+
+  <p id="q3b-dof-feedback"></p>
+</form>
+
 
 </details>
 
@@ -1066,7 +1178,6 @@ Any 3D rotation can be expressed as a product of these fundamental rotations.
 
 Quaternions provide a non-singular way to interpolate and compute 3D orientations, often used in control and simulation. -->
 
-## Programming
 
 ## Programming
 
