@@ -1,0 +1,12 @@
+.note {
+    background-color: #f0f8ff;
+    border-left: 4px solid #007acc;
+    padding: 1em;
+    margin: 1em 0;
+    font-style: italic;
+  }
+  
+.highlight {
+    background-color: #fffbe6;
+    padding: 0.5em;
+  }

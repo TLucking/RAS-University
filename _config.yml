@@ -20,5 +20,13 @@ search_enabled: true
 # Nav menu can also be selectively enabled or disabled using page variables or the minimal layout
 nav_enabled: true
 
+# Custom CSS
+sass:
+  load_paths:
+    - _sass
+    - assets/css
 
-math: mathjax
+# Add this to ensure Just the Docs includes it
+just_the_docs:
+  custom_css:
+    - /assets/css/custom.css
