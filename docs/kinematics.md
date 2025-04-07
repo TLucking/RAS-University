@@ -61,7 +61,7 @@ But before we start to watch videos let's check some basic notions, defintions t
   <summary>Conceptual Questions</summary>
 
 
-<p><strong>Question:</strong> Drag each characteristic to the correct robot category (2 per category):</p>
+<p><strong>Question 0: Drag each characteristic to the correct robot category (2 per category):</strong></p>
 
 <style>
   .drag-container {
@@ -106,13 +106,13 @@ But before we start to watch videos let's check some basic notions, defintions t
   <!-- Serial Robot Zone -->
   <div class="drop-zone" id="serial-zone" ondrop="drop(event)" ondragover="allowDrop(event)">
     <h3>Serial Robot</h3>
-    <img src="{{ site.baseurl }}/assets/images/kinematics/serial_robot.png" alt="Serial Robot" width="50%" style="max-width:70px; margin-bottom:10px;">
+    <img src="{{ site.baseurl }}/assets/images/kinematics/serial_robot_2.png" alt="Serial Robot" width="100%" style="max-width:90px; margin-bottom:10px;">
   </div>
 
   <!-- Parallel Robot Zone -->
   <div class="drop-zone" id="parallel-zone" ondrop="drop(event)" ondragover="allowDrop(event)">
     <h3> Parallel Robot</h3>
-    <img src="{{ site.baseurl }}/assets/images/kinematics/parallel_robot.png" alt="Parallel Robot" width="50%" style="max-width:200px; margin-bottom:10px;">
+    <img src="{{ site.baseurl }}/assets/images/kinematics/parallel_robot_2.png" alt="Parallel Robot" width="100%" style="max-width:200px; margin-bottom:10px;">
   </div>
 
 </div>
@@ -127,8 +127,6 @@ But before we start to watch videos let's check some basic notions, defintions t
 
 <button class="check-button" onclick="checkRobotStructure()">Check Answer</button>
 <div class="feedback" id="robot-feedback"></div>
-
-
 
 
 <!-- First question  -->
@@ -215,7 +213,7 @@ But before we start to watch videos let's check some basic notions, defintions t
 
 ---
 
-**2\. What is the Mobility (MO) of each robot?**
+**2. What is the Mobility (MO) of each robot?**
 
 **(a)** Stäubli TX60:
 
@@ -225,7 +223,7 @@ But before we start to watch videos let's check some basic notions, defintions t
   <input type="radio" name="q2a-mo" value="6"> 6<br><br>
 
   <button type="button" onclick="checkMCQ('q2a-mo', '6', 
-    'Correct! Mobility (MO) equals the number of motors (6).', 
+    'Correct! Mobility (MO) equals the number of motors (6) in case of serial robots.', 
     'Incorrect. Try again!')">
     Check Answer
   </button>
@@ -241,7 +239,7 @@ But before we start to watch videos let's check some basic notions, defintions t
   <input type="radio" name="q2b-mo" value="6"> 6<br><br>
 
   <button type="button" onclick="checkMCQ('q2b-mo', '5', 
-    'Correct! Mobility (MO) equals the number of motors (5).', 
+    'Correct! Mobility (MO) equals the number of motors (5) in case of serial robots.', 
     'Incorrect. Try again!')">
     Check Answer
   </button>
@@ -251,7 +249,7 @@ But before we start to watch videos let's check some basic notions, defintions t
 
 ---
 
-**3\. What is the number of Degrees of Freedom (DOF) for each robot?**
+**3. What is the number of Degrees of Freedom (DOF) for each robot?**
 
 **(a)** Stäubli TX60:
 
@@ -288,6 +286,54 @@ But before we start to watch videos let's check some basic notions, defintions t
 
 </details>
 
+<!-- Mathematical Development Questions -->
+<details markdown="1">
+  <summary>Mathematical Development Questions</summary>
+
+Now, try drawing the **kinematic representation structures** of the robots presented in **Exercises 2 and 3** from the set below.
+
+Afterwards, compute the **mobility of the parallel robots**. (Note that, unlike serial robots, computing mobility for parallel robots requires using specific formulas.)
+
+Here are some formulas that could be useful:
+
+- **Grübler's Formula**
+
+$
+\text{MO} = 6(n - k - 1) + \sum_{i=1}^{k} \text{MO}_i
+$
+
+Where:
+
+- $ n $ is the number of solid bodies (including the fixed base)
+- $ k $ is the number of joints (connections)
+- $ \text{MO}_i $ is the mobility of each joint:
+
+| Joint Type              | Mobility (MO) |
+|-------------------------|---------------|
+| Pivot (revolute)        | 1             |
+| Cardan (universal)      | 2             |
+| Spherical (ball joint)  | 3             |
+| Prismatic (sliding)     | 1             |
+
+- **Loops formula**
+$
+\text{MO} = \sum_{i=1}^{k} \text{MO}_i - 6 \times lo
+$
+
+Where:
+
+- $ lo $ is the number of closed kinematic loops.
+
+
+<iframe src="{{ site.baseurl }}{{'/assets/pdfs/kinematics/Exercise_set_1.pdf'}}" width="100%" height="600px"></iframe>
+
+<details markdown="2">
+<summary><strong>Click here for Solutions</strong></summary>
+<iframe src="{{ site.baseurl }}{{'/assets/pdfs/kinematics/Solution_set_1.pdf'}}" width="100%" height="600px"></iframe>
+</details>
+
+</details>
+
 
 ### Chapter 0 : Introduction to Robotics | Kinematics & Modeling
 
@@ -302,31 +348,32 @@ This video gives you an introduction of the meaning of kineamtics and modeling a
 <p><strong>Question 1: How long are Mohammad's videos typically?</strong></p>
 <form id="q1-duration">
   <input type="radio" name="q1-duration" value="10"> Less than 10 minutes<br>
-  <input type="radio" name="q1" value="30"> Around 30 minutes<br>
-  <input type="radio" name="q1" value="60"> Around 1 hour<br>
+  <input type="radio" name="q1-duration" value="30"> Around 30 minutes<br>
+  <input type="radio" name="q1-duration" value="60"> Around 1 hour<br>
 
-  <button type="button" onclick="checkMCQ('q1', '10', 
+  <button type="button" onclick="checkMCQ('q1-duration', '10', 
     'Correct! Mohammad’s videos usually last less than 10 minutes.', 
     'Incorrect. Try again!')">
     Check Answer
   </button>
-  <p id="q1-feedback"></p>
+  <p id="q1-duration-feedback"></p>
 </form>
+
 
 <!-- Second question  -->
 <p><strong>Question 2: Forward kinematics (FK) is...</strong></p>
-<form id="q2">
-  <input type="radio" name="q2" value="option1"> How to calculate the position/orientation from given joint variables<br>
-  <input type="radio" name="q2" value="option2"> Finding joint variables from end-effector position and orientation<br>
-  <input type="radio" name="q2" value="option3"> Calculating robot dynamics<br>
+<form id="q2-fk">
+  <input type="radio" name="q2-fk" value="option1"> How to calculate the position/orientation from given joint variables<br>
+  <input type="radio" name="q2-fk" value="option2"> Finding joint variables from end-effector position and orientation<br>
+  <input type="radio" name="q2-fk" value="option3"> Calculating robot dynamics<br>
 
-  <button type="button" onclick="checkMCQ('q2', 'option1',
+  <button type="button" onclick="checkMCQ('q2-fk', 'option1',
     'Correct! Forward Kinematics computes the position and orientation from joint variables.',
     'Incorrect. Please try again!')">
     Check Answer
   </button>
 
-  <p id="q2-feedback"></p>
+  <p id="q2-fk-feedback"></p>
 </form>
 
 </details>
@@ -528,7 +575,7 @@ Let's get familiriar with this type of method doing similar exercise:
 
 <!-- Mathematical Development Questions -->
 <details markdown="1">
-  <summary>Mathematical Development Questions v2</summary>
+  <summary>Mathematical Development Questions</summary>
 
 Practice what you've learned with Exercises **1**,**2** and **3**.
 
@@ -539,186 +586,6 @@ Practice what you've learned with Exercises **1**,**2** and **3**.
 <summary><strong>Click here for Solutions</strong></summary>
 <iframe src="{{ site.baseurl }}{{'/assets/pdfs/kinematics/Solution_set_4_1-3.pdf'}}" width="100%" height="600px"></iframe>
 </details>
-
-</details>
-
-
-<!-- Mathematical Development Questions -->
-<details markdown="1">
-  <summary>Mathematical Development Questions</summary>
-
-<!-- Question 1 -->
-<p><strong>Question 1: </strong> In this exercise you will work on the geometric model of the SCARA robot. Here we won't consider the rotation of the end effector. The output point will be the point P at the extremity of the second segment L2 (see figure). Give the direct geometric model (DGM) that expresses the coordinates (x, y) of point P as a function of the joint coordinates \( q_1 \) and \( q_2 \).</p>
-
-<p>
-Hint: use the homogeneous matrices of the following transformations:
-1. Rotation of \( q_2 \) around P_{10} with coordinates (\( L_1 \) , 0)
-2. Rotation of \( q_1 \) around the origin
-</p>
-
-![examples]({{ site.baseurl }}/assets/images/kinematics/dgm.png)
-
-  <details markdown="2">
-  <summary>Answer Q1</summary>
-
-  <p>To obtain the <strong>direct geometric model</strong> that expresses the coordinates \((x, y)\) of the end effector \( P \) as a function of the joint coordinates \( q_1 \) and \( q_2 \), we follow these steps:  </p>
-
-  <p>
-  1. <strong>Reference Position:</strong>  
-    First, we position the robot in its reference configuration (see the figure below).  
-    Then, we develop the homogeneous transformation matrices at each joint, starting from the last one.
-  </p>
-
-  ![dgm_correction]({{ site.baseurl }}/assets/images/kinematics/dgm_correction.png)
-  <!-- ![examples](/assets/images/kinematics/dgm_correction.png) -->
-
-  <p>
-  2. <strong>Homogeneous Matrices for Each Joint:</strong>  
-    - Homogeneous matrix corresponding to the rotation \( q_2 \) around the point \( P_{10} \) with coordinates \((L_1, 0)\).  
-    - Homogeneous matrix corresponding to the rotation \( q_1 \) around the origin. 
-  </p> 
-
-  <p>
-  3. <strong>Final Transformation:</strong>  
-    The direct geometric model is obtained by multiplying the sequence of homogeneous matrices, starting  
-    with the last transformation and moving towards the first, as explained in the lecture.  
-  </p>
-  
-  <strong>Homogeneous Transformation for Rotation Around an Arbitrary Point</strong>  
-
-  <p>The general form of a homogeneous transformation matrix for a rotation around an arbitrary point \( p \) is: 
-  </p>
-
-  
-  H = 
-  $
-  \begin{bmatrix}
-      R & p - R \cdot p \\
-      0 & 1 
-  \end{bmatrix}
-  $
-
-  <p>
-  Using this relation, we calculate the homogeneous matrix \( H_2 \), which corresponds to the rotation by \( q_2 \)  
-  around the point \( P_{10} \) with coordinates \((L_1, 0)\):</p>
-
-  
-  \( H_2 \) = 
-  $
-  \begin{bmatrix}
-      R_2 & p_{10} - R_2 \cdot p_{10} \cr
-      0 & 1 
-  \end{bmatrix}
-  $
-
-  where:
-
-  $
-  p_{10} - R_2 \cdot p_{10} =
-  \begin{bmatrix}
-      L_1 \cr
-      0
-  \end{bmatrix}
-  -
-  \begin{bmatrix}
-      c_2 & -s_2 \cr
-      s_2 & c_2
-  \end{bmatrix}
-  \cdot
-  \begin{bmatrix}
-      L_1 \cr
-      0
-  \end{bmatrix}
-  = \begin{bmatrix}
-      L_1 - c_2 \cdot L_1 \cr
-      -s_2 \cdot L_1
-  \end{bmatrix}
-  =
-  \begin{bmatrix}
-      L_1 \cdot v_2 \cr
-      -L_1 \cdot s_2
-  \end{bmatrix}
-  $
-  
-
-  The homogeneous matrix \( H_1 \), which corresponds to the rotation by \( q_1 \) around the origin is expressed as follows:
-
-  \( H_1 \) = 
-  $
-  \begin{bmatrix}
-      R_1 & 0 \cdot p \cr
-      0 & 1 
-  \end{bmatrix}
-  $
-
-
-  The combined homogenous matrix of the sequence of the two rotations, respectively represented by the homogenous matrix \( H_2 \) (of angle \( q_2 \)) then \( H_1 \) (of angle \( q_1 \) ), is equal to the following product: 
-
-  $
-  H = H_1 \cdot H_2 =
-  \begin{bmatrix}
-      c_1 & -s_1 & 0 \cr
-      s_1 & c_1 & 0 \cr
-      0 & 0 & 1
-  \end{bmatrix} \cdot
-  \begin{bmatrix}
-      c_2 & -s_2 & L_1 v_2 \cr
-      s_2 & c_2 & -L_1 s_2 \cr
-      0 & 0 & 1
-  \end{bmatrix}
-  =
-  \begin{bmatrix}
-      c_{1+2} & -s_{1+2} & L_1 (c_1 v_2 + s_1 s_2) \cr
-      s_{1+2} & c_{1+2} & L_1 (s_1 v_2 - c_1 s_2) \cr
-      0 & 0 & 1
-  \end{bmatrix}
-  $
-
-  To find the coordinates \((x, y)\) of the point \( P \) (which is the Tool Center Point), we proceed as follows:
-
-  $
-  \begin{bmatrix}
-      x \cr
-      y \cr
-      1
-  \end{bmatrix} = H \cdot P_{20}
-  $
-
-  Thus, applying the homogeneous transformation matrix to \( P_{20} \):
-
-  $
-  \begin{bmatrix}
-      x \cr
-      y \cr
-      1
-  \end{bmatrix}
-  = H \cdot
-  \begin{bmatrix}
-      L_{12} \cr
-      0 \cr
-      1
-  \end{bmatrix}
-  $
-
-  Using the previously computed homogeneous matrix, this results in:
-
-  $
-  \begin{bmatrix}
-      x \cr
-      y \cr
-      1
-  \end{bmatrix} = \begin{bmatrix}
-      L_1 c_1 + L_2 c_{1+2} \cr
-      L_1 s_1 + L_2 s_{1+2} \cr
-      1
-  \end{bmatrix}
-  $
-
-  This final equation gives the direct geometric model expressing the position of the tool center point \( P \) in terms of the link lengths and joint angles.
-
-  </details>
-
-
 
 </details>
 
@@ -1255,7 +1122,7 @@ Let's move on to maybe the most exciting part: applying the kinematics concepts 
 
 ### Step 1: Setup your environment
 
-1. 📁 [Download the `irl` folder](./assets/downloads/irl.zip)
+1. 📁 [Download the `irb` folder]({{ site.baseurl }}/assets/downloads/kinematics/irb.zip)
 2. Extract the downloaded `.zip` file.
 3. Launch Webots. From the top-left corner select **File → Open World**.
 4. Navigate to the extracted `irl/worlds` folder and select your `.wbt` file.
