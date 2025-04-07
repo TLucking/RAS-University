@@ -52,9 +52,16 @@ This section of the course is primarily based on content shared by **Mohammad Za
 
 Mohammad’s videos are **well-structured**, **visually engaging** and **not very long** (less than 10 minute), making them an excellent resource for anyone beginning to study kinematics for robotics. We recommend starting with the videos listed below to build a solid foundation. 
 
-Once you’ve grasped the basics, you can further strengthen your understanding by working through both pen-and-paper exercises and coding tasks. These hands-on activities will help you verify that you have truly mastered the core concepts.
+Once you’ve grasped the basics, you can further strengthen your understanding by working through  conceptual and mathematical exercises are inspired by [Prof. Mohamed Bouri](https://people.epfl.ch/mohamed.bour), Professor at EPFL. 
 
-But before we start to watch videos let's check some basic notions, defintions that could be useful:
+For those looking to deepen their understanding or seeking clear explanations of more complex topics, we also suggest additional short and highly instructive videos by [Prof. Kevin Lynch](https://www.mccormick.northwestern.edu/research-faculty/directory/profiles/lynch-kevin.html), Professor of Mechanical Engineering at Northwestern University. These videos are based on the book "Modern Robotics:  Mechanics, Planning, and Control," by Kevin Lynch and Frank Park, Cambridge University Press 2017. See http://modernrobotics.org for information on the book, free software, and other materials.
+
+⚠️ **Note on Notation**:
+
+Please be aware that notation, variable naming, and the style of writing equations may slightly differ between instructors. Always refer to the provided formulas and definitions in this course when working on assignments or exercises to avoid any confusion.
+
+
+Before we start to watch videos let's check some basic notions, defintions that could be useful:
 
 <!-- Conceputal questions -->
 <details markdown="1">
@@ -172,7 +179,23 @@ But before we start to watch videos let's check some basic notions, defintions t
 </form>
 
 <!-- Fourth question  -->
-<p><strong>Question 4: Answer the following questions based on the robot structures shown below:</strong></p>
+<p><strong>Question 4:</strong> A robot is considered <em>redundant</em> if it has ______ actuators than the number of degrees of freedom (DOF).</p>
+
+<form id="redundancy-question">
+  <input type="radio" name="redundancy-question" value="more"> More actuators than DOF<br>
+  <input type="radio" name="redundancy-question" value="less"> Fewer actuators than DOF<br><br>
+
+  <button type="button" onclick="checkMCQ('redundancy-question', 'more', 
+    '✅ Correct! A redundant robot has more actuators than degrees of freedom.', 
+    '❌ Incorrect. Try again!')">
+    Check Answer
+  </button>
+
+  <p id="redundancy-question-feedback"></p>
+</form>
+
+<!-- Fifth question  -->
+<p><strong>Question 5: Answer the following questions based on the robot structures shown below:</strong></p>
 ![Robot_Structures]({{ site.baseurl }}/assets/images/kinematics/ex1_1.png)
 
 ---
@@ -298,15 +321,16 @@ Here are some formulas that could be useful:
 
 - **Grübler's Formula**
 
-$
-\text{MO} = 6(n - k - 1) + \sum_{i=1}^{k} \text{MO}_i
-$
+$$
+\boxed{ \text{MO} = 6(n - k - 1) + \sum_{i=1}^{k} \text{MO}_i }
+$$
+
 
 Where:
 
-- $ n $ is the number of solid bodies (including the fixed base)
-- $ k $ is the number of joints (connections)
-- $ \text{MO}_i $ is the mobility of each joint:
+  - $ n $ is the number of solid bodies (including the fixed base)
+  - $ k $ is the number of joints (connections)
+  - $ \text{MO}_i $ is the mobility of each joint:
 
 | Joint Type              | Mobility (MO) |
 |-------------------------|---------------|
@@ -316,13 +340,12 @@ Where:
 | Prismatic (sliding)     | 1             |
 
 - **Loops formula**
-$
-\text{MO} = \sum_{i=1}^{k} \text{MO}_i - 6 \times lo
-$
 
-Where:
+$$
+\boxed{ \text{MO} = \sum_{i=1}^{k} \text{MO}_i - 6 \times lo}
+$$
 
-- $ lo $ is the number of closed kinematic loops.
+Where, $ lo $ is the number of closed kinematic loops.
 
 
 <iframe src="{{ site.baseurl }}{{'/assets/pdfs/kinematics/Exercise_set_1.pdf'}}" width="100%" height="600px"></iframe>
@@ -334,10 +357,20 @@ Where:
 
 </details>
 
+<!-- Additional Content -->
+<details markdown="1">
+  <summary>Additional Content</summary>
+
+For further understanding of the definition of **Degrees of Freedom (DOF)** or an alternative approach to applying **Grübler's formula**, the following concise and informative video is recommended:
+
+[Degrees of Freedom & Grübler’s Formula (Prof. Kevin Lynch)](https://www.youtube.com/watch?v=zI64DyaRUvQ&list=PLggLP4f-rq02vX0OQQ5vrCxbJrzamYDfx&index=5)
+
+</details>
+
 
 ### Chapter 0 : Introduction to Robotics | Kinematics & Modeling
 
-This video gives you an introduction of the meaning of kineamtics and modeling and will present you how his videos will be strucured.
+This video gives you an introduction of the meaning of kinematics and modeling and will present you how his videos will be strucured.
 ![Robotics 101: Full course for beginners](https://www.youtube.com/watch?v=K_xIJBlbjg4&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA)
 
 <!-- Conceputal questions -->
@@ -377,7 +410,6 @@ This video gives you an introduction of the meaning of kineamtics and modeling a
 </form>
 
 </details>
-
 
 ### Chapter 1: Coordinate Transformations in 2D | Mapping {#chapter-1-coordinate-transformations-in-2D}
 
@@ -514,6 +546,22 @@ To find the familiar vectors, just delete the last element. Matrices and homogen
 
 </details>
 
+
+<!-- Mathematical Development Questions -->
+<details markdown="1">
+  <summary>Mathematical Development Questions</summary>
+
+Practice what you've learned with Exercises **1**,**2**,**3** and **4**.
+
+
+<iframe src="{{ site.baseurl }}{{'/assets/pdfs/kinematics/Exercise_set_2.pdf'}}" width="100%" height="600px"></iframe>
+
+<details markdown="2">
+<summary><strong>Click here for Solutions</strong></summary>
+<iframe src="{{ site.baseurl }}{{'/assets/pdfs/kinematics/Solution_set_2.pdf'}}" width="100%" height="600px"></iframe>
+</details>
+
+</details>
 
 
 ### Chapter 2: Forward Kinematics of robots | Planar 2D robots
