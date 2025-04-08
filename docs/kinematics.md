@@ -67,6 +67,16 @@ Before we start to watch videos let's check some basic notions, defintions that 
 <details markdown="1">
   <summary>Conceptual Questions</summary>
 
+> Hint:
+
+
+> **Serial Chain**  
+A sequence of rigid links where each link is connected to the next by a joint, except for the first and last link, which each have only one connection.  
+>*Example:* A typical robotic arm, where each segment is attached end-to-end.
+
+> **Fully Parallel Mechanism**  
+A mechanism in which two links (often the base and the end-effector) are connected by multiple independent chains.  
+>*Example:* The Delta robot, where the end-effector is connected to the base by several parallel arms.
 
 <p><strong>Question 0: Drag each characteristic to the correct robot category (2 per category):</strong></p>
 
@@ -553,7 +563,6 @@ To find the familiar vectors, just delete the last element. Matrices and homogen
 
 Practice what you've learned with Exercises **1**,**2**,**3** and **4**.
 
-
 <iframe src="{{ site.baseurl }}{{'/assets/pdfs/kinematics/Exercise_set_2.pdf'}}" width="100%" height="600px"></iframe>
 
 <details markdown="2">
@@ -564,10 +573,20 @@ Practice what you've learned with Exercises **1**,**2**,**3** and **4**.
 </details>
 
 
+<!-- Additional Content -->
+<details markdown="1">
+  <summary>Additional Content</summary>
+
+For further understanding of the definition of **Homogeneous Transformation Matrices**, the following concise and informative video is recommended:
+
+[Homogeneous Transformation Matrices (Prof. Kevin Lynch)](https://www.youtube.com/watch?v=vlb3P7arbkU&list=PLggLP4f-rq02vX0OQQ5vrCxbJrzamYDfx&index=16)
+
+</details>
+
 ### Chapter 2: Forward Kinematics of robots | Planar 2D robots
 
 
-In robotics, understanding how each joint movement translates into precise actions is essential. In this chapter, we'll dive into [forward kinematics](#forward-and-inverse-kinematics) (also called Direct Geometric Model, DGM), a fundamental method that allows us to calculate exactly where a robot’s end-effector (such as a gripper or tool) ends up in space based on its joint configurations (for example its position (x,y) and orientation(θ) in 2D). We'll start by exploring simple planar 2D robots, laying a clear foundation for mastering more complex robotic systems.
+In robotics, understanding how each joint movement translates into precise actions is essential. In this chapter, we'll dive into **forward kinematics** (also called Direct Geometric Model, DGM), a fundamental method that allows us to calculate exactly where a robot’s end-effector (such as a gripper or tool) ends up in space based on its joint configurations (for example its position (x,y) and orientation(θ) in 2D). We'll start by exploring simple planar 2D robots, laying a clear foundation for mastering more complex robotic systems.
 
 Watch the following video for an intuitive overview before we delve into the mathematical details.
 
@@ -634,6 +653,158 @@ Practice what you've learned with Exercises **1**,**2** and **3**.
 <summary><strong>Click here for Solutions</strong></summary>
 <iframe src="{{ site.baseurl }}{{'/assets/pdfs/kinematics/Solution_set_4_1-3.pdf'}}" width="100%" height="600px"></iframe>
 </details>
+
+</details>
+
+### Chapter 3.5: Intro. to Quaternions 
+
+<div style="float: left; margin-right: 15px; text-align: center;">
+  <img src="{{ site.baseurl }}/assets/images/kinematics/R.gif" alt="Quaternions Explained" style="width: 200px; height: auto;">
+  <p style="font-size: small;">Quaternions Explained</p>
+</div>
+
+While Euler angles and rotation matrices are common ways to describe rotations in robotics, they have some limitations, notably the phenomenon known as **gimbal lock**: phenomenon that occurs when using Euler angles (roll, pitch, yaw) to represent orientations or rotations, typically in three-dimensional space. It happens when two of the rotation axes align, causing the loss of one degree of rotational freedom. In simpler terms, you become unable to rotate around one particular axis because two axes have essentially "collapsed" into one. Here is very nice [video](https://www.youtube.com/watch?v=zc8b2Jo7mno) explaining this phenomeon.
+
+Quaternions are an elegant mathematical alternative for representing 3D rotations, avoiding issues like gimbal lock and allowing smooth rotational interpolations. They are widely used in robotics, computer graphics, and aerospace for their efficiency and accuracy in handling rotations.
+
+For an intuitive, visual understanding of quaternions, it is recommended to watch the following engaging videos from the channel **[3Blue1Brown](https://www.youtube.com/@3blue1brown)**:
+
+![Visualizing quaternions (4D numbers)](https://www.youtube.com/watch?v=d4EgbgTm0Bg)
+![Quaternions and 3D rotation, explained interactively](https://www.youtube.com/watch?v=zjMuIxRvygQ)
+
+As you have understood in these previous videos, **Quaternions** are a generalization of complex numbers containing:
+- **a real scalar part** $ \lambda_0 $
+- **three imaginary components** $ [\lambda_1, \lambda_2, \lambda_3]^T$, which can be interpreted as a vector part $\underline{\lambda} $.
+
+The **direction of the axis of rotation** $[x, y, z]^T$ is given by this vector $ \underline{\lambda} = [\lambda_1, \lambda_2, \lambda_3]^T $.
+
+The **angle of rotation** $\theta$ is introduced in the following way in the quaternion $ Q $:
+
+$$
+\lambda_0 = \cos(\theta / 2), \quad \underline{\lambda} = \sin(\theta / 2)[x, y, z]^T,\quad ||x,y,z||=1  
+$$
+
+The rotations are therefore represented by **unit quaternions**:
+
+$$
+\lambda_0^2 + \lambda_1^2 + \lambda_2^2 + \lambda_3^2 = 1 
+$$
+
+The quaternion multiplication rules are a generalization of the complex number multiplication rules:
+
+$$
+\boxed{ Q = [ \{\lambda_0, \lambda_1, \lambda_2, \lambda_3\} ] = [ \{\lambda_0, \underline{\lambda}\} ] = [ \lambda_0 + i \lambda_1 + j \lambda_2 + k \lambda_3 ] }
+$$
+
+with
+
+$$
+i^2 = j^2 = k^2 = ijk = -1 
+$$
+$$
+ij = k,\quad ji = -k,\quad jk = i,\quad kj = -i,\quad ki = j,\quad ik = -j 
+$$
+
+Note the **multiplication is non-commutative**! (William Rowan Hamilton, Dublin, 1843)
+
+These rules lead to a sequence of rotation M and L:
+$$
+Q_M Q_L = \begin{pmatrix} \mu_0 \\ \underline{\mu} \end{pmatrix} \cdot \begin{pmatrix} \lambda_0 \\ \underline{\lambda} \end{pmatrix} = \begin{pmatrix} \mu_0\lambda_0 - \underline{\mu}^T\underline{\lambda} \\ \mu_0\underline{\lambda} + \lambda_0\underline{\mu} + \underline{\mu}\times\underline{\lambda} \end{pmatrix}
+$$
+
+<details markdown="1">
+  <summary>Useful formulas</summary>
+
+The conversion from quaternion to direction cosines (rotation matrix) and vice versa is given by:
+
+$$
+R = \begin{pmatrix} 2(\lambda_0^2 + \lambda_1^2) - 1 & 2(\lambda_1\lambda_2 - \lambda_0\lambda_3) & 2(\lambda_1\lambda_3 + \lambda_0\lambda_2) \\ 2(\lambda_1\lambda_2 + \lambda_0\lambda_3) & 2(\lambda_0^2 + \lambda_2^2) - 1 & 2(\lambda_2\lambda_3 - \lambda_0\lambda_1) \\ 2(\lambda_1\lambda_3 - \lambda_0\lambda_2) & 2(\lambda_2\lambda_3 + \lambda_0\lambda_1) & 2(\lambda_0^2 + \lambda_3^2) - 1 \end{pmatrix} = \begin{pmatrix} r_{11} & r_{21} & r_{31} \\ r_{12} & r_{22} & r_{23} \\ r_{13} & r_{23} & r_{33} \end{pmatrix}
+$$
+
+and the inverse transformation from the rotation matrix to quaternion is:
+
+$
+\lambda_0 = \frac{1}{2}\sqrt{r_{11}+r_{22}+r_{33}+1}
+$
+
+$
+\underline{\lambda} = \frac{1}{2} \begin{pmatrix} \text{sgn}(r_{32}-r_{23})\sqrt{r_{11}-r_{22}-r_{33}+1} \\ \text{sgn}(r_{13}-r_{31})\sqrt{r_{22}-r_{11}-r_{33}+1} \\ \text{sgn}(r_{21}-r_{12})\sqrt{r_{33}-r_{22}-r_{11}+1} \end{pmatrix}
+$
+
+</details>
+
+
+<!-- Conceptual Questions -->
+<details markdown="1">
+  <summary>Conceptual Questions</summary>
+<!-- Question 1 -->
+<p><strong>Question 1: Calculation of an orientation quaternion gives {1/2, 1/3, 1/3, 1/3}. Can this be correct?</strong></p>
+
+<form id="q1-quaternion">
+  <input type="radio" name="q1-quaternion" value="true"> True<br>
+  <input type="radio" name="q1-quaternion" value="false"> False<br>
+
+  <button type="button" onclick="checkMCQ('q1-quaternion', 'false', 
+    'Correct! This cannot be correct because a valid quaternion representing orientation must have a unit norm (the sum of the squares of its elements should equal 1).', 
+    'Incorrect. A valid quaternion representing orientation must have a unit norm.')">
+    Check Answer
+  </button>
+
+  <p id="q1-quaternion-feedback"></p>
+</form>
+
+<!-- Question 2 -->
+<p><strong>Question 2: The quaternion {1/2, -1/2, -1/2, -1/2} represents a rotation of:</strong></p>
+
+<form id="q2-rotation">
+  <input type="radio" name="q2-rotation" value="60"> 60 degrees<br>
+  <input type="radio" name="q2-rotation" value="120"> 120 degrees or -120 degrees, depending on axis direction<br>
+  <input type="radio" name="q2-rotation" value="-60"> -60 degrees<br>
+  <input type="radio" name="q2-rotation" value="invalid"> Is not a unit quaternion<br>
+
+  <button type="button" onclick="checkMCQ('q2-rotation', '120', 
+    'Correct! This quaternion corresponds to a rotation of 120 degrees (or -120 degrees, depending on the axis direction).', 
+    'Incorrect. Please try again!')">
+    Check Answer
+  </button>
+
+  <p id="q2-rotation-feedback"></p>
+</form>
+
+
+</details>
+
+
+
+<!-- Mathematical Development Questions -->
+<details markdown="1">
+  <summary>Mathematical Development Questions</summary>
+
+Consider the two sequences of rotations :
+- Rotation of 90 degrees on the z axis followed by Rotation of 90 degrees on the y axis
+- Rotation of 90 degrees on the y axis followed by Rotation of 90 degrees on the z axis
+
+For each of these sequences:
+
+1. Determine the resulting corresponding **quaternion**.
+2. Deduce:
+    - (a) the corresponding **angles of rotation**.
+    - (b) the corresponding **unit axes of rotation**.
+
+<details markdown="2">
+<summary><strong>Click here for Solutions</strong></summary>
+<iframe src="{{ site.baseurl }}{{'/assets/pdfs/kinematics/Solution_set_4_5.pdf'}}" width="100%" height="600px"></iframe>
+</details>
+
+</details>
+
+<!-- Additional Content -->
+<details markdown="1">
+  <summary>Additional Content</summary>
+
+For further understanding of the definition of **Quaternions**, the following concise and informative site is recommended for **interactive version of these visuals**:
+
+[Visualization Quaternions](https://eater.net/quaternions)
 
 </details>
 
@@ -895,125 +1066,22 @@ Now, you can apply what you've learned by solving **Exercise 2.8** from the prev
 
 </details>
 
-<!-- 
-## Exercises
 
-### Pen & Paper Exercises
-
-#### Exercise 1:
-For the following structures:
-![examples]({{ site.baseurl }}/assets/images/kinematics/ex1_1.png)
-
-What is the: 
-1. Number of motors? 
-2. Mobility (MO)? 
-3. Number of degrees of freedom (DOF)?
-
+<!-- Additional Content -->
 <details markdown="1">
-  <summary>Solution</summary>
+  <summary>Additional Content</summary>
 
-  **Reminder:** The mobility of a serial robot is always equal to its number of motors. All the joints of a serial robot are actuated (motorized).  
+For further understanding of the definition of **Singularities**, the following concise and informative video is recommended:
 
-  1. **(a)** The Stäubli TX60 has 6 motorized joints: RRR for the handler and RRR for the wrist.  
-     **(b)** The second robot has 5 motorized joints: RTT for the handler and RR for the wrist.  
-
-  2. **(a)** Stäubli TX60: MO = 6.  
-     **(b)** Second robot: MO = 5.  
-
-  3. **(a)** Stäubli TX60: DOF = 6; three translations of the tool and three rotations in the space of the tool.  
-     **(b)** Second robot: DOF = 5; three translations of the tool and two rotations in the space of the tool.  
+[Singularities (Prof. Kevin Lynch)](https://www.youtube.com/watch?v=vjJgTvnQpBs&list=PLggLP4f-rq02vX0OQQ5vrCxbJrzamYDfx&index=28)
 
 </details>
 
-### Coding Exercises
-These exercises will help you practice the fundamental concepts of kinematics by translating them into Python code. You can run these snippets in a local Python environment or online in services like Google Colab, Jupyter Notebook, or similar platforms.
-
----
-
-## 1. Forward Kinematics of a 2-Link Planar Manipulator
-
-**Objective:**  
-Write a function that computes the end-effector position (x, y) of a 2-link planar robot arm given two joint angles $\theta_1$ and $\theta_2$.
-
-**Robot Description:**  
-- Link 1 has length $L_1$.  
-- Link 2 has length $L_2$.  
-- Joint angles $\theta_1$ and $\theta_2$ are measured from the x-axis (or from the previous link’s axis).
-
-**Kinematic Equations:**  
-$
-\begin{aligned}
-    x &= L_1 \cos(\theta_1) + L_2 \cos(\theta_1 + \theta_2) \\
-    y &= L_1 \sin(\theta_1) + L_2 \sin(\theta_1 + \theta_2)
-\end{aligned}
-$
-
-**Instructions:**  
-1. Define a Python function called `forward_kinematics_2link(theta1, theta2, L1, L2)` that returns `(x, y)`.  
-2. Test your function with different angle values to see if the outputs make sense.
-
-```python
-def forward_kinematics_2link(theta1, theta2, L1, L2):
-    """
-    Calculate the (x, y) position of the end-effector of a 2-link planar robot arm.
-    
-    Parameters:
-    - theta1: angle of the first joint (in radians)
-    - theta2: angle of the second joint (in radians)
-    - L1: length of the first link
-    - L2: length of the second link
-    
-    Returns:
-    - (x, y): A tuple containing the x and y coordinates of the end-effector
-    """
-    import math
-    
-    x = L1 * math.cos(theta1) + L2 * math.cos(theta1 + theta2)
-    y = L1 * math.sin(theta1) + L2 * math.sin(theta1 + theta2)
-    
-    return (x, y)
-
-# Example usage:
-if __name__ == "__main__":
-    # Let's assume each link is 1 meter long:
-    L1, L2 = 1.0, 1.0
-    
-    # Test the function with some angle values (in radians)
-    angles = [
-        (0.0, 0.0),
-        (math.pi/4, math.pi/4),
-        (math.pi/2, 0.0),
-        (math.pi/3, -math.pi/6)
-    ]
-    
-    for (t1, t2) in angles:
-        x, y = forward_kinematics_2link(t1, t2, L1, L2)
-        print(f"Theta1={t1:.2f}, Theta2={t2:.2f} => (x={x:.2f}, y={y:.2f})")
-```
-
-
-## Key Definitions and Concepts in Kinematics
-
-Below is a set of definitions and concepts that will help you navigate the topics in this chapter on Kinematics. Some are foundational from trigonometry, and others relate specifically to robotics and the modeling of mechanical structures. Feel free to reference these as you study.
-
-### Degrees of Freedom (DoF)
-The **number of degrees of freedom** is the number of independent variables (or coordinates) needed to define the configuration of a system.  
-- *Example:* A free rigid body in 3D has 6 DoF (3 translational + 3 rotational).
-
-#### Mobility of a Kinematic Structure  
-Often denoted as \( MO \), mobility is equivalent to the total DoF of the structure. If you have \( n \) independent rigid bodies in free space (before assembling them with joints), they collectively have \( 6n \) DoF in 3D space (each body can move in 3 translational and 3 rotational dimensions).
-
----
+<!-- 
 
 ### Types of Kinematic Chains and Mechanisms
 
-#### Serial Chain  
-A sequence of rigid links where each link is connected to the next by a joint, except for the first and last link, which each have only one connection.  
-- *Example:* A typical robotic arm, where each segment is attached end-to-end.
 
-#### Fully Parallel Mechanism  
-A mechanism in which two links (often the base and the end-effector) are connected by multiple independent chains.  
-- *Example:* The Delta robot, where the end-effector is connected to the base by several parallel arms.
 
 #### Tree Structure  
 A structure similar to a serial chain but can branch out. Each link can have multiple “child” links, forming a tree. A serial chain is a special case of a tree with no branching.
