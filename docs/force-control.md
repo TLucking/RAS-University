@@ -4,6 +4,9 @@ parent: Courses
 layout: default
 math: mathjax
 ---
+<!-- Link external JavaScript file -->
+<script src="questions.js"></script>
+
 # Force control {#start}
 
 - Table of Contents
@@ -19,31 +22,128 @@ math: mathjax
 
 - [OpenTextBooks](https://opentextbooks.clemson.edu/me8930/chapter/force-control-of-a-manipulator/)
 
+## Prerequisites
+* Basic knowledge of robotics kinematics and dynamics
+* Control theory..............
+
 ## Motivation
+![Overview](https://youtu.be/mGuDXlZEoSc)
 
-In motion control problems, the goal is to move the manipulator to the desired trajectory by following a specified trajectory. While the premise of motion control might be basic in nature, it is a fundamental part of any higher-level robot manipulation. On the other hand, force control becomes mandatory for a robot to successfully carry out its task when interacting with its environment. Force control becomes essential whenever a robot end-effector makes contact with surfaces or objects, ensuring that the contact force is maintained at a desired level rather than unconstrained (which could lead to excessive force or loss of contact)​. A force control strategy modifies the robot joint position/torque based on force/torque sensors for the wrist, joints, and hands of the robot.
-That’s why In the recent decade, research with robot force control has been increasing with an increasing number of use cases in medical, occupational, construction, and many other industries. Typically, any task that involves robot interaction with an environment such as polishing, cutting, scraping, pick-and-place, welding, etc. can benefit from the use of different methods of force control strategies. Another field where force control has a major role to play, and potentially have a big impact is physical human robot interaction. This typically involves a robot working in synchronous to the human where the robot measures the motion or forces from human and correspondingly responds to complete a desired task.
+In **motion control** problems, the robot's objective is to follow a predefined trajectory as accurately as possible — regardless of contact with the environment. This is suitable for free-space movements where external forces are negligible or undesirable. While the premise of motion control might be basic in nature, it is a fundamental part of any higher-level robot manipulation. 
 
-- [Intuition](https://www.youtube.com/watch?v=8VB5NneTKLE) (First 10mn) --> not needed anymore I think
-- [Overview](https://youtu.be/mGuDXlZEoSc)(Kevin Lynch 11.1)
+However, motion control alone is not sufficient when a robot physically interacts with its environment. Indeed unregulated contact can cause slippage, loss of contact, damage and excessive force.  This is where **force control** becomes essential: it ensures that the robot applies and regulates the desired amount of force during contact, making the interaction both safe and effective. A force control strategy modifies the robot's joint positions or torques to account for interaction forces at the end-effector.
+
+This is why, in the past decade, research in robot force control has increased significantly, with applications across medical, industrial and service robotics. In industrial robotics, typical tasks that involves robot interaction with an environment such as polishing, cutting, scraping, pick-and-place, welding, etc. can benefit from the use of different methods of force control strategies. 
+Another particularly impactful area is physical human-robot interaction, where the robot must respond to human-applied forces and work in synchrony. In these scenarios, force control enables safe, adaptive and cooperative behavior in shared tasks.
+
+
+
 
 <details markdown="1">
-<summary> Conceptual exercise</summary>
-*List some real-world tasks where pure motion control would fail and force control is required. Describe what would go wrong without force feedback.*
-- Peg-in-hole assembly – without force control, the peg might jam or break if misaligned; force control lets the robot feel contact and adjust insertion force to guide it in. 
-- Surface polishing – a position-only robot might either press too hard (damaging the surface/tool) or too lightly (ineffective polishing); force control maintains a consistent polishing pressure. 
-- Human handshaking robot – purely position-controlled handshake could crush the person’s hand or miss it entirely, whereas force control allows gentle, adaptive gripping. 
+<summary><strong>Conceptual Exercise</strong></summary>
+**Drag each task to the correct category:**
 
-→ Force control prevents excessive force and adapts to uncertainties in contact
+<style>
+  .drag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .drop-zone {
+    border: 2px dashed #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    min-height: 175px;
+    width: 45%;
+    background-color: #f9f9f9;
+  }
+
+  .drag-item {
+    background-color: #e3e3e3;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: move;
+    user-select: none;
+    margin: 4px;
+  }
+
+  .check-button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+
+  .feedback {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+</style>
+
+<div class="drag-container">
+  
+  <!-- Serial Robot Zone -->
+  <div class="drop-zone" id="motion-zone" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <h3>Motion Control</h3>
+  </div>
+
+  <!-- Parallel Robot Zone -->
+  <div class="drop-zone" id="force_zone" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <h3> Force Control</h3>
+  </div>
+</div>
+
+<!-- Draggable items -->
+<div class="drag-container" id="drag-items">
+  <div class="drag-item" id="pick_place" draggable="true" ondragstart="drag(event)">Pick-and-place in free space</div>    <div class="drag-item" id="Peg_in_hole" draggable="true" ondragstart="drag(event)">Peg-in-hole assembly</div>
+  <div class="drag-item" id="Wiping" draggable="true" ondragstart="drag(event)">Wiping a window</div>
+  <div class="drag-item" id="3D_print" draggable="true" ondragstart="drag(event)">3D printing</div>
+  <div class="drag-item" id="Drone" draggable="true" ondragstart="drag(event)">Flying a drone for inspection</div>
+  <div class="drag-item" id="Polishing" draggable="true" ondragstart="drag(event)">Surface polishing</div>
+  <div class="drag-item" id="hand_shaking" draggable="true" ondragstart="drag(event)">Human handshaking robot </div>
+</div>
+
+<script>
+const correctMapping = {
+  "motion-zone": ["pick_place", "3D_print", "Drone"],
+  "force_zone": ["Peg_in_hole", "Polishing", "hand_shaking", "Wiping"]
+};
+</script>
+
+<!-- Trigger + Feedback -->
+<button class="check-button" onclick="checkDragDropAnswer(correctMapping, 'feedback-drag')">Check Answer</button>
+<div class="feedback" id="feedback-drag"></div>
+
+
+<details markdown ="1">
+  <summary><strong>Detailed answer</strong></summary>
+
+  * **Force control :**
+    - Peg-in-hole assembly : without force control, the peg might jam or break if misaligned; force control lets the robot feel contact and adjust insertion force to guide it in. 
+    - Surface polishing : a position-only robot might either press too hard (damaging the surface/tool) or too lightly (ineffective polishing); force control maintains a consistent polishing pressure. 
+    - Human handshaking robot : purely position-controlled handshake could crush the person’s hand or miss it entirely, whereas force control allows gentle, adaptive gripping. 
+    - Wiping a table or window : Maintaining consistent contact pressure across a surface is difficult with pure motion control; uneven force leads to missed spots or excess wear.
+
+  * **Motion control :**
+    - Pick-and-place in free space : If there’s no contact with the environment during transit, motion control ensures fast, smooth, and precise movement.
+    - 3D printing : The tool follows a precisely planned trajectory to deposit material. Contact with the environment is minimal and highly predictable.
+    - Flying a drone for inspection : Drones typically avoid contact; path following through motion control is sufficient for inspection unless manipulation is involved.
+
+  → Force control prevents excessive force and adapts to uncertainties in contact
+
 </details>
-## Chapter 1 : Interaction control overview
-While traditional motion control focuses on following a desired trajectory regardless of external contact, force control aims to regulate how much force is exchanged between the robot and its environment. This raises a fundamental question: how does the robot respond to forces during contact? There are two broad paradigms for addressing this:
 
-* **Passive interaction control**: the trajectory of the end-effector is driven by the interaction forces due to the inherent nature or compliance of the robot (i.e., internally, such as joints, servo, joints, etc.). In passive control, the end-effector’s motion naturally deflects under force, as in soft robots – but this lacks flexibility (every specific task might require a special end-effector to be designed and it can also have position and orientation deviations)​ and high contact forces could occur because there is no force force measurement. 
+</details>
+
+## Chapter 1 : Interaction control overview
+While motion control focuses on following a desired trajectory regardless of external contact, force control aims to regulate how much force is exchanged between the robot and its environment. This raises a fundamental question: how does the robot respond to forces during contact? There are two broad paradigms for addressing this:
+
+* **Passive interaction control**: The trajectory of the end-effector is driven by the interaction forces due to the inherent nature or compliance of the robot (i.e., internally, such as joints, servo, joints, etc.). In passive control, the end-effector’s motion naturally deflects under force, as in soft robots. But, this lacks flexibility (every specific task might require a special end-effector to be designed and it can also have position and orientation deviations)​ and high contact forces could occur because there is no force measurement. 
 
     ![Illustrative Video](https://youtu.be/4fnPVRWWEU8)
 
-* **Active interaction control**: uses sensors (e.g. force/torque sensors) and feedback controllers to measure interaction forces and adjust accordingly the robot’s commands in terms of trajectory or object manipulation.  Active control can react to forces in real-time, providing flexibility and accuracy at the cost of added complexity and speed limitations. To obtain a reasonable task execution speed and disturbance rejection capability, active interaction control has to be used in combination with some degree of passive compliance. Active interaction control can be further grouped into indirect (such as admittance and impedance control) and direct force control strategies (such as hybrid force/motion control).
+* **Active interaction control**: It relies on sensors (e.g., force/torque sensors) and/or feedback controllers to measure interaction forces and adjust the robot’s commands accordingly—whether by modifying its trajectory or the way it manipulates objects. This approach enables real-time reactions to contact, offering high flexibility and accuracy. However, it comes with added complexity and limitations in speed. To achieve effective task execution and robust disturbance rejection, active control is typically combined with some degree of passive compliance. Active strategies can be futer divided into indirect methods (such as admittance and impedance control) and direct force control techniques (such as hybrid force/motion control).
     
     ![Illustrative video](https://www.youtube.com/watch?v=7Nvlki1xo-c)	
 
@@ -72,14 +172,17 @@ $$
  This is open-loop force control. It assumes the robot's model and the environment are accurate.  However, since models are never perfect, this approach is sensitive to disturbances or uncertainty. To increase robustness, we add feedback — typically with a PI controller:
 
 $$
-\tau = \tilde{g}(\theta) + J^T(\theta) \left( F_d + K_{fp}(F_d - F) + K_{fi} \int (F_d - F)\, dt \right)
+\tau = \tilde{g}(\theta) + J^T(\theta) \left( F_d + K_{fp}F_e + K_{fi} \int F_e\, dt \right)
+$$
+$$ 
+F_e = F_d - F_{tip}
 $$
 
 This feedback formulation allows the robot to adjust its torques based on measured force errors, improving stability and accuracy even as the environment changes.
 
-<details>
-  <summary>Conceptual exercise</summary>
-<p>What is the difference between passive and active interaction control?</p>
+<details markdown = "1">
+  <summary><strong>Conceptual exercise</strong></summary>
+**What is the difference between passive and active interaction control?**
 
 <style>
   .drag-container {
@@ -119,89 +222,86 @@ This feedback formulation allows the robot to adjust its torques based on measur
   }
 </style>
 
+<style>
+  .drag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .drop-zone {
+    border: 2px dashed #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    min-height: 175px;
+    width: 45%;
+    background-color: #f9f9f9;
+  }
+
+  .drag-item {
+    background-color: #e3e3e3;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: move;
+    user-select: none;
+    margin: 4px;
+  }
+
+  .check-button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+
+  .feedback {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+</style>
+
 <div class="drag-container">
-  <div class="drop-zone" id="passive4" ondrop="drop(event)" ondragover="allowDrop(event)">
-    <h3>🟦 Passive Interaction Control</h3>
+  
+  <!-- Serial Robot Zone -->
+  <div class="drop-zone" id="passive_zone" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <h3>Passive interaction control</h3>
   </div>
-  <div class="drop-zone" id="active4" ondrop="drop(event)" ondragover="allowDrop(event)">
-    <h3>🟨 Active Interaction Control</h3>
+
+  <!-- Parallel Robot Zone -->
+  <div class="drop-zone" id="active_zone" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <h3>Active interaction control</h3>
   </div>
 </div>
 
-<div class="drag-container" id="drag-items-4">
-  <div class="drag-item" id="item1" draggable="true" ondragstart="drag(event)">Does not measure force; deforms passively under contact</div>
+<!-- Draggable items -->
+<div class="drag-container" id="drag-items_passive_active">
+ <div class="drag-item" id="item1" draggable="true" ondragstart="drag(event)">Does not measure force</div>
   <div class="drag-item" id="item2" draggable="true" ondragstart="drag(event)">Measures contact force and moment using sensors</div>
   <div class="drag-item" id="item3" draggable="true" ondragstart="drag(event)">Simple and inexpensive to implement</div>
   <div class="drag-item" id="item4" draggable="true" ondragstart="drag(event)">Uses feedback control to actively regulate force</div>
   <div class="drag-item" id="item5" draggable="true" ondragstart="drag(event)">Performance limited by mechanical design</div>
-  <div class="drag-item" id="item6" draggable="true" ondragstart="drag(event)">Can be programmed for precise and variable force outputs</div>
+    <div class="drag-item" id="item9" draggable="true" ondragstart="drag(event)">Provides fast response but limited adaptability</div>
+
+<div class="drag-item" id="item6" draggable="true" ondragstart="drag(event)">Can be programmed for precise and variable force outputs</div>
   <div class="drag-item" id="item7" draggable="true" ondragstart="drag(event)">Cannot adapt trajectory during execution; only tolerates small deviations</div>
-  <div class="drag-item" id="item8" draggable="true" ondragstart="drag(event)">Typically more complex and costly</div>
-  <div class="drag-item" id="item9" draggable="true" ondragstart="drag(event)">Provides fast response but limited adaptability</div>
-  <div class="drag-item" id="item10" draggable="true" ondragstart="drag(event)">Slower due to sensing and control computation</div>
+  <div class="drag-item" id="deforms" draggable="true" ondragstart="drag(event)">Deforms passively under contact</div>
   <div class="drag-item" id="item11" draggable="true" ondragstart="drag(event)">Cannot guarantee prevention of high contact forces</div>
+
+  <div class="drag-item" id="item8" draggable="true" ondragstart="drag(event)">Typically more complex and costly</div>
+  <div class="drag-item" id="item10" draggable="true" ondragstart="drag(event)">Slower due to sensing and control computation</div>
 </div>
 
-
-<button class="check-button" onclick="checkInteractionControlAnswer()">Check Answer</button>
-<div class="feedback" id="feedback4"></div>
-
 <script>
-  function allowDrop(ev) {
-    ev.preventDefault();
-  }
-
-  function drag(ev) {
-    ev.dataTransfer.setData("id", ev.target.id);
-  }
-
-  function drop(ev) {
-    ev.preventDefault();
-    if (!ev.target.classList.contains("drop-zone")) return;
-
-    const draggedId = ev.dataTransfer.getData("id");
-    const draggedElement = document.getElementById(draggedId);
-
-    if (draggedElement && ev.target !== draggedElement.parentElement) {
-      ev.target.appendChild(draggedElement);
-    }
-  }
-
-  function checkInteractionControlAnswer() {
-    const passiveCorrect = [
-      "Does not measure force; deforms passively under contact",
-      "Simple and inexpensive to implement",
-      "Performance limited by mechanical design",
-      "Cannot adapt trajectory during execution; only tolerates small deviations",
-      "Provides fast response but limited adaptability",
-      "Cannot guarantee prevention of high contact forces"
-    ];
-
-    const activeCorrect = [
-      "Measures contact force and moment using sensors",
-      "Uses feedback control to actively regulate force",
-      "Can be programmed for precise and variable force outputs",
-      "Typically more complex and costly",
-      "Slower due to sensing and control computation"
-    ];
-
-
-    const userPassive = Array.from(document.querySelectorAll('#passive4 .drag-item')).map(e => e.textContent.trim());
-    const userActive = Array.from(document.querySelectorAll('#active4 .drag-item')).map(e => e.textContent.trim());
-
-    const allPassiveCorrect = userPassive.every(item => passiveCorrect.includes(item)) && userPassive.length === passiveCorrect.length;
-    const allActiveCorrect = userActive.every(item => activeCorrect.includes(item)) && userActive.length === activeCorrect.length;
-
-    const feedback = document.getElementById("feedback4");
-    if (allPassiveCorrect && allActiveCorrect) {
-      feedback.textContent = "✅ Correct! Well done.";
-      feedback.style.color = "green";
-    } else {
-      feedback.textContent = "❌ Not quite. Try again!";
-      feedback.style.color = "red";
-    }
-  }
+const correctMapping2 = {
+  "passive_zone": ["item1", "item3", "item5", "item7", "deforms", "item9", "item11"],
+  "active_zone": ["item2", "item4", "item6", "item8", "item10"]
+};
 </script>
+
+<!-- Trigger + Feedback -->
+<button class="check-button" onclick="checkDragDropAnswer(correctMapping2, 'feedback-passive_active')">Check Answer</button>
+<div class="feedback" id="feedback-passive_active"></div>
+
 
 </details>
 
@@ -210,39 +310,56 @@ Active interaction control strategies can be grouped into two categories: those 
 
 ### Chapter 2.1 : Indirect Force Control
 
-Indirect force control strategies achieve force regulation by modulating the robot’s motion response rather than directly commanding forces. The robot behaves like a virtual mechanical system — typically, a mass-spring-damper — so that when it is pushed, it responds with a restoring force, just like a compliant structure would. This means we are not controlling the force directly, but we are controlling how the robot moves when it encounters a force, which in turn determines the contact force. This behavior is what enables impedance and admittance control.
+Indirect force control strategies achieve force regulation by modulating the robot’s motion response rather than directly commanding forces. The robot behaves like a virtual mechanical system (typically a mass-spring-damper) so that when it is pushed, it responds with motion that generates restoring forces, just like a compliant structure would. 
 
-Imagine pushing on the end-effector of a robot. With only knowledge of the robot’s own parameters — not the properties of the environment, we can design a controller so that the robot pushes back as if you were pressing on a virtual spring-mass-damper system, not because it's tracking a specific force, but because its motion is governed by a virtual dynamic behavior that generates restoring forces naturally. Rather than commanding the end-effector to follow a rigid trajectory, we move the setpoints (or stiffness) of a virtual mechanical system, and let that system produce compliant contact behavior.
+In this approach, we are not controlling nor tracking the force directly. Instead, we are controlling how the robot moves when it encounters a force, which in turn determines the contact force. This behavior is what enables impedance and admittance control.
+
+Imagine pressing on the end-effector of a robot. With only knowledge of the robot’s own parameters — not the properties of the environment, we can design a controller so that the robot responds as if you were pushing against a virtual spring-mass-damper system, not because it's tracking a specific force, but because its motion is governed by a virtual dynamic behavior that generates restoring forces naturally. Rather than rigidly following a trajectory, the controller modulates the system’s virtual dynamics (e.g., stiffness, damping) and lets the compliant behavior manage contact.
 
 ![Illustrative example 1](https://youtu.be/KJ8s1BUHoks)
 
 This approach has powerful advantages:
 - It provides intuitive and robust interaction with unknown environments.
-- It enables stable behavior, even in the presence of modeling errors.
-- If both the robot and the environment behave like passive (dissipative) systems, the overall interaction remains stable.
+- It is robust to modeling errors and external disturbances.
+- If both the robot and the environment behave like passive (dissipative) systems, the overall interaction remains stable. 
 
-Indirect forced control can be further classified as :
-* **impedance control** if the robot responds by generating forces (i.e., through joint moment(s) and/or force(s))
-* **admittance control** if the robot responds by imposing a deviation from desired trajectory as a result of interaction with the environment.
+<details markdown = "1">
+<summary><em>Stability of passive systems</em></summary>
+![Stability of passive systems](https://youtu.be/yFS5PSmlp6E)
+If you're unfamiliar with what it means for a system to be passive, this short video offers a helpful intuition. The key point, lying between the *6:30* and *10:30mn*, is that a passive system can’t generate energy on its own, it can only dissipate or store it. In the context of force control, this matters because when two passive systems are connected through feedback, as is often the case when a robot interacts with its environment, the total energy in the closed-loop system remains bounded, which ensures stabilit of the overall system. This principle explains why impedance and admittance control strategies, which render the robot passive, are inherently robust even in the face of modeling uncertainties or unknown contact conditions
+</details>
 
-#### **Chapter 2.1.1 : Impedance control**
+**What does it really mean for a robot to “behave like a spring-mass-damper" ?**
 
-The concept of mechanical impedance is central to this strategy. Impedance quantifies how a system resists motion when subjected to a force. In robotics, impedance control aims to replicate this behavior: we do not directly command the contact force, but rather define how the robot should respond when force is applied to it.
+![This short video (7 min)](https://youtu.be/Vz5c3il0Dys)
+> This short video by Polytech Montréal gives a concise and intuitive introduction to these concepts. It explores the dynamic relationship between force and motion, and shows how this relationship — known as **mechanical impedance** — underlies both impedance and admittance control. If you're unfamiliar with these terms, watch this first — it sets the stage for what follows.
+
+#### Chapter 2.1.1: Mechanical Impedance - the shared foundation
+At the core of both impedance and admittance control lies the idea of **mechanical impedance**. It describes how a physical system resists motion when subjected to a force. Unlike static stiffness (which links force to displacement), impedance captures **dynamic behavior** — how velocity (or acceleration) influences the force a system generates or absorbs.
+
 Mathematically, the impedance $Z$ relates the force $F$ to the velocity $v$ of a system $F = Z v$
-
 
 Depending on the desired dynamic behavior, $Z$ may represent different physical relationships:
 - Inertial response: $F = ma$
 - Spring-like response (Hooke's law): $F = kx$
 - Damping behavior: $F = -bv$
+In practice, robots are modeled as combinations of these components.
 
-In practice, robots are modeled as combinations of these components. We want to control the robot so that it behaves as if it were a virtual mass-spring-damper system. That means when a force is applied to the end-effector, the robot responds with motion determined by its dynamically adjusted virtual inertia, damping and stiffness.
+What’s important is that we’re not just controlling position or force directly — we’re shaping how the robot behaves when interacting with the environment. By making the robot behave like a particular mechanical system (e.g., a stiff spring, a soft damper, or a heavy object), we get force behavior *for free* as a result of motion.
+
+
+From this shared foundation, two distinct approaches emerge:
+- In **impedance control**, we specify the mechanical impedance and **generate force** in response to motion.
+- In **admittance control**, we specify the inverse behavior — the mechanical admittance — and **generate motion** in response to force.
+
+#### **Chapter 2.1.2 : Impedance control**
+
+Impedance control is a strategy where the robot is made to replicate the behaviour of a mechanical system, usually a combination of **mass, spring, and damper**, designed to resist motion when subjected to a force. We do not directly command the contact force, but rather define how the robot should respond when force is applied to it by dynamically adjusting the virtual inertia, damping and stiffness of the robot
+
 <figure>
-  <img src="{{ site.baseurl }}/assets/images/Force/impedance_schema.png" alt="Fig 3.3: Diagram to describe impedance control">
-  <figcaption>A robot creating a one-dof mass springdamper virtual environment. A human hand applies a force f to the haptic interface.</figcaption>
+  <img src="{{ site.baseurl }}/assets/images/Force/impedance_schema.png" alt="https://ch.mathworks.com/company/technical-articles/enhancing-robot-precision-and-safety-with-impedance-control.html">
+  <figcaption>A simple one-DOF impedance-controlled system.</figcaption>
 </figure>
-
-
 
 This desired behavior is formalized by the following second-order differential equation:
 $$
@@ -254,15 +371,31 @@ where:
 * $m_d$, $b_d$, and $k_d$ are the desired virtual mass, damping, and stiffness,
 * $f_e$ is the external force exerted by the environment.
 
-This equation governs how the robot yields to or resists external forces. A high $k_d$ makes the robot stiffer, resisting deviations from $x_r$; a high $b_d$ suppresses oscillations; and a high $m_d$ adds inertia to sudden force changes. The system doesn’t track force — the force arises naturally through this interaction law.
 
-Hence, by controlling the impedance of the robot we can manipulate the behavior of the end-effector depending on the interaction with the environment. For example, we can set very low impedance (or high compliance) and make it act like a very loose spring or we can set the stiffness very high where the robot would only move to the desired position without much oscillation.
+This equation describes how the robot should react to forces. For example:
+- A high stiffness ($k_d$) makes the robot stiffer, resisting deviations from $x_r$.
+- A high damping ($b_d$) smooths out motion and reduces vibrations.
+- A high inertia ($m_d$) makes the robot less sensitive to sudden changes.
+
+The system doesn’t track force — the force arises naturally through this interaction law. Hence, by controlling the impedance of the robot we can manipulate the behavior of the end-effector depending on the interaction with the environment. For example, we can set very low impedance (or high compliance) and make it act like a very loose spring which is useful in physical human-robot interaction or we can set the stiffness very high where the robot would only move to the desired position without much oscillation which is important for precise industrial tasks.
 
 ![Illustrative example 2](https://www.youtube.com/watch?v=WS1gSRcJbJQ)
 
-<details>
-<summary><strong>But how is this mechanical behavior actually implemented in a robot? More specifically, how do we compute the joint torques τ that produce a response matching this desired impedance?</strong></summary>
+**Stiffness control : a subset of impedance control**
 
+Through impedance control, it is possible to achieve a desired **dynamic** behaviour. A subset of this task is to achieve a **static** behaviour. Instead of specifying how the robot responds dynamically (with mass, damping, and stiffness), we only define a static relationship between the deviation in position/orientation and the force exerted on the environment. This is done by acting on the elements of the stiffness **K** in the impedance model while ignoring inertial and damping terms → **Stiffness control** 
+
+The control law focuses on maintaining a desired position while allowing some compliance, without needing explicit force sensing.
+- High stiffness 𝐾 → accurate position tracking, but less compliant
+- Low stiffness 𝐾 → more compliant, but allows larger motion deviations under external forces.
+
+This trade-off allows us to limit contact forces and moments, even without a force/torque sensor — simply by choosing the right stiffness. However, in the presence of disturbances (e.g. joint friction), using too low a stiffness may cause the end-effector to deviate significantly from the desired position, even without external contact.
+
+![Illustrative example](https://www.youtube.com/watch?v=pXH7rwrzh6s)
+
+
+<details markdown = "1">
+<summary><strong>But how is impedance control actually implemented in a robot? How do we compute the joint torques τ that produce a response matching this desired impedance?</strong></summary>
 
 The key idea is to design a control law that cancels the robot’s internal dynamics and replaces them with the behavior of a virtual mass-spring-damper system. This is typically done in task space using the following impedance-control algorithm:
 $$
@@ -270,26 +403,24 @@ $$
 $$
 
 Here:
-  * $\tau$ is the commanded joint torque,
-  * $J(\theta)$ is the manipulator Jacobian,
-  * $\tilde{\Lambda}(\theta)\ddot{x} + \tilde{\eta}(\theta, \dot{x})$ represents a model-based estimate of the robot’s actual dynamics (inertia, Coriolis, and gravity effects),
-  * $M$, $B$, and $K$ are the virtual impedance parameters — the desired inertia, damping, and stiffness,
-  * $(M\ddot{x} + B\dot{x} + Kx)$ defines the force that would arise if the robot behaved like the desired mechanical system.
+  * $\tau$ is the commanded joint torque
+  * $J(\theta)$ is the manipulator Jacobian
+  * $\tilde{\Lambda}(\theta)\ddot{x} + \tilde{\eta}(\theta, \dot{x})$ represents a model-based estimate of the robot’s actual dynamics (inertia, Coriolis, and gravity effects) --> arm dynamics compensation
+  * $M$, $B$, and $K$ are the virtual impedance parameters — the desired inertia, damping, and stiffness
+  * $(M\ddot{x} + B\dot{x} + Kx)$ defines the force that would be generated by a virtual mechanical system.
+
+This means that the robot behaves as if it has the mechanical properties we choose — even if it doesn’t physically have them. For instance, you can make a light robot behave like a massive, heavily damped system, enhancing safety and predictability during contact. This control strategy can be visualized as compensating for the robot's true dynamics while injecting the desired mechanical impedance behavior.
+
+The figure below illustrates this structure at the system level:
 
 <figure>
-  <img src="{{ site.baseurl }}/assets/images/Force/impedance_1.png" alt="Fig 3.3: Diagram explaining impedance control">
-  <figcaption>Impedance control architecture **(here tau is u)**</figcaption>
+  <img src="{{ site.baseurl }}/assets/images/Force/impedance_control_loop.png" alt="https://link.springer.com/referenceworkentry/10.1007/978-3-642-41610-1_94-1">
+  <figcaption>General impedance control scheme for a robot manipulator</figcaption>
 </figure>
-This controller ensures that the end-effector behaves as if it were part of a virtual mechanical environment. When contact occurs, the response will reflect the tuned virtual dynamics — not necessarily the real robot’s native dynamics. For instance, you can make a light robot behave like a massive, heavily damped system, enhancing safety and predictability during contact. This control strategy can be visualized as compensating for the robot's true dynamics while injecting the desired mechanical impedance behavior.
+The measured motion is compared to the reference and used by the impedance controller to compute a corrective force. That force is mapped into joint torques using the *Jacobian transpose* and applied to the manipulator. Optionally, a force sensor may be used to enhance performance or enable force feedback.
+
 </details>
 
-**Stiffness control : a subset of impedance control**
-
-Through impedance control, it is possible to achieve a desired dynamic behaviour. A subset of this task is to achieve a static behaviour. The approach consists in assigning a desired position and orientation and a suitable static relationship between the deviation of the end-effector position and orientation from the desired motion and the force exerted on the environment.  This is done by acting on the elements of K (stiffness) → **Stiffness control** 
-
-Stiffness control allows to keep the interaction force and moment limited at the expense of the end-effector position and orientation error, with a proper choice of the stiffness matrix, without the need of a force/torque sensor. However, in the presence of disturbances (e.g., joint friction) which can be modeled as an equivalent end-effector wrench, the adoption of low values for the active stiffness may produce large deviations with respect to the desired end-effector position and orientation, also in the absence of interaction with the environment. 
-
-![Illustrative example](https://www.youtube.com/watch?v=pXH7rwrzh6s)
 
 <details markdown="1">
   <summary><strong>Going deeper : Impedance in the Laplace Domain</strong></summary>
@@ -349,40 +480,51 @@ Thus, impedance is not constant — it changes with the rate of motion, which is
 
 
 
-#### **Chapter 2.1.2: Admittance control**
-It is conceptually the dual of impedance. In admittance control, the robot (or its controller) monitors the forces and adjusts the motion commands in response​. Instead of directly outputting a force for a given motion error, an admittance controller takes a measured force input and yields a position or velocity adjustment. Practically, the robot is typically position-controlled at its core, but an outer loop takes the force error and computes a small shift in the commanded position (or trajectory) to relieve or accommodate that force​. For instance, if a force of 10 N is pushing the robot off its path, an admittance controller might say “yield by 1 mm” (depending on a compliance setting) – effectively, the robot moves slightly until the force reduces. 
+#### Chapter 2.1.2: Admittance control
+It is conceptually the dual of impedance. 
+In impedance control, we define how much force the robot should apply in response to a deviation in motion. In admittance control, it’s the opposite: we measure an external force and compute how much the robot should move to accommodate that force.
+Rather than generating force commands from motion errors, admittance control takes a force input and outputs a position or velocity adjustment. It creates a compliant behavior by letting the robot “yield” in a controlled way. Practically, the robot is typically position-controlled at its core, but an outer loop takes the force error and computes a small shift in the commanded position (or trajectory) to relieve or accommodate that force​. For instance, if a force of 10N is pushing the robot off its path, an admittance controller might say “yield by 1 mm” (depending on a compliance setting) – effectively, the robot moves slightly until the force reduces. 
 
 Admittance control often involves two loops: 
 * an **outer force loop** that modifies the target position based on force input.
-* an **inner high-bandwidth control loop** where the compliant velocity/position is controlled
+* an **inner high-bandwidth control loop**  that ensures accurate tracking of the compliant position or velocity reference.
 
+<figure>
+  <img src="{{ site.baseurl }}/assets/images/Force/admittance_control_loop.png" alt="https://link.springer.com/referenceworkentry/10.1007/978-3-642-41610-1_94-1">
+  <figcaption>General admittance control scheme for a robot manipulator</figcaption>
+</figure>
 
-![fig3.6]({{ site.baseurl }}/assets/images/Force/admittance_1.png)(Fig 3.6. Diagram to describe admittance control)
-Created by Rahul Narasimhan Raghuraman based on information from [4] --> REGAIRE UN GRAPH CUSTOM PARCE QUE CELUI Là EST FAUX
-
-The **outer loop** is described as
+**Outer Loop: Virtual Mechanical behavior**
+The outer loop defines a second-order mechanical behavior that governs how the compliant trajectory $x_c$  evolves in response to force:
 
   $$
       m_d(\ddot{x}_c - \ddot{x}_r) + b_d(\dot{x}_c - \dot{x}_r) + k_d(x_c - x_r) = f_e
   $$
-  In many implementations, $\dot{x}_r$ and $\ddot{x}_r$ are zero, simplifying to:
+  where:
+  - $x_c$: compliant position generated by the controller
+  - $x_r$: desired nominal trajectory.
+  - $f_e$: external force
+  -$m_d$, $b_d$, $k_d$: desired virtual inertia, damping, and stiffness.
 
+  In many implementations, $\dot{x}_r$ and $\ddot{x}_r$ are zero, simplifying to:
   $$
       m_d \ddot{x}_c + b_d \dot{x}_c + k_d(x_c - x_r) = f_e 
   $$
   This dynamic relationship defines how the commanded position $x_c$ is adjusted in response to the external force $f_e$.
 
-The **inner controller**, then, drives the robot to track $x_c$ using a standard feedback law, for instance:
+**Inner Loop: Tracking the Compliant Motion**
+The inner controller, then, drives the robot to track $x_c$ using a standard feedback law, for instance:
   $$
-      k_p(x_c - x) + k_v(\dot{x}_c - \dot{x}_r)
+    F = k_p(x_c - x) + k_v(\dot{x}_c - \dot{x})
   $$
-
-Here, $k_p$ and $k_v$ are the gains of feedback.
+where:
+- $x$ and $\dot{x}$: the actual end-effector position and velocity
+- $k_p$ and $k_v$ are the control gains.
 
 ![Illustrative example](https://www.youtube.com/watch?v=JRbAesam-EE)
 
 <details markdown="1">
-  <summary><strong> Going deeper : Admittance in the Laplace Domain</strong></summary>
+  <summary><strong> Going deeper : Admittance in the Laplace domain</strong></summary>
 Just like impedance, admittance is often studied in the frequency domain. Starting from the equation:
 
 $$
@@ -414,11 +556,12 @@ Low admittance (i.e., small motion in response to force) tends to enhance stabil
 
 Both impedance and admittance achieve force indirectly by shaping how the robot responds to contact. They can be used to make a robot compliant without sacrificing stability. However, they have different practical considerations: for example, admittance control assumes a very stiff inner position control (common in industrial arms) and adjusts commands externally, which works well when you can trust the position control to execute quickly​. Impedance control embeds compliance in the low-level control (joint torques), which can be more direct but may face stability issues if the environment is very stiff and the controller is also stiff​. In summary, indirect force control lets the robot simulate a mechanical behavior (softness or stiffness) to handle contact forces gracefully, rather than directly pushing or pulling with a specified force.
 
-**Recap videos**
 
-![Summary Video](https://www.youtube.com/watch?v=Vz5c3il0Dys) --> Very great video from Polytech Montreal (POLAR lab), summarizing the principles of indirect force control in 7mn
-
-[Videos to go deeper in the theory](https://www.youtube.com/watch?v=IolG5V_skv8)(Robotics 2 - Impedance Control) --> This lecture from Sapienza University of Rome provides an in-depth explanation of impedance control, suitable for those looking to understand the topic comprehensively.
+<details>
+<summary>To go deeper in the theory</summary>
+[Robotics 2 – Impedance Control](https://www.youtube.com/watch?v=IolG5V_skv8)  
+This lecture from **Sapienza University of Rome** provides a thorough and rigorous look at impedance control. It dives into the mathematical foundations and practical considerations behind the method, making it especially useful if you're aiming to understand how impedance control is derived and implemented at a deeper level. Recommended for students who are already comfortable with dynamics, control theory and robotic modeling.
+</details>
 
 <details>
 <summary>Conceptual exercise</summary>
@@ -697,6 +840,7 @@ may however occur in the measurements, due e.g. to:
 direction which is nominally constrained in motion)
 * uncertainty in the environment geometry at the contact
 
+[Intuition](https://www.youtube.com/watch?v=8VB5NneTKLE)
 
 ![Video to go deeper into theory](https://www.youtube.com/watch?v=TyzTkIbWPyQ) --> This is a much longer video but very interesting and didactic
 

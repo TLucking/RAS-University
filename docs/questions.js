@@ -142,24 +142,32 @@ function drop(ev) {
 
 // Generalized function to check drag-and-drop answers
 function checkDragDropAnswer(correctMapping, feedbackId) {
-  let isCorrect = true;
 
+  let totalCorrect = 0;
+  let totalItems = 0;
+
+  // Calculate correct answers clearly for each zone
   for (const [zoneId, correctItems] of Object.entries(correctMapping)) {
     const userItems = Array.from(document.querySelectorAll(`#${zoneId} .drag-item`)).map(e => e.id);
-    if (userItems.length !== correctItems.length || !correctItems.every(item => userItems.includes(item))) {
-      isCorrect = false;
-      break;
-    }
+    totalItems += correctItems.length;
+
+    correctItems.forEach(item => {
+      if (userItems.includes(item)) {
+        totalCorrect += 1;
+      }
+    });
   }
 
   const feedback = document.getElementById(feedbackId);
-  if (isCorrect) {
-    feedback.textContent = "✅ Correct! Well done.";
+  
+  if (totalCorrect === totalItems) {
+    feedback.textContent = `✅ Excellent! All answers (${totalCorrect}/${totalItems}) are correctly classified.`;
     feedback.style.color = "green";
   } else {
-    feedback.textContent = "❌ Not quite. Try again!";
-    feedback.style.color = "red";
+    feedback.textContent = `⚠️ You got ${totalCorrect}/${totalItems} correct. Keep trying!`;
+    feedback.style.color = "orange";
   }
+
 }
 
 // Specific call for the Serial vs. Parallel Robot Question
