@@ -170,6 +170,35 @@ function checkDragDropAnswer(correctMapping, feedbackId) {
 
 }
 
+function checkDropdownAnswers(feedbackId) {
+  let totalCorrect = 0;
+  let totalQuestions = 0;
+
+  document.querySelectorAll("select.answer").forEach(select => {
+    const expected = select.getAttribute("data-answer")?.trim().toLowerCase();
+    const actual = select.value?.trim().toLowerCase();
+    totalQuestions++;
+
+    if (expected === actual && actual !== "") {
+      totalCorrect++;
+      select.style.backgroundColor = "#c8f7c5"; // green
+    } else {
+      select.style.backgroundColor = "#f7c5c5"; // red
+    }
+  });
+
+  const feedback = document.getElementById(feedbackId);
+  if (feedback) {
+    if (totalCorrect === totalQuestions) {
+      feedback.textContent = `✅ Excellent! All ${totalCorrect}/${totalQuestions} answers are correct.`;
+      feedback.style.color = "green";
+    } else {
+      feedback.textContent = `⚠️ You got ${totalCorrect}/${totalQuestions} correct. Try again!`;
+      feedback.style.color = "orange";
+    }
+  }
+}
+
 // Specific call for the Serial vs. Parallel Robot Question
 function checkRobotStructure() {
   const correctMapping = {

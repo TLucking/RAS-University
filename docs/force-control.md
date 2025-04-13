@@ -222,44 +222,6 @@ This feedback formulation allows the robot to adjust its torques based on measur
   }
 </style>
 
-<style>
-  .drag-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 16px;
-  }
-
-  .drop-zone {
-    border: 2px dashed #ccc;
-    border-radius: 6px;
-    padding: 10px;
-    min-height: 175px;
-    width: 45%;
-    background-color: #f9f9f9;
-  }
-
-  .drag-item {
-    background-color: #e3e3e3;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: move;
-    user-select: none;
-    margin: 4px;
-  }
-
-  .check-button {
-    margin-top: 10px;
-    padding: 8px 12px;
-    cursor: pointer;
-  }
-
-  .feedback {
-    margin-top: 10px;
-    font-weight: bold;
-  }
-</style>
-
 <div class="drag-container">
   
   <!-- Serial Robot Zone -->
@@ -480,7 +442,7 @@ Thus, impedance is not constant — it changes with the rate of motion, which is
 
 
 
-#### Chapter 2.1.2: Admittance control
+#### **Chapter 2.1.3: Admittance control**
 It is conceptually the dual of impedance. 
 In impedance control, we define how much force the robot should apply in response to a deviation in motion. In admittance control, it’s the opposite: we measure an external force and compute how much the robot should move to accommodate that force.
 Rather than generating force commands from motion errors, admittance control takes a force input and outputs a position or velocity adjustment. It creates a compliant behavior by letting the robot “yield” in a controlled way. Practically, the robot is typically position-controlled at its core, but an outer loop takes the force error and computes a small shift in the commanded position (or trajectory) to relieve or accommodate that force​. For instance, if a force of 10N is pushing the robot off its path, an admittance controller might say “yield by 1 mm” (depending on a compliance setting) – effectively, the robot moves slightly until the force reduces. 
@@ -558,13 +520,13 @@ Both impedance and admittance achieve force indirectly by shaping how the robot 
 
 
 <details>
-<summary>To go deeper in the theory</summary>
+<summary><strong>Deeper in the theory: University course</strong></summary>
 [Robotics 2 – Impedance Control](https://www.youtube.com/watch?v=IolG5V_skv8)  
 This lecture from **Sapienza University of Rome** provides a thorough and rigorous look at impedance control. It dives into the mathematical foundations and practical considerations behind the method, making it especially useful if you're aiming to understand how impedance control is derived and implemented at a deeper level. Recommended for students who are already comfortable with dynamics, control theory and robotic modeling.
 </details>
 
-<details>
-<summary>Conceptual exercise</summary>
+<details markdown = "1">
+<summary><strong>Conceptual exercise</strong></summary>
 
 *What is the difference between traditional position control with a PD controller and joint-stiffness control?*
 
@@ -575,48 +537,58 @@ whereas stiffness control is $$u = -\tau_g(q)
 In other words, stiffness control tries to cancel out the gravity and any other estimated terms, like friction, in the model. As written, this obviously requires an estimated model (which we have for iiwa, but don't believe we have for most arms with large gear-ratio transmissions) and torque control. But this small difference in the algebra can make a profound difference in practice. The controller is no longer depending on error to achieve the joint position in steady state. As such we can turn the gains way down, and in practice have a much more compliant response while still achieving good tracking when there are no external torques.
 </details>
 <details>
-<summary>Programming Exercise</summary>
+<summary><strong>Programming Exercise</strong></summary>
 
 [2.1 Programming Exercise : Impedance controller](https://learningadaptivereactiverobotcontrol.github.io/book-website.io//documentation/L9-Impedance.html)
 </details>
 
 ### Chapter 2.2: Direct Force Control
 
-Direct force control uses explicit control based on the interaction with the environment and based on the interaction and contact force, the force at joint(s) of the robot can be controlled so as to complete the task.
+Direct force control uses explicit feedback from the interaction with the environment to regulate the forces applied by the robot. Based on this contact force, the controller adjusts the robot’s joint torques or positions to achieve a desired force profile necessary to complete a task.
 
-Consider a 1-DOF, linear, position-controlled robot as in the figure below. One would like to control the contact force \( f \) between the robot end-effector and the wall so as to track a reference \( f_{ref} \), where \( f_{ref} \) is, for example, a constant positive value.
-![direct_1]({{ site.baseurl }}/assets/images/Force/direct_1.png)(Contact interaction between a one-dof robot and a wall.)
+Consider a 1-DOF, linear, position-controlled robot as shown below. The goal is to control the contact force $f$ between the robot’s end-effector and a wall so that it tracks a reference force $f_{ref}$, for example a constant positive value.
 
-For that, one can use a Proportional-Derivative (PD) control law as below. Note that the command sent to the robot is \( x_{com} \), which is a desired position.
-![direct_2]({{ site.baseurl }}/assets/images/Force/direct_2.png)(Block diagram of a force controller to control the contact force between the robot end-effector and the environment. The Laplace variable s stands for differentiation with respect to time (d/dt).)
+<figure>
+  <img src="{{ site.baseurl }}/assets/images/Force/direct_1.png" alt="https://opentextbooks.clemson.edu/me8930/chapter/force-control-of-a-manipulator/">
+  <figcaption>Contact interaction between a one-dof robot and a wall</figcaption>
+</figure>
 
+To achieve this, we can use a Proportional-Derivative (PD) control law as below. Note that the command sent to the robot is a desired position $x_{com}$:
 
-The Force/Torque (F/T) sensor measures the contact force between the end-effector and the wall. When there is no contact (first figure, top sketch), the contact force is zero, thus $f_{sensed} = 0$ yielding $f_{err} > 0.$
+<figure>
+  <img src="{{ site.baseurl }}/assets/images/Force/direct_2.png" alt="https://opentextbooks.clemson.edu/me8930/chapter/force-control-of-a-manipulator/">
+  <figcaption>Block diagram of a force controller to control the contact force between the robot end-effector and the environment.</figcaption>
+</figure>
 
-Assuming stationary initial conditions, one has next $x_{err} > 0,$ which implies that $x_{com} > x_{cur},$ which in turn makes the robot move to the right, towards the wall.
+Here’s how it behaves:
 
-Upon contact between the robot end-effector and the wall (first figure, bottom sketch), the contact force sensed by the F/T sensor 
-$ f_{sensed} $ becomes positive, but initially smaller than $f_{ref}$ — assuming "soft" collision. Therefore, initially, one still has  $x_{com} > x_{cur} = x_{wall},$ meaning that the robot is commanded to penetrate the wall.
+- When there is no contact, the force/torque sensor measures zero contact force: $f_{sensed} = 0$, so the error $f_{err} = f_{ref} > 0$.
+- Assuming stationary initial conditions, this creates a position error $x_{err} > 0$, which leads to $x_{com} > x_{cur}$ which in turn makes the robot move right toward the wall.
+- Upon contact between the robot end-effector and the wall, the sensed force becomes positive but still smaller than $f_{ref}$ assuming "soft" collision. Therefore, initially, one still has  $x_{com} > x_{cur} = x_{wall},$ meaning that the robot is commanded to penetrate the wall.
+- Finally, interactions between the PD controller and the stiffness of the end-effector, of the wall and of the robot's internal position controller (characterized in part by its own PID gains) brings the system to a steady state where:
+  - $f_{err} = 0$
+  - $x_{com} > x_{wall}$ — i.e., the robot slightly compresses the contact, holding a constant desired force.
 
-Finally, interactions between the PD controller and the stiffness of the end-effector, of the wall, and of the robot's internal position controller (characterized in part by its own PID gains), will eventually lead to a stationary state where $f_{err} = 0$ and $x_{com} > x_{wall}$ (so as to ensure a positive contact force).
-
-But in general, the task complexity is much higher where we may have to provide a model to specify desired motion and contact force/moment corresponding to the constraints imparted by the environment on the robot. Typical strategy to work with such type of control system is hybrid force/motion control that generates motion in directions that are unconstrained and force/moment in task direction that are constrained
-
-
-Pose estimation is the process of determining the position and orientation (pose) of a camera or object relative to a known reference frame, typically using 2D images and 3D world points. It plays a crucial role in robotics, augmented reality, and computer vision applications like object tracking, autonomous navigation, and grasping.
+This is a basic example. In more complex tasks, we often need to control motion along some axes and force along others, depending on environmental constraints. This leads naturally to **hybrid force/motion control**, which generates position commands in unconstrained directions and force commands in constrained ones.
 
 #### **Chapter 2.2.1: Hybrid Force/Motion Control**
 ![Intuition](https://www.youtube.com/watch?v=BXu9C3joUSk)	
 
 The aim of hybrid force/motion control is to split up simultaneous control of both end-effector motion and contact forces into two separate decoupled but coordinated subproblems
 
-![Fig3.10]({{ site.baseurl }}/assets/images/Force/hybrid_controller.png)(Hybrid controller)
-*(https://rocco.faculty.polimi.it/cir/Control%20of%20the%20interaction.pdf)(P 38)*
+<figure>
+  <img src="{{ site.baseurl }}/assets/images/Force/hybrid_controller.png" alt="https://rocco.faculty.polimi.it/cir/Control%20of%20the%20interaction.pdf (p38)">
+  <figcaption>Hybrid controller</figcaption>
+</figure>
 
 The idea is to decouple all 6 degrees of freedom of the task (3 translations and 3 rotations) into two orthogonal subspaces and apply either a motion based control or a force based control onto each of the axes. Unconstrained (free) axes are controlled in position while constrained axes are controlled by applying a constant force 
 
-Consider the illustrative scenario (osrobotics.org) (Figure 3.10), where a robot end-effector slides on a table surface. Here, the vertical direction (Z-axis) demands force control to maintain consistent contact force, while the horizontal direction (X-axis) requires position control to follow a prescribed trajectory. Such scenarios frequently occur in grinding or polishing tasks.
-![Fig3.10]({{ site.baseurl }}/assets/images/Force/hybrid_1.png)(Figure 3.10. End-effector sliding and corresponding block diagram to control normal contact force in Z and position in X.)
+Consider the illustrative scenario below, where a robot end-effector slides on a table surface. Here, the vertical direction (Z-axis) demands force control to maintain consistent contact force, while the horizontal direction (X-axis) requires position control to follow a prescribed trajectory. Such scenarios frequently occur in grinding or polishing tasks.
+
+<figure>
+  <img src="{{ site.baseurl }}/assets/images/Force/hybrid_1.png" alt="osrobotics.org">
+  <figcaption>End-effector sliding and corresponding block diagram to control normal contact force in Z and position in X</figcaption>
+</figure>
 
 ![Illustrative example](https://www.youtube.com/watch?v=R2zwEaxyhY0)
 
@@ -624,9 +596,8 @@ Consider the illustrative scenario (osrobotics.org) (Figure 3.10), where a robot
 
 In hybrid force/motion control, one of the most important design decisions is how to split the task space into motion-controlled and force-controlled directions. This is not arbitrary — it should be based on both the task requirements and the physical properties of the robot’s environment.
 We make this decision by distinguishing between:
- * Natural constraints — limitations imposed by the environment that restrict motion or wrench. These are not imposed by the robot, but arise from rigid contact (e.g. a table blocks downward motion, or a peg in a hole restricts lateral translation).
-
-* Artificial constraints — constraints imposed by the controller. These are where we actively control either position or force, depending on what the task requires.
+ * ***Natural constraints :*** limitations imposed by the environment that restrict motion or wrench. These are not imposed by the robot, but arise from rigid contact (e.g. a table blocks downward motion, or a peg in a hole restricts lateral translation).
+ * ***Artificial constraints :*** constraints imposed by the controller. These are where we actively control either position or force, depending on what the task requires.
 
 In theory:
 * Force control should be applied along directions that are naturally constrained (e.g. control the contact force along the surface normal).
@@ -640,7 +611,7 @@ This structure allows the robot to behave appropriately in tasks with partial co
 ![Hybrid motion/force control](https://youtu.be/UR0GpaaBVKk?si=_8KyDB-Hhl7YSeX9) --> A short video explaining in more mathematical terms what was presented in this section
 
 <details>
-<summary>Conceptual Exercise</summary>
+<summary><strong>Conceptual Exercise</strong></summary>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -688,10 +659,10 @@ This structure allows the robot to behave appropriately in tasks with partial co
 <p>Drag each axis into the correct constraint category.</p>
 <p><strong>Notation:</strong> Each term refers to a motion or force component in the contact frame <code>c</code>:
   <ul>
-    <li><code>ẋ<sub>i</sub><sup>c</sup></code> – linear velocity along axis <code>i</code> (<code>x</code>, <code>y</code>, or <code>z</code>)</li>
-    <li><code>ω<sub>i</sub><sup>c</sup></code> – angular velocity about axis <code>i</code></li>
-    <li><code>f<sub>i</sub><sup>c</sup></code> – force along axis <code>i</code></li>
-    <li><code>μ<sub>i</sub><sup>c</sup></code> – moment (torque) about axis <code>i</code></li>
+    <li><code>k̇</code> – linear velocity along axis <code>k</code> (<code>x</code>, <code>y</code>, or <code>z</code>)</li>
+    <li><code>ω<sub>k</sub></code> – angular velocity about axis <code>k</code></li>
+    <li><code>f<sub>k</sub></code> – force along axis <code>k</code></li>
+    <li><code>μ<sub>k</sub></code> – moment (torque) about axis <code>k</code></li>
   </ul>
 </p>
 
@@ -699,18 +670,19 @@ This structure allows the robot to behave appropriately in tasks with partial co
 <h3>Sliding on a Flat Surface</h3>
 <img src="../assets/images/Force/flat.png" alt="flat">
 <div class="drag-container" id="drag-items-1">
-  <div class="drag-item" id="hfc1_1" draggable="true" ondragstart="drag(event)">ẋ<sub>z</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc1_2" draggable="true" ondragstart="drag(event)">ω<sub>x</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc1_3" draggable="true" ondragstart="drag(event)">ω<sub>y</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc1_4" draggable="true" ondragstart="drag(event)">f<sub>x</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc1_5" draggable="true" ondragstart="drag(event)">f<sub>y</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc1_6" draggable="true" ondragstart="drag(event)">μ<sub>z</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc1_7" draggable="true" ondragstart="drag(event)">f<sub>z</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc1_8" draggable="true" ondragstart="drag(event)">ẋ<sub>x</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc1_9" draggable="true" ondragstart="drag(event)">ẋ<sub>y</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc1_10" draggable="true" ondragstart="drag(event)">μ<sub>x</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc1_11" draggable="true" ondragstart="drag(event)">μ<sub>y</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc1_12" draggable="true" ondragstart="drag(event)">ω<sub>z</sub><sup>c</sup></div>
+  <div class="drag-item" id="hfc1_1" draggable="true" ondragstart="drag(event)">ẋ</div>
+  <div class="drag-item" id="hfc1_8" draggable="true" ondragstart="drag(event)">ẏ</div>
+  <div class="drag-item" id="hfc1_9" draggable="true" ondragstart="drag(event)">ż</div>
+  <div class="drag-item" id="hfc1_2" draggable="true" ondragstart="drag(event)">ω<sub>x</sub></div>
+  <div class="drag-item" id="hfc1_3" draggable="true" ondragstart="drag(event)">ω<sub>y</sub></div>
+  <div class="drag-item" id="hfc1_12" draggable="true" ondragstart="drag(event)">ω<sub>z</sub></div>
+  <div class="drag-item" id="hfc1_4" draggable="true" ondragstart="drag(event)">f<sub>x</sub></div>
+  <div class="drag-item" id="hfc1_5" draggable="true" ondragstart="drag(event)">f<sub>y</sub></div>
+  <div class="drag-item" id="hfc1_7" draggable="true" ondragstart="drag(event)">f<sub>z</sub></div>
+  <div class="drag-item" id="hfc1_10" draggable="true" ondragstart="drag(event)">μ<sub>x</sub></div>
+  <div class="drag-item" id="hfc1_11" draggable="true" ondragstart="drag(event)">μ<sub>y</sub></div>
+  <div class="drag-item" id="hfc1_6" draggable="true" ondragstart="drag(event)">μ<sub>z</sub></div>
+
 </div>
 <div class="drag-container">
   <div class="drop-zone" id="natural1" ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -720,25 +692,34 @@ This structure allows the robot to behave appropriately in tasks with partial co
     <h3>🟨 Artificial Constraints</h3>
   </div>
 </div>
-<button class="check-button" onclick="checkAnswer(1)">Check Answer</button>
-<div class="feedback" id="feedback1"></div>
+
+<script>
+const correctMapping3 = {
+  "passive_zone": ["hcf1_9", "hcf1_2", "hcf1_3", "hcf1_4", "hcf1_5", "hcf1_6"],
+  "active_zone": ["hcf1_7", "hcf1_8", "hcf1_1", "hcf1_10", "hcf1_11", "hcf1_12"]
+};
+</script>
+
+<!-- Trigger + Feedback -->
+<button class="check-button" onclick="checkDragDropAnswer(correctMapping3, 'feedback-hybrid_1')">Check Answer</button>
+<div class="feedback" id="feedback-hybrid_1"></div>
 
 <!-- EXERCISE 2 -->
-<h3>Peg Insertion</h3>
+<h3>Insertion of a peg in a hole</h3>
 <img src="../assets/images/Force/peg.png" alt="peg">
 <div class="drag-container" id="drag-items-2">
-  <div class="drag-item" id="hfc2_1" draggable="true" ondragstart="drag(event)">ẋ<sub>x</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc2_2" draggable="true" ondragstart="drag(event)">ẋ<sub>y</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc2_3" draggable="true" ondragstart="drag(event)">ω<sub>x</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc2_4" draggable="true" ondragstart="drag(event)">ω<sub>y</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc2_5" draggable="true" ondragstart="drag(event)">f<sub>z</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc2_6" draggable="true" ondragstart="drag(event)">μ<sub>z</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc2_7" draggable="true" ondragstart="drag(event)">f<sub>x</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc2_8" draggable="true" ondragstart="drag(event)">f<sub>y</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc2_9" draggable="true" ondragstart="drag(event)">μ<sub>x</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc2_10" draggable="true" ondragstart="drag(event)">μ<sub>y</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc2_11" draggable="true" ondragstart="drag(event)">ẋ<sub>z</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc2_12" draggable="true" ondragstart="drag(event)">ω<sub>z</sub><sup>c</sup></div>
+  <div class="drag-item" id="hfc2_1" draggable="true" ondragstart="drag(event)">ẋ</div>
+  <div class="drag-item" id="hfc2_2" draggable="true" ondragstart="drag(event)">ẏ</div>
+  <div class="drag-item" id="hfc2_3" draggable="true" ondragstart="drag(event)">ż</div>
+  <div class="drag-item" id="hfc2_4" draggable="true" ondragstart="drag(event)">ω<sub>x</sub></div>
+  <div class="drag-item" id="hfc2_5" draggable="true" ondragstart="drag(event)">ω<sub>y</sub></div>
+  <div class="drag-item" id="hfc2_6" draggable="true" ondragstart="drag(event)">ω<sub>z</sub></div>
+  <div class="drag-item" id="hfc2_7" draggable="true" ondragstart="drag(event)">f<sub>x</sub></div>
+  <div class="drag-item" id="hfc2_8" draggable="true" ondragstart="drag(event)">f<sub>y</sub></div>
+  <div class="drag-item" id="hfc2_9" draggable="true" ondragstart="drag(event)">f<sub>z</sub></div>
+  <div class="drag-item" id="hfc2_10" draggable="true" ondragstart="drag(event)">μ<sub>x</sub></div>
+  <div class="drag-item" id="hfc2_11" draggable="true" ondragstart="drag(event)">μ<sub>y</sub></div>
+  <div class="drag-item" id="hfc2_12" draggable="true" ondragstart="drag(event)">μ<sub>z</sub></div>
 </div>
 <div class="drag-container">
   <div class="drop-zone" id="natural2" ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -748,24 +729,35 @@ This structure allows the robot to behave appropriately in tasks with partial co
     <h3>🟨 Artificial Constraints</h3>
   </div>
 </div>
-<button class="check-button" onclick="checkAnswer(2)">Check Answer</button>
-<div class="feedback" id="feedback2"></div>
+
+<script>
+const correctMapping4 = {
+  "passive_zone": ["hcf2_1", "hcf2_2", "hcf2_4", "hcf2_5", "hcf2_9", "hcf1_12"],
+  "active_zone": ["hcf2_3", "hcf2_6", "hcf2_7", "hcf2_8", "hcf2_11", "hcf2_10"]
+};
+</script>
+
+<!-- Trigger + Feedback -->
+<button class="check-button" onclick="checkDragDropAnswer(correctMapping4, 'feedback-hybrid_2')">Check Answer</button>
+<div class="feedback" id="feedback-hybrid_2"></div>
+
 
 <!-- EXERCISE 3 -->
 <h3>Crank Rotation</h3>
 <img src="../assets/images/Force/Rotation.png" alt="rotation">
 <div class="drag-container" id="drag-items-3">
-  <div class="drag-item" id="hfc3_1" draggable="true" ondragstart="drag(event)">ẋ<sub>x</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc3_2" draggable="true" ondragstart="drag(event)">ẋ<sub>z</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc3_3" draggable="true" ondragstart="drag(event)">ω<sub>x</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc3_4" draggable="true" ondragstart="drag(event)">ω<sub>y</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc3_5" draggable="true" ondragstart="drag(event)">f<sub>x</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc3_6" draggable="true" ondragstart="drag(event)">f<sub>z</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc3_7" draggable="true" ondragstart="drag(event)">μ<sub>x</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc3_8" draggable="true" ondragstart="drag(event)">μ<sub>y</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc3_9" draggable="true" ondragstart="drag(event)">f<sub>y</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc3_10" draggable="true" ondragstart="drag(event)">ẋ<sub>y</sub><sup>c</sup></div>
-  <div class="drag-item" id="hfc3_11" draggable="true" ondragstart="drag(event)">ω<sub>z</sub><sup>c</sup></div>
+  <div class="drag-item" id="hfc3_1" draggable="true" ondragstart="drag(event)">ẋ</div>
+  <div class="drag-item" id="hfc3_2" draggable="true" ondragstart="drag(event)">ẏ</div>
+  <div class="drag-item" id="hfc3_3" draggable="true" ondragstart="drag(event)">ż</div>
+  <div class="drag-item" id="hfc3_4" draggable="true" ondragstart="drag(event)">ω<sub>x</sub></div>
+  <div class="drag-item" id="hfc3_5" draggable="true" ondragstart="drag(event)">ω<sub>y</sub></div>
+  <div class="drag-item" id="hfc3_6" draggable="true" ondragstart="drag(event)">ω<sub>z</sub></div>
+  <div class="drag-item" id="hfc3_7" draggable="true" ondragstart="drag(event)">f<sub>x</sub></div>
+  <div class="drag-item" id="hfc3_8" draggable="true" ondragstart="drag(event)">f<sub>y</sub></div>
+  <div class="drag-item" id="hfc3_9" draggable="true" ondragstart="drag(event)">f<sub>z</sub></div>
+  <div class="drag-item" id="hfc3_10" draggable="true" ondragstart="drag(event)">μ<sub>x</sub></div>
+  <div class="drag-item" id="hfc3_11" draggable="true" ondragstart="drag(event)">μ<sub>y</sub></div>
+  <div class="drag-item" id="hfc3_12" draggable="true" ondragstart="drag(event)">μ<sub>z</sub></div>
 </div>
 <div class="drag-container">
   <div class="drop-zone" id="natural3" ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -775,8 +767,15 @@ This structure allows the robot to behave appropriately in tasks with partial co
     <h3>🟨 Artificial Constraints</h3>
   </div>
 </div>
-<button class="check-button" onclick="checkAnswer(3)">Check Answer</button>
-<div class="feedback" id="feedback3"></div>
+<script>
+const correctMapping5 = {
+  "passive_zone": ["hcf3_1", "hcf3_3", "hcf3_4", "hcf3_5", "hcf3_8", "hcf3_12"],
+  "active_zone": ["hcf3_2", "hcf3_6", "hcf3_7", "hcf3_9", "hcf3_11", "hcf3_10"]
+};
+</script>
+<!-- Trigger + Feedback -->
+<button class="check-button" onclick="checkDragDropAnswer(correctMapping5, 'feedback-hybrid_3')">Check Answer</button>
+<div class="feedback" id="feedback-hybrid_3"></div>
 
 <script>
 function allowDrop(ev) {
@@ -794,38 +793,6 @@ function drop(ev) {
     ev.target.appendChild(el);
   }
 }
-function checkAnswer(exerciseNum) {
-  const answers = {
-    1: {
-      natural: ["ẋ<sub>z</sub><sup>c</sup>", "ω<sub>x</sub><sup>c</sup>", "ω<sub>y</sub><sup>c</sup>"],
-      artificial: ["f<sub>x</sub><sup>c</sup>", "f<sub>y</sub><sup>c</sup>", "μ<sub>z</sub><sup>c</sup>", "f<sub>z</sub><sup>c</sup>", "ẋ<sub>x</sub><sup>c</sup>", "ẋ<sub>y</sub><sup>c</sup>", "μ<sub>x</sub><sup>c</sup>", "μ<sub>y</sub><sup>c</sup>", "ω<sub>z</sub><sup>c</sup>"]
-    },
-    2: {
-      natural: ["f<sub>z</sub><sup>c</sup>", "ω<sub>z</sub><sup>c</sup>", "ẋ<sub>z</sub><sup>c</sup>"],
-      artificial: ["ẋ<sub>x</sub><sup>c</sup>", "ẋ<sub>y</sub><sup>c</sup>", "ω<sub>x</sub><sup>c</sup>", "ω<sub>y</sub><sup>c</sup>", "f<sub>x</sub><sup>c</sup>", "f<sub>y</sub><sup>c</sup>", "μ<sub>x</sub><sup>c</sup>", "μ<sub>y</sub><sup>c</sup>", "μ<sub>z</sub><sup>c</sup>"]
-    },
-    3: {
-      natural: ["ω<sub>z</sub><sup>c</sup>"],
-      artificial: ["ẋ<sub>x</sub><sup>c</sup>", "ẋ<sub>y</sub><sup>c</sup>", "ẋ<sub>z</sub><sup>c</sup>", "ω<sub>x</sub><sup>c</sup>", "ω<sub>y</sub><sup>c</sup>", "f<sub>x</sub><sup>c</sup>", "f<sub>y</sub><sup>c</sup>", "f<sub>z</sub><sup>c</sup>", "μ<sub>x</sub><sup>c</sup>", "μ<sub>y</sub><sup>c</sup>"]
-    }
-  };
-  const natElems = Array.from(document.querySelectorAll(`#natural${exerciseNum} .drag-item`)).map(e => e.innerHTML.trim());
-  const artElems = Array.from(document.querySelectorAll(`#artificial${exerciseNum} .drag-item`)).map(e => e.innerHTML.trim());
-  const natCorrect = answers[exerciseNum].natural;
-  const artCorrect = answers[exerciseNum].artificial;
-
-  const natOK = natElems.every(e => natCorrect.includes(e)) && natElems.length === natCorrect.length;
-  const artOK = artElems.every(e => artCorrect.includes(e)) && artElems.length === artCorrect.length;
-
-  const feedback = document.getElementById("feedback" + exerciseNum);
-  if (natOK && artOK) {
-    feedback.textContent = "✅ Correct! Well done.";
-    feedback.style.color = "green";
-  } else {
-    feedback.textContent = "❌ Not quite. Try again!";
-    feedback.style.color = "red";
-  }
-}
 </script>
 
 </body>
@@ -840,17 +807,45 @@ may however occur in the measurements, due e.g. to:
 direction which is nominally constrained in motion)
 * uncertainty in the environment geometry at the contact
 
-[Intuition](https://www.youtube.com/watch?v=8VB5NneTKLE)
+<details markdown = "1">
+<summary><strong>Deeper in the theory: University course</strong></summary>
+![Video to go deeper into theory](https://www.youtube.com/watch?v=TyzTkIbWPyQ) 
+his lecture dives deeper into the theoretical formulation behind hybrid force/motion control. It builds on the ideas introduced in Chapter 2.2 and 2.2.1, detailing how tasks are decomposed using selection matrices, and how controllers are structured to enforce force or motion objectives in orthogonal subspaces. The video covers the mathematical models, control laws, and stability considerations involved—making it an excellent resource for students already comfortable with robot dynamics and control theory, and who want to understand the full structure of hybrid controllers from the ground up.
+</details>
 
-![Video to go deeper into theory](https://www.youtube.com/watch?v=TyzTkIbWPyQ) --> This is a much longer video but very interesting and didactic
 
-**Exercise**
+# Programming
+Now that you’ve explored the theory behind interaction control, it’s time to bring it to life in simulation. You’ll get hands-on experience applying active force control to a simplified robot model — and see how your controller responds to real-time contact dynamics.
+*(Please refer to the **Install Webots** section if you haven't installed it yet.)*
 
-[Hybrid Force/Position control Assignment](https://deepnote.com/workspace/Manipulation-ac8201a1-470a-4c77-afd0-2cc45bc229ff/project/87d8044f-3eb2-4f25-b52f-f51a5eca68b7/notebook/hybridforceposition-25104d02b7bc429bb3d71ef7e5d1c2bb)
-This is an assignment given in the [Robotic Manipulation course](https://manipulation.csail.mit.edu/force.html#example2) given in MIT. It uses Python with a custom library that can be easily installed on mac or Ubuntu ```pip install manipulation``` or directly executing in DeepNote.
-It comprises conceptual exercises as well as programming. The only problem is that a solution is not provided. 
+### Step 1: Setup your environment
+Head to the following page:
 
-![Hybrid_assignment]({{ site.baseurl }}/assets/images/Force/hybrid_assignment.png)
+🔗 [Boom Monopod Simulation](https://courses.ideate.cmu.edu/16-375/f2024/text/simulations/boom-monopod.html)
+
+There, you'll find a description of the setup, including:
+
+- A Webots `.wbt` world file
+- A controller implemented in Python
+- Instructions to run the simulation
+
+The system consists of a 1-DOF leg mounted on a boom that moves only vertically. Your task will be to implement a control law that regulates the contact force applied against the ground.
+
+<figure>
+  <img src="{{ site.baseurl }}/assets/images/Force/boom-monopod.png" alt="https://courses.ideate.cmu.edu/16-375/f2024/text/simulations/boom-monopod.html">
+  <figcaption>Webots model of the boom-monopod</figcaption>
+</figure>
+
+### Step 2: Apply your force control strategy
+
+Follow the guidance in the controller's code. It already includes comments and `TODO` areas to help you:
+
+- Implement feedback control using force measurements
+- Tune the response by adjusting gains
+- Observe how the system reacts under different force targets
+
+You can run the simulation directly in Webots to see how your controller performs.
+This exercise is a great opportunity to test real-time interaction with the environment — and to get a feel for how force control works in practice.
 
 # Summary
 
@@ -922,7 +917,6 @@ It comprises conceptual exercises as well as programming. The only problem is th
         <option>Impedance</option>
       </select></td>
     </tr>
-
     <!-- Force Control -->
     <tr>
       <td><strong>Force Control</strong></td>
@@ -951,7 +945,34 @@ It comprises conceptual exercises as well as programming. The only problem is th
         <option>Impedance</option>
       </select></td>
     </tr>
-
+        <!-- Impedance Control -->
+    <tr>
+      <td><strong>Impedance Control</strong></td>
+      <td><select data-answer="Task space" class="answer">
+        <option value="">-- Select --</option>
+        <option>Task space</option>
+        <option>Position subspace, Force subspace</option>
+      </select></td>
+      <td><select data-answer="Position, Contact Force" class="answer">
+        <option value="">-- Select --</option>
+        <option>Position</option>
+        <option>Contact Force</option>
+        <option>Position, Contact Force</option>
+      </select></td>
+      <td><select data-answer="All kinds of motion" class="answer">
+        <option value="">-- Select --</option>
+        <option>Free motion</option>
+        <option>Constrained motion</option>
+        <option>All kinds of motion</option>
+      </select></td>
+      <td><select data-answer="Impedance" class="answer">
+        <option value="">-- Select --</option>
+        <option>Desired position</option>
+        <option>Desired contact force</option>
+        <option>Desired position, Desired contact force</option>
+        <option>Impedance</option>
+      </select></td>
+    </tr>
     <!-- Hybrid Control -->
     <tr>
       <td><strong>Hybrid Control</strong></td>
@@ -980,90 +1001,28 @@ It comprises conceptual exercises as well as programming. The only problem is th
         <option>Impedance</option>
       </select></td>
     </tr>
-
-    <!-- Impedance Control -->
-    <tr>
-      <td><strong>Impedance Control</strong></td>
-      <td><select data-answer="Task space" class="answer">
-        <option value="">-- Select --</option>
-        <option>Task space</option>
-        <option>Position subspace, Force subspace</option>
-      </select></td>
-      <td><select data-answer="Position, Contact Force" class="answer">
-        <option value="">-- Select --</option>
-        <option>Position</option>
-        <option>Contact Force</option>
-        <option>Position, Contact Force</option>
-      </select></td>
-      <td><select data-answer="All kinds of motion" class="answer">
-        <option value="">-- Select --</option>
-        <option>Free motion</option>
-        <option>Constrained motion</option>
-        <option>All kinds of motion</option>
-      </select></td>
-      <td><select data-answer="Impedance" class="answer">
-        <option value="">-- Select --</option>
-        <option>Desired position</option>
-        <option>Desired contact force</option>
-        <option>Desired position, Desired contact force</option>
-        <option>Impedance</option>
-      </select></td>
-    </tr>
   </tbody>
 </table>
 
-<button id="check-button">✅ Check Answers</button>
+<button onclick="checkDropdownAnswers('dropdown-feedback')">Check Answers</button>
 <p id="dropdown-feedback" style="font-weight: bold; margin-top: 10px;"></p>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("check-button").addEventListener("click", function () {
-      let correct = 0;
-      let total = 0;
-
-      document.querySelectorAll("select.answer").forEach(select => {
-        const expected = select.getAttribute("data-answer").trim().toLowerCase();
-        const actual = select.value.trim().toLowerCase();
-        total++;
-
-        if (expected === actual && actual !== "") {
-          select.style.backgroundColor = "#c8f7c5"; // green
-          correct++;
-        } else {
-          select.style.backgroundColor = "#f7c5c5"; // red
-        }
-      });
-
-      const feedback = document.getElementById("dropdown-feedback");
-      if (correct === total) {
-        feedback.textContent = "✅ All answers are correct!";
-        feedback.style.color = "green";
-      } else {
-        feedback.textContent = `❌ ${correct} out of ${total} correct. Try again!`;
-        feedback.style.color = "red";
-      }
-    });
-  });
-</script>
 
 </body>
 </html>
 
 10.1109/CRC.2017.20
 
-A simulation summarizing the different types of force control presented here 
-using ROS and on Linux (code hard to understand but a readme helps to run the simulation) ???
-[simulation](https://github.com/MingshanHe/Compliant-Control-and-Application/tree/noetic)
-
-[More theory](https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/127c560e6052cb02ed3f7adc8d3c1512_chapter9.pdf#:~:text=accommodate%20the%20pressure%20with%20which,former%20is%20x%20and%20y) 
---> a complete university course in PDF from MIT
-
 
 
 # Final Project
 [Complete project with hardware and software implementation in python](https://github.com/SamoaChen/2-Linkages-Robotic-Arm-Hybrid-Position-Force-Control/tree/master)
 
-### Free Online Courses
+### Want to learn more ? --> Free Online Courses
+If you’re interested in a deeper, structured exploration of force control, hybrid control, and interaction dynamics, check out this excellent university-level material:
+-  [Chapter 2.12](https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/127c560e6052cb02ed3f7adc8d3c1512_chapter9.pdf#:~:text=accommodate%20the%20pressure%20with%20which,former%20is%20x%20and%20y) of MIT's Introduction to Robotics (2.12) —> A thorough breakdown of hybrid position/force control, compliance modeling, and the math behind force regulation during interaction
+
+- [Lecture 13 - MIT 6.881 (Robotic Manipulation), Fall 2021 - Force Control (part 2)](https://www.youtube.com/watch?v=8VB5NneTKLE) A deep-dive lecture that walks through the same content with examples and derivations — perfect if you want to learn summarize all you have learnt in this course.
 
 - [Lecture 13 - MIT 6.881 (Robotic Manipulation), Fall 2020 - Force Control (part 2)](https://www.youtube.com/watch?v=WX03NqnKVywl)
 
