@@ -1268,8 +1268,8 @@ In this example with your robot, a Python library called `ikpy` is used. This li
 If you're curious about how these calculations are done internally or if you'd like to learn more about this library, you can explore the official documentation [here](https://ikpy.readthedocs.io/en/latest/ikpy.html).
 
 ### Step 4: Observation 
-You can also have a little bit of fun by moving the yellow-black by moving by clicking on it and translate or rotate it. 
-If your code is well, the arm of the robot will try to catch as long as the ball is still in its workspace. 
+You can also have some fun by clicking on the yellow-black sphere and translating or rotating it.
+If your code is correct, the robot arm will continuously attempt to reach the sphere, as long as it remains within its workspace.
 
 <video width="500" controls>
   <source src="{{ site.baseurl }}/assets/videos/inv_kinematics.mp4" type="video/mp4">
