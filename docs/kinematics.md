@@ -52,6 +52,8 @@ This section of the course is primarily based on content shared by **Mohammad Za
 
 Mohammad’s videos are **well-structured**, **visually engaging** and **not very long** (less than 10 minute), making them an excellent resource for anyone beginning to study kinematics for robotics. We recommend starting with the videos listed below to build a solid foundation. 
 
+Additionally other videos from other youtubers that we have found the most relevant to explain the phenomenom or concepts are proposed. 
+
 Once you’ve grasped the basics, you can further strengthen your understanding by working through  conceptual and mathematical exercises are inspired by [Prof. Mohamed Bouri](https://people.epfl.ch/mohamed.bour), Professor at EPFL. 
 
 For those looking to deepen their understanding or seeking clear explanations of more complex topics, we also suggest additional short and highly instructive videos by [Prof. Kevin Lynch](https://www.mccormick.northwestern.edu/research-faculty/directory/profiles/lynch-kevin.html), Professor of Mechanical Engineering at Northwestern University. These videos are based on the book "Modern Robotics:  Mechanics, Planning, and Control," by Kevin Lynch and Frank Park, Cambridge University Press 2017. See http://modernrobotics.org for information on the book, free software, and other materials.
@@ -999,7 +1001,7 @@ Watch the video below to clearly grasp what robot singularities are and how you 
 
 ![Robot Singularities & how to find them](https://www.youtube.com/watch?v=WXEOr7X2bPE&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=14)
 
-For *serial manipulators*, the singular positions result from the l**oss of degrees of freedom** while in a *parallel manipulator*, they result of the **gain of one or more degrees of freedom**. Most of the time, passing through a singularity causes **over constraint**, to then inducing the loss of control of one or more degrees of freedom. Which means, not controllable, which is not good. 
+For *serial manipulators*, the singular positions result from the **loss of degrees of freedom** while in a *parallel manipulator*, they result of the **gain of one or more degrees of freedom**. Most of the time, passing through a singularity causes **over constraint**, to then inducing the loss of control of one or more degrees of freedom. Which means, not controllable, which is not good. 
 
 <!-- Conceptual Questions -->
 <details markdown="1">
@@ -1238,10 +1240,10 @@ Let's move on to maybe the most exciting part: applying the kinematics concepts 
 
 ### Step 1: Setup your environment
 
-1. 📁 [Download the `irb` folder]({{ site.baseurl }}/assets/downloads/kinematics/irb.zip)
+1. 📁 [Download the `irb` folder]({{ site.baseurl }}/assets/downloads/kinematics/irb_2025.zip)
 2. Extract the downloaded `.zip` file.
 3. Launch Webots. From the top-left corner select **File → Open World**.
-4. Navigate to the extracted `irl/worlds` folder and select your `.wbt` file.
+4. Navigate to the extracted `irb/worlds` folder and select your `.wbt` file.
 
 
 
@@ -1254,9 +1256,25 @@ Once successfully opened, your robot and its environment should appear, as illus
 
 Now, follow the instructions provided on the right side panel within Webots, and complete the code to make your robot move.
 
-Once you've implemented all the "TODO" sections, click "Build" to compile your project, and then start the simulation.
+Once you've implemented all the "COMPLETE THIS LINE OF CODE" sections, click "Build" or "Save"(`CTRL+S`) to compile your project, and then start the simulation.
 
 **Good luck and have fun!**
+
+### Step 3: Understanding the Process (Feedback)
+As you've probably noticed by completing the coding exercise, manually programming inverse kinematics can become quite complex, especially for practical robotics applications. Usually, in real-world scenarios, specialized software or libraries are utilized to handle these calculations efficiently, rather than implementing all functions by hand. So you are very lucky for this chapter, you only need to understand how to use it !
+
+In this example with your robot, a Python library called `ikpy` is used. This library provides convenient functions for computing inverse kinematics: you simply input the desired position (x, y, z), and the current joint positions, and `ikpy` performs all the necessary calculations.
+
+If you're curious about how these calculations are done internally or if you'd like to learn more about this library, you can explore the official documentation [here](https://ikpy.readthedocs.io/en/latest/ikpy.html).
+
+### Step 4: Observation 
+You can also have a little bit of fun by moving the yellow-black by moving by clicking on it and translate or rotate it. 
+If your code is well, the arm of the robot will try to catch as long as the ball is still in its workspace. 
+
+<video width="500" controls>
+  <source src="{{ site.baseurl }}/assets/videos/inv_kinematics.mp4" type="video/mp4">
+</video>
+
 
 ## Ressources
 

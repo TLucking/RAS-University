@@ -1,12 +1,12 @@
 ---
-title: Installation
+title: Webots Installations & Tutorials
 nav_order: 3
 layout: default
 ---
 
 # 🛠️ Installing Webots Simulator
 
-To engage practically with our robotics courses—coding, simulating, and visualizing robots in action—you'll need **Webots**, an open-source robotics simulator. Webots provides an interactive 3D environment to visually test and verify your robot designs and code implementations.
+To engage practically with our robotics courses—coding, simulating, and visualizing robots in action—you will need **Webots**, an open-source robotics simulator. Webots provides an interactive 3D environment to visually test and verify your robot designs and code implementations.
 
 ---
 
@@ -22,10 +22,11 @@ Follow the official **Webots Installation Guide** below to quickly set up your s
 
 Webots supports multiple programming languages, providing flexibility for your robotics experiments:
 
-- **Python** (recommended for beginners)
+- **Python** 
 - **C**
 - **C++**
 - **Java**
+- **Matlab**
 
 Choose the language you're most comfortable with to get started.
 
@@ -41,4 +42,26 @@ Once installed, you'll be ready to:
 
 ---
 
-Enjoy coding and visualizing your robots!
+## 🤖 Create Your Own Unique Robot and Environment
+Want to build your own custom robot or design a personalized simulation world? You're in the right place!
+
+There are many helpful video tutorials online that explain how to install and use Webots. Below, we’ve linked to some top YouTubers and creators who present great walkthroughs:
+
+🎥 **Featured YouTubers & Tutorials**
+
+
+👩‍💻 [Kajal Gada](https://kgada.info/): 
+A robotics engineer who shares clear, beginner-friendly tutorials on creating robots and environments in Webots. Her videos are well-structured and easy to follow, making them an excellent starting point.
+
+- [Webots 2022 Tutorials](https://www.youtube.com/watch?v=-n7zqdGVU6g&list=PLbEU0vp_OQkXykHJEtYidUEISGYFZjMyp)
+- [Webots 2023 Tutorials](https://www.youtube.com/watch?v=gC00pWwOFhg&list=PLbEU0vp_OQkVx6P27-Tn08nTy-bN3s6c4)
+
+🧠 [Soft Illusion](https://www.youtube.com/@coolrobotics): 
+A YouTube channel focused on simplifying robotics for everyone. With the goal of turning complex ideas into understandable concepts, this channel helps bridge the gap between theory and hands-on practice.
+
+- [Webots 2021 Tutorial Series](https://www.youtube.com/watch?v=2CWHfbuEbAY&list=PLt69C9MnPchlWEV5AEhfT2HajlE2SJ55V)
+
+Don't worry if you're using a newer version—Webots evolves gradually. While you might notice some exciting updates or new robot models, the installation process and core features remain mostly the same.
+
+Enjoy designing, coding, and bringing your robotic creations to life!
+
