@@ -1271,11 +1271,18 @@ If you're curious about how these calculations are done internally or if you'd l
 You can also have some fun by clicking on the yellow-black sphere and translating or rotating it.
 If your code is correct, the robot arm will continuously attempt to reach the sphere, as long as it remains within its workspace.
 
+<!-- <video width="500" controls>
+  <source src="{{ site.baseurl }}/assets/videos/inv_kinematics.mp4" type="video/mp4">
+</video> -->
 <video width="640" height="360" controls>
   <source src="{{ site.baseurl }}{{ '/assets/videos/kinematics/inv_kinematics.mp4' | relative_url }}" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
+<video width="640" height="360" controls>
+  <source src="/assets/videos/kinematics/inv_kinematics.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 
 
