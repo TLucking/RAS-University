@@ -142,23 +142,60 @@ function drop(ev) {
 
 // Generalized function to check drag-and-drop answers
 function checkDragDropAnswer(correctMapping, feedbackId) {
-  let isCorrect = true;
 
+  let totalCorrect = 0;
+  let totalItems = 0;
+
+  // Calculate correct answers clearly for each zone
   for (const [zoneId, correctItems] of Object.entries(correctMapping)) {
     const userItems = Array.from(document.querySelectorAll(`#${zoneId} .drag-item`)).map(e => e.id);
-    if (userItems.length !== correctItems.length || !correctItems.every(item => userItems.includes(item))) {
-      isCorrect = false;
-      break;
-    }
+    totalItems += correctItems.length;
+
+    correctItems.forEach(item => {
+      if (userItems.includes(item)) {
+        totalCorrect += 1;
+      }
+    });
   }
 
   const feedback = document.getElementById(feedbackId);
-  if (isCorrect) {
-    feedback.textContent = "✅ Correct! Well done.";
+  
+  if (totalCorrect === totalItems) {
+    feedback.textContent = `✅ Excellent! All answers (${totalCorrect}/${totalItems}) are correctly classified.`;
     feedback.style.color = "green";
   } else {
-    feedback.textContent = "❌ Not quite. Try again!";
-    feedback.style.color = "red";
+    feedback.textContent = `⚠️ You got ${totalCorrect}/${totalItems} correct. Keep trying!`;
+    feedback.style.color = "orange";
+  }
+
+}
+
+function checkDropdownAnswers(feedbackId) {
+  let totalCorrect = 0;
+  let totalQuestions = 0;
+
+  document.querySelectorAll("select.answer").forEach(select => {
+    const expected = select.getAttribute("data-answer")?.trim().toLowerCase();
+    const actual = select.value?.trim().toLowerCase();
+    totalQuestions++;
+
+    if (expected === actual && actual !== "") {
+      totalCorrect++;
+      select.style.backgroundColor = "#c8f7c5"; // green
+    } else {
+      select.style.backgroundColor = "#f7c5c5"; // red
+    }
+  });
+
+  const feedback = document.getElementById(feedbackId);
+  if (feedback) {
+    if (totalCorrect === totalQuestions) {
+      feedback.textContent = `✅ Excellent! All ${totalCorrect}/${totalQuestions} answers are correct.`;
+      feedback.style.color = "green";
+    } else {
+      feedback.textContent = `⚠️ You got ${totalCorrect}/${totalQuestions} correct. Try again!`;
+      feedback.style.color = "orange";
+    }
   }
 }
 
