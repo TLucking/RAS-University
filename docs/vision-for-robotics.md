@@ -3,20 +3,33 @@ title: Vision for Robotics
 parent: Courses
 layout: default
 ---
+
+<!-- Link external JavaScript file -->
+<script src="questions.js"></script>
+
 # Vision for Robotics {#start}
 
 - Table of Contents
 {:toc}
 
 
-![img-description]({{ site.baseurl }}/assets/images/Vision/Vision_intro.png)
+## 1. Prerequisites
+To get the most out of this Kinematics module, it’s helpful to have:
 
-## Motivation
+**Basic Mathematics**  
+   - Familiarity with **trigonometry** (sine, cosine, angle addition formulas).  
+   - Understanding of **linear algebra** (vectors, matrices, basic matrix operations).  
+   - Comfort with **calculus** (especially differentiation).
+
+While you don’t need to be an expert in any one of these areas, having a comfortable grasp of each will make your study of vision for robotics more productive and enjoyable.
+
+## 2. General Motivation
 
 Cameras have become one of the most accessible and data-rich sensors for robots, offering a wealth of visual information compared to traditional positioning or distance sensors. Advances in hardware and algorithms, such as RGB-D cameras and visual-inertial fusion techniques, have significantly improved robot perception. In navigation, robots use vision to detect obstacles, estimate trajectories, and build 3D maps of their environment. For grasping, visual data helps identify objects, estimate their pose, and determine how to interact with them. The following sections will explore the geometric foundations of 3D vision and its applications in robotic grasping.
 
+## 3. Course Content
 
-## Chapter 0 : Introduction
+### Chapter 0 : Introduction
 Welcome to this introduction on how a camera projects the three-dimensional (3D) world onto a two-dimensional (2D) image plane. We will discuss how to describe a point in 3D space with respect to a camera coordinate system and how these 3D points get projected into pixel coordinates on an image. We will then move on to intrinsic calibration and the issue of lens distortion.
 
 By the end of this chapter, you should understand:
@@ -39,9 +52,9 @@ Here are 2 introduction videos to help understand the core problem.
 
 ![Intro to Machine Vision and Robotics - part 2](https://www.youtube.com/watch?v=RS-MXFX0ehs&t=402s)
 
-## Chapter 1: Geometric Vision {#chapter-1-vision}
+### Chapter 1: Geometric Vision {#chapter-1-vision}
 
-### Chapter 1.1: Camera and World Coordinate Systems 
+**Camera and World Coordinate Systems**
 
 Here is a youtube video explaining in a visual way the content of this chapter
 ![](https://www.youtube.com/watch?v=qByYk6JggQU&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=2)
@@ -84,8 +97,19 @@ This transformation says:
 <details markdown="1">
   <summary>Conceptual questions</summary>
 
-  **Question 1** (True/False):
-  The transformation from world coordinates to camera coordinates involves both a rotation and a translation.
+
+  <p><strong>Question 1:</strong> The transformation from world coordinates to camera coordinates involves both a rotation and a translation.</p>
+  <form id="q1">
+    <input type="radio" name="q1" value="True"> True<br>
+    <input type="radio" name="q1" value="False"> False<br>
+    <button type="button"
+      onclick="checkTrueFalse('q1', 'True', 
+      '✅ Correct!',
+      '❌ Incorrect. Try again!')">
+    Check Answer
+    </button>
+    <p id="q1-feedback"></p>
+  </form>
 
 </details>
 
@@ -111,17 +135,23 @@ The quantities $x_i$ and $y_i$ are often called *normalized coordinates* because
 
 <details markdown="1">
   <summary>Conceptual questions</summary>
-Question 1 (True/False):
-The transformation from world coordinates to camera coordinates involves both a rotation and a translation.
-Answer: True.
 
-Question 2 (Multiple Choice):
-What does the rotation matrix Ri​ represent in the transformation equation?
-A) Scaling of the coordinates
-B) Rotation to align the world axes with the camera axes
-C) Translation from the world origin to the camera origin
-D) Shearing of the coordinate system
-Answer: B.
+  <p><strong>Question 1:</strong> What does the matrix $R_i$​ represent in the transformation equation?</p>
+
+  <form id="Q1.1.2">
+    <input type="radio" name="Q1.1.2" value="1"> Scaling of the coordinates<br>
+    <input type="radio" name="Q1.1.2" value="2"> Rotation to align the world axes with the camera axes<br>
+    <input type="radio" name="Q1.1.2" value="3"> Translation from the world origin to the camera origin<br>
+    <input type="radio" name="Q1.1.2" value="4"> Shearing of the coordinate system<br><br>
+
+    <button type="button" onclick="checkMCQ('Q1.1.2', '2', 
+      '✅ Correct!', 
+      '❌ Incorrect. Try again!')">
+      Check Answer
+    </button>
+
+    <p id="Q1.1.2-feedback"></p>
+  </form>
 </details>
 ---
 
@@ -148,23 +178,43 @@ These parameters are called the *intrinsic parameters* of the camera. Determinin
 <details markdown="1">
   <summary>Conceptual questions</summary>
 
-Question 1 (True/False):
-The conversion from normalized coordinates to pixel coordinates involves intrinsic parameters such as the focal length, aspect ratio, skew factor, and the image center.
-Answer: True.
+  <p><strong>Question 1:</strong> The conversion from normalized coordinates to pixel coordinates involves intrinsic parameters such as the focal length, aspect ratio, skew factor, and the image center.</p>
+  <form id="q1.1.1.1">
+    <input type="radio" name="q1.1.1.1" value="True"> True<br>
+    <input type="radio" name="q1.1.1.1" value="False"> False<br>
+    <button type="button"
+      onclick="checkTrueFalse('q1.1.1.1', 'True', 
+      '✅ Correct!',
+      '❌ Incorrect. Try again!')">
+    Check Answer
+    </button>
+    <p id="q1.1.1.1-feedback"></p>
+  </form>
 
-Question 2 (Multiple Choice):
-In the affine transformation ui=f α xi+β yi+cuui​=fαxi​+βyi​+cu​, which parameter determines the horizontal position of the image center?
-A) f
-B) α
-C) cu​
-D) β
-Answer: C.
+<p><strong>Question 2:</strong> In the affine transformation ui=f α xi+β yi+cuui​=fαxi​+βyi​+cu​, which parameter determines the horizontal position of the image center?</p>
+
+<form id="Q1.3.2">
+  <input type="radio" name="Q1.3.2" value="1"> f<br>
+  <input type="radio" name="Q1.3.2" value="2"> α<br>
+  <input type="radio" name="Q1.3.2" value="3"> cu<br>
+  <input type="radio" name="Q1.3.2" value="4"> β<br><br>
+
+  <button type="button" onclick="checkMCQ('Q1.3.2', '3', 
+    '✅ Correct!', 
+    '❌ Incorrect. Try again!')">
+    Check Answer
+  </button>
+
+  <p id="Q1.3.2-feedback"></p>
+</form>
 </details>
 ---
 
 #### **Lens Distortion**
 
 Many practical camera systems, especially with wide-angle or fisheye lenses, introduce significant *radial distortion*. If you have ever seen lines near the edges of a photo curve outward (*"barrel distortion"*) or inward (*"pincushion distortion"*), that is due to lens imperfections.
+
+![img-description]({{ site.baseurl }}/assets/images/Vision/Radial_distortion.png)
 
 A common way to model this is by adding polynomial correction terms that depend on $(r^2, r^4, r^6, \dots)$, where $r^2 = x_i^2 + y_i^2$. Thus, the distorted coordinates $(x_i^{\text{dist}}, y_i^{\text{dist}})$ become something like:
 
@@ -180,18 +230,37 @@ The coefficients $k_1, k_2, k_3, \dots$ are additional parameters to be calibrat
 
 <details markdown="1">
   <summary>Conceptual questions</summary>
-Question 1 (True/False):
-Radial lens distortion is modeled by applying a polynomial function to the normalized coordinates based on their distance from the image center.
-Answer: True.
 
-Question 2 (Multiple Choice):
-In the context of lens distortion, what does the variable r represent?
-A) r is the ratio of xi​ and yi
-B) r is the focal length in pixels
-C) r is the radial distance from the image center, defined as xi2+yi2xi2​+yi2​
-​
-D) r is one of the distortion coefficients
-Answer: C.
+  <p><strong>Question 1:</strong> Radial lens distortion is modeled by applying a polynomial function to the normalized coordinates based on their distance from the image center.</p>
+  <form id="q1.2.1">
+    <input type="radio" name="q1.2.1" value="True"> True<br>
+    <input type="radio" name="q1.2.1" value="False"> False<br>
+    <button type="button"
+      onclick="checkTrueFalse('q1.2.1', 'True', 
+      '✅ Correct!',
+      '❌ Incorrect. Try again!')">
+    Check Answer
+    </button>
+    <p id="q1.2.1-feedback"></p>
+  </form>
+
+
+<p><strong>Question 2:</strong> In the context of lens distortion, what does the variable r represent?</p>
+
+<form id="Q1.2.2">
+  <input type="radio" name="Q1.2.2" value="1"> r is the ratio of xi​ and yi<br>
+  <input type="radio" name="Q1.2.2" value="2"> r is the focal length in pixels<br>
+  <input type="radio" name="Q1.2.2" value="3"> r is the radial distance from the image center, defined as xi2+yi2xi2​+yi2​<br>
+  <input type="radio" name="Q1.2.2" value="4"> r is one of the distortion coefficients<br><br>
+
+  <button type="button" onclick="checkMCQ('Q1.2.2', '3', 
+    '✅ Correct!', 
+    '❌ Incorrect. Try again!')">
+    Check Answer
+  </button>
+
+  <p id="Q1.2.2-feedback"></p>
+</form>
 </details>
 ---
 
@@ -212,25 +281,58 @@ This is critical for many robotic tasks such as *navigation*, *obstacle avoidanc
 
 <details markdown="1">
   <summary>Conceptual questions</summary>
-Question 1 (True/False):
-A calibrated camera system requires knowing both its intrinsic parameters (e.g., focal length, skew, distortion coefficients) and its extrinsic parameters (e.g., rotation and translation relative to the world).
-Answer: True.
 
-Question 2 (Multiple Choice):
-What is the main benefit of calibrating a camera system in the context of robotic vision?
-A) It allows the accurate mapping between 3D world coordinates and 2D pixel coordinates
-B) It eliminates the need for a lens
-C) It simplifies only the calculation of the rotation matrix
-D) It converts analog images to digital images
-Answer: A.
+  <p><strong>Question 1:</strong> A calibrated camera system requires knowing both its intrinsic parameters (e.g., focal length, skew, distortion coefficients) and its extrinsic parameters (e.g., rotation and translation relative to the world).</p>
+  <form id="q1.3.1">
+    <input type="radio" name="q1.3.1" value="True"> True<br>
+    <input type="radio" name="q1.3.1" value="False"> False<br>
+    <button type="button"
+      onclick="checkTrueFalse('q1.3.1', 'True', 
+      '✅ Correct!',
+      '❌ Incorrect. Try again!')">
+    Check Answer
+    </button>
+    <p id="q1.3.1-feedback"></p>
+  </form>
+
+<p><strong>Question 2:</strong> What is the main benefit of calibrating a camera system in the context of robotic vision?</p>
+
+<form id="Q1.3.3">
+  <input type="radio" name="Q1.3.3" value="1"> It allows the accurate mapping between 3D world coordinates and 2D pixel coordinates<br>
+  <input type="radio" name="Q1.3.3" value="2"> It eliminates the need for a lens<br>
+  <input type="radio" name="Q1.3.3" value="3">  It simplifies only the calculation of the rotation matrix​<br>
+  <input type="radio" name="Q1.3.3" value="4"> It converts analog images to digital images<br><br>
+
+  <button type="button" onclick="checkMCQ('Q1.3.3', '1', 
+    '✅ Correct!', 
+    '❌ Incorrect. Try again!')">
+    Check Answer
+  </button>
+
+  <p id="Q1.3.3-feedback"></p>
+</form>
 </details>
 ---
 
 ### Chapter 1.2 : Calibration
 
-Camera calibration is the process of determining a camera’s intrinsic and extrinsic parameters to accurately map 3D world points to 2D image points. This step is crucial in computer vision, robotics, and augmented reality to correct distortions and enable accurate measurements.
+Camera **calibration** is the process by which we determine a camera’s **intrinsic** parameters (like focal length, principal point, and distortion coefficients) and **extrinsic** parameters (its position and orientation with respect to some world reference). A well-calibrated camera allows us to accurately map between real-world 3D coordinates and 2D image pixels, which is essential for tasks like navigation, 3D reconstruction, and robotic grasping.
 
-Types of Camera Parameters :
+As we saw in the previous sections, the pinhole camera model provides a neat mathematical description of how a point in 3D $(X,Y,Z)$ maps to a pixel coordinate $(u,v)$. However, real cameras have additional nuances:
+
+- **Focal length and principal point** need to be estimated precisely (intrinsic calibration).
+
+- **Lens distortion** can bend straight lines or enlarge/minimize certain regions (distortion calibration).
+
+- **Camera pose** (rotation and translation) with respect to a world coordinate system may be unknown (extrinsic calibration).
+
+**Calibration** is about figuring out all these parameters so that the projection model in your equations matches the actual camera you are using.
+
+---
+
+#### **Basic Setup: Intrinsic Calibration**
+
+When the camera’s internal parameters remain constant (no zooming in/out) and you can take multiple images of a known reference pattern (e.g., a checkerboard), you can use common methods or toolboxes (e.g. the MATLAB Calibration Toolbox, Zhang’s OpenCV calibration functions) to recover the following:
 
 
 | **Camera Parameters**  | **Description** | **Symbol** |
@@ -244,19 +346,281 @@ Types of Camera Parameters :
 | Rotation matrix      | Describes the camera’s orientation. | $ R $ |
 | Translation vector   | Specifies the camera’s position relative to a reference frame. | $ T $ |
 
+After calibration, the hope is that for any future image, you can “correct” lens distortions and map each pixel to the corresponding ideal pinhole-ray direction.
+
+
+<details markdown="1">
+ <summary>Conceptual questions</summary>
+
+  <p><strong>Question 1:</strong> What are the typical intrinsic parameters we aim to find when calibrating a camera?</p>
+
+  <form id="Q2.1.1">
+    <input type="radio" name="Q2.1.1" value="1"> The rotation and translation of the camera<br>
+    <input type="radio" name="Q2.1.1" value="2"> The camera’s focal length, principal point, aspect ratio, skew, and distortion coefficients<br>
+    <input type="radio" name="Q2.1.1" value="3"> The lens focal length only<br> 
+    <input type="radio" name="Q2.1.1" value="4"> Only the radial distortion parameters<br><br>
+
+  <button type="button" onclick="checkMCQ('Q2.1.1', '2', 
+    '✅ Correct! Intrinsic calibration involves those parameters.', 
+    '❌ Incorrect. Try again!')">
+    Check Answer
+  </button>
+
+  <p id="Q2.1.1-feedback"></p>
+  </form>
+
+  <p><strong>Question 2:</strong> During standard checkerboard-based calibration, we rely on known 3D positions (in the checkerboard reference) of the corners and their measured 2D positions in the images to solve for the camera’s intrinsic parameters.</p>
+
+  <form id="Q2.1.2">
+    <input type="radio" name="Q2.1.2" value="True"> True<br> 
+    <input type="radio" name="Q2.1.2" value="False"> False<br> 
+    
+  <button type="button"
+   onclick="checkTrueFalse('Q2.1.2', 'True',
+    '✅ Correct!',
+    '❌ Incorrect. Think about the standard procedure with known patterns.')"> Check Answer </button>
+    <p id="Q2.1.2-feedback"></p>
+    </form>
+  </details>
+
+---
+
+#### **Varying Intrinsics and Self-Calibration**
+
+Not all systems allow us to fix the camera intrinsics. For example, if the focal length can vary (zoom lenses) or if you cannot practically use a known reference pattern in the field, you might need more advanced methods:
+
+- **Self-calibration** methods (such as the approach by Pollefeys et al.) rely on multiple views of unknown scenes. They track corresponding features across images and use constraints like the Kruppa equations to solve for the camera intrinsics and distortion.
+
+- **Stratified self-calibration** typically requires at least three views and uses epipolar geometry and projective transformations to recover a consistent set of intrinsic parameters across all images.
+
+These approaches can be more sensitive to noise or require many stable point correspondences, but they’re powerful in situations where you can’t do a “checkerboard session.”
+
+---
+
+#### **Projection Matrix Form and Depth Elimination**
+
+Once we include lens distortion (and possibly correct it), the “ideal” pinhole mapping can be summarized in matrix form (assuming we now talk about undistorted, ideal pixel coordinates). Denote:
+
+- $u_i = (u_i, v_i, 1)^T$ as the homogeneous pixel coordinate of a point in the $i$-th image.
+
+- $X = (X, Y, Z, 1)^T$ as the homogeneous coordinate of a world point.
+
+Then, for camera $i$, we have:
+$$
+λ_i u_i=K_i [R_i & T_i] X,
+$$
+where:
+
+- $\lambda_i = Z_{ci}$ is the depth of the point relative to camera $i$,
+
+- $K_i$ is the $3 \times 3$ matrix of intrinsic parameters,
+
+- $R_i$ and $T_i$ describe the rotation and translation from the world coordinate system to camera $i$’s coordinate system,
+
+- The product $\begin{bmatrix} R_i & T_i \end{bmatrix}$ is often called the extrinsic part.
+
+Because $\lambda_i$ is just a scalar, you can rearrange or eliminate it, leading to two main equations that relate the world coordinates $X$ and the pixel coordinates $u_i$. These become the basis for solving calibration problems in practice.
+
+---
+
+#### **Key Takeaway:**
+
+- Once you know $K_i$, $R_i$, and $T_i$, you can project any 3D point in the world straight into the 2D image.
+
+- Calibration is about finding all those parameters so that 2D–3D correspondences match reality.
+
+<details markdown="1">
+ <summary>Conceptual questions</summary>
+
+<p><strong>Question 1:</strong> If the matrix $K_i$ is unknown, how many different images of a known pattern are typically required to solve for these intrinsic parameters in a standard calibration method?</p>
+<form id="Q2.2.1">
+  <input type="radio" name="Q2.2.1" value="1"> Only one image<br>
+  <input type="radio" name="Q2.2.1" value="2"> At least two images<br>
+  <input type="radio" name="Q2.2.1" value="3"> At least three or more images at various angles<br> 
+  <input type="radio" name="Q2.2.1" value="4"> It cannot be determined<br><br>
+
+<button type="button" onclick="checkMCQ('Q2.2.1', '3', 
+  '✅ Yes! Typically, you need multiple views (often >5) to reliably solve for intrinsic parameters.', 
+  '❌ Think about the degrees of freedom and the need for diverse viewpoints!')">
+  Check Answer
+  </button>
+
+  <p id="Q2.2.1-feedback"></p>
+
+</form> </details>
+
+<details markdown="1">
+ <summary>Advanced Mathematical Development</summary>
 ![](https://www.youtube.com/watch?v=GUbWsXU1mac&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=3)
 
 ![](https://www.youtube.com/watch?v=2XM2Rb2pfyQ&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=4)
 
+</details>
+
 ### Chapter 1.3 : Pose estimation or PNP
 
-Pose estimation is the process of determining the position and orientation (pose) of a camera or object relative to a known reference frame, typically using 2D images and 3D world points. It plays a crucial role in robotics, augmented reality, and computer vision applications like object tracking, autonomous navigation, and grasping.
+Once a camera is calibrated (i.e., we know its **intrinsic** parameters and can handle or correct for any lens distortion), we can tackle the problem of finding the camera’s **extrinsic** parameters (its rotation and translation) relative to known objects or landmarks in the world. This is often referred to as the **Pose Estimation** problem.
 
-One common approach to pose estimation is the Perspective-n-Point (PnP) problem. Given a set of N known 3D points in the world and their corresponding 2D projections in an image, PnP estimates the camera’s position and orientation relative to the scene. This requires the camera to be calibrated, meaning its intrinsic parameters (such as focal length and optical center) are known.
+In many robotics tasks, we know the 3D coordinates of certain points in the environment (so-called landmarks or feature points) and we can detect their corresponding locations in the image. The goal is to solve for the camera’s exact position and orientation that makes those correspondences match the real world.
+
+Here is a youtube video giving a short overview of the Pose estimation problem and how to resolve it
 
 ![](https://www.youtube.com/watch?v=xdlLXEyCoJY)
 
-![](https://www.youtube.com/watch?v=RR8WXL-kMzA)
+---
+
+#### **The PnP (Perspective-n-Point) Problem**
+
+Suppose you have:
+
+- N known 3D points in the world:
+  $X_j=(X_j, Y_j, Z_j)$
+  $Xj​=(X_j​,Yj_​,Z_j​)$
+
+- Their corresponding 2D points in the calibrated image:
+  $xj=(x_j, y_j)$
+  $xj​=(x_j​,y_j​)$
+
+where the camera has already been calibrated, and any lens distortions are accounted for or removed. The **PnP** problem is to find a rotation matrix $R$ and a translation vector $T$ such that, for each 3D–2D match, the pinhole projection equation is satisfied:
+$$
+z_j \begin{bmatrix}
+x_j \cr
+y_j \cr
+1
+\end{bmatrix}
+= K \begin{bmatrix}
+R & T
+\end{bmatrix}
+\begin{bmatrix}
+X_j \cr
+Y_j \cr
+Z_j \cr
+1
+\end{bmatrix},
+$$
+
+where $K$ is the intrinsic matrix and $z_j$​ is the point’s depth along the camera’s Z-axis. In simpler words:
+
+>“Given N known 3D points and their 2D images, recover the camera’s orientation and position.”
+
+---
+
+#### **Minimal Example: 3 Points**
+
+When only three world points are visible we are in the Perspective‑3‑Point (P3P) setting – the smallest data set that still lets us compute a full camera pose.
+
+##### **Geometric Setup**
+
+Define :
+
+
+- $d_i = \|X_i - C\| \quad \text{(distance camera → point)}$
+
+
+- $d_{ij} = \|X_i - X_j\| \quad \text{(known side lengths of the landmark triangle)}$
+
+
+- $\cos \delta_{ij} = x_i^\top x_j \quad \text{(measured angle between image rays)}$
+
+Because the rays and the segment $X_i X_j$ form a triangle, **the Law of Cosines** gives (for every $i \ne j$):
+
+$$
+d_i^2 + d_j^2 - 2 d_i d_j \cos \delta_{ij} = d_{ij}^2 \tag{1}
+$$
+
+There are *three* such equations — one per edge of the landmark triangle — and the *three unknowns* $d_1, d_2, d_3$.
+
+![img-description]({{ site.baseurl }}/assets/images/Vision/p3p_geometry.png)
+
+*Fig. 1  The 3-point pose-estimation problem. Unknown camera–point distances $d_1, d_2, d_3$ and known inter-point distances $d_{12}, d_{13}, d_{23}$. The angles $\delta_{ij}$ between bearing rays are measured in the image.*
+
+##### **Reducing the Unknowns**
+
+A classical trick (Gröbner-free) is to express two of the depths in terms of the first one:
+
+$$
+d_2 = u \, d_1, \quad d_3 = v \, d_1 \quad (u, v > 0).
+$$
+
+Insert those into (1) and divide by $d_1^2$:
+
+$$
+d_{12}^2 = d_1^2 \left( u^2 + 1 - 2u \cos \delta_{12} \right),
+$$
+
+$$
+d_{13}^2 = d_1^2 \left( v^2 + 1 - 2v \cos \delta_{13} \right),
+$$
+
+$$
+d_{23}^2 = d_1^2 \left( u^2 + v^2 - 2uv \cos \delta_{23} \right). \tag{2}
+$$
+
+Equation (2) immediately yields *three* expressions for the same $d_1^2$.  
+Equating any two of them eliminates $d_1$ and leaves a system of **two quadratic equations** in the two variables $(u, v)$:
+
+$$
+d_{12}^2 \left( v^2 + 1 - 2v \cos \delta_{13} \right) = d_{13}^2 \left( u^2 + 1 - 2u \cos \delta_{12} \right),
+$$
+
+$$
+d_{13}^2 \left( u^2 + v^2 - 2uv \cos \delta_{23} \right) = d_{23}^2 \left( v^2 + 1 - 2v \cos \delta_{13} \right). \tag{3}
+$$
+
+Now you need to: 
+
+1. **Solve the second equation of (3) linearly for $u^2$.**
+
+2. **Substitute** that expression into the first equation of (3).  
+   The result is a single 4-th degree polynomial in $v$.
+
+This 4-th degree polynomial can have up to **four real roots**.
+
+For every admissible root $v$:
+
+- compute $u$ from the quadratic substitution,
+- recover $d_1, d_2, d_3$,
+- keep only solutions where all depths are **positive** (points must be in front of the camera).
+
+Because each quadratic step can produce two signs, you obtain at most **8 real pose candidates** – the well-known *P3P eight-fold ambiguity*.
+
+##### **From Depths to $R$ and $T$**
+
+Once $\{d_i\}$ are known, the 3-D coordinates of the landmarks **in the camera frame** are
+
+$$
+X_i^{\text{cam}} = d_i \, x_i.
+$$
+
+You now possess two 3-point sets:
+
+| frame  | point 1 | point 2 | point 3 |
+|--------|---------|---------|---------|
+| World  | $X_1$   | $X_2$   | $X_3$   |
+| Camera | $d_1 x_1$ | $d_2 x_2$ | $d_3 x_3$ |
+
+Compute $R$, $T$ that best align the world set to the camera set.  
+That is the classic **absolute orientation** problem and has a closed-form SVD solution (Horn 1987):
+
+$$
+\min_{R \in \text{SO}(3), \, T} \sum_{i=1}^{3} \left\| d_i x_i - (R X_i + T) \right\|^2.
+$$
+
+<details markdown="1">
+  <summary>Additional content</summary>
+
+  For a more thorough lecture on **pnp** you can watch the following youtube videos.
+
+  Part 1:
+  ![](https://www.youtube.com/watch?v=C5L7LnNL4oo)
+
+  Part 2:
+  ![](https://www.youtube.com/watch?v=8Nh1UeuD9-k)
+
+  Part 3:
+  ![](https://www.youtube.com/watch?v=9peph2zvSyY)
+
+</details>
 
 ### Chapter 1.4 : Triangulation
 
