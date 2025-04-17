@@ -9,12 +9,14 @@ layout: default
 
 # Vision for Robotics {#start}
 
+![img-description]({{ site.baseurl }}/assets/images/Vision/banner.png)
+
 - Table of Contents
 {:toc}
 
 
 ## 1. Prerequisites
-To get the most out of this Kinematics module, it’s helpful to have:
+To get the most out of this Vision for Robotics module, it’s helpful to have:
 
 **Basic Mathematics**  
    - Familiarity with **trigonometry** (sine, cosine, angle addition formulas).  
@@ -23,9 +25,17 @@ To get the most out of this Kinematics module, it’s helpful to have:
 
 While you don’t need to be an expert in any one of these areas, having a comfortable grasp of each will make your study of vision for robotics more productive and enjoyable.
 
+If you'd like a refresher on linear algebra, the following YouTube series is an excellent resource.
+
+- [Essence of linear algebra](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab) 
+
 ## 2. General Motivation
 
 Cameras have become one of the most accessible and data-rich sensors for robots, offering a wealth of visual information compared to traditional positioning or distance sensors. Advances in hardware and algorithms, such as RGB-D cameras and visual-inertial fusion techniques, have significantly improved robot perception. In navigation, robots use vision to detect obstacles, estimate trajectories, and build 3D maps of their environment. For grasping, visual data helps identify objects, estimate their pose, and determine how to interact with them. The following sections will explore the geometric foundations of 3D vision and its applications in robotic grasping.
+
+The following videos demonstrate an application of vision in robotics.
+
+![](https://www.youtube.com/watch?v=GkM4n7RgGaw)
 
 ## 3. Course Content
 
@@ -34,11 +44,19 @@ Welcome to this introduction on how a camera projects the three-dimensional (3D)
 
 By the end of this chapter, you should understand:
 
-- How a 3D point is mapped to a 2D image (the pinhole camera model).
+- How a 3D point is projected onto a 2D image plane using the pinhole camera model.
 
-- How we define intrinsic and extrinsic camera parameters.
+- The role of intrinsic and extrinsic camera parameters in this projection process.
 
-- How lens distortion can affect the image and how it is modeled.
+- How lens distortion affects images and how it is mathematically modeled.
+
+- How to perform camera calibration to recover intrinsic parameters.
+
+- How to estimate the pose of a camera using known 3D landmarks (PnP problem).
+
+- How to use Structure from Motion (SfM) for sparse 3D reconstruction from video.
+
+- How 3D vision techniques apply to robot navigation and grasping tasks.
 
 We will keep the mathematical notation to a minimum but include enough details to grasp the core ideas. Small exercises are included to reinforce these concepts.
 
@@ -52,18 +70,66 @@ Here are 2 introduction videos to help understand the core problem.
 
 ![Intro to Machine Vision and Robotics - part 2](https://www.youtube.com/watch?v=RS-MXFX0ehs&t=402s)
 
-### Chapter 1: Geometric Vision {#chapter-1-vision}
+<details markdown="1">
+  <summary>Conceptual questions</summary>
 
-**Camera and World Coordinate Systems**
+  <p><strong>Question 1:</strong> 	A short exposure / high shutter speed minimises motion‑blur, but it also means you need stronger lighting to obtain a clear image</p>
+  <form id="intro-tf-5"><input type="radio" name="intro-tf-5" value="True"> True <br>
+  <input type="radio" name="intro-tf-5" value="False"> False <br>
+  <button type="button" onclick="checkTrueFalse('intro-tf-5','True','✅ Exactly – brighter light lets you keep the shutter open for a shorter time.','❌ Think about night‑time photos vs daylight.')">Check</button><p id="intro-tf-5-feedback"></p></form>
 
-Here is a youtube video explaining in a visual way the content of this chapter
+  <p><strong>Question 2:</strong> 		For best contrast, you should always illuminate a coloured part with LEDs of the same colour as the part (e.g., red part → red light).</p>
+  <form id="intro-tf-6"><input type="radio" name="intro-tf-6" value="True"> True <br>
+  <input type="radio" name="intro-tf-6" value="False"> False <br>
+  <button type="button" onclick="checkTrueFalse('intro-tf-6','False','✅ Right – you usually use the *complementary* colour (opposite on the wheel).','❌ Review the complementary‑lighting examples at ~3 min in video 2.')">Check</button><p id="intro-tf-6-feedback"></p></form>
+  
+  <p><strong>Question 3:</strong> Increasing the camera’s megapixel count always yields better results in high‑speed robot pick‑and‑place applications.</p>
+  <form id="intro-tf-2"><input type="radio" name="intro-tf-2" value="True"> True <br>
+    <input type="radio" name="intro-tf-2" value="False"> False <br>
+    <button type="button" onclick="checkTrueFalse('intro-tf-2','False','✅ Exactly — more pixels ⇒ more data ⇒ slower processing.','❌ Remember that more data is not always better!')">Check</button><p id="intro-tf-2-feedback"></p></form>
+
+
+   <p><strong>Question 4:</strong> Roughly 70 % of a successful vision application depends on the proper choice of…</p>
+  <form id="intro-mc-1"><input type="radio" name="intro-mc-1" value="camera"> The camera sensor <br>
+  <input type="radio" name="intro-mc-1" value="lighting"> Lighting <br>
+  <input type="radio" name="intro-mc-1" value="lensing"> The lens focal‑length <br>
+  <input type="radio" name="intro-mc-1" value="software"> Image‑processing software <br>
+  <button type="button" onclick="checkMCQ('intro-mc-1','lighting','✅ Lighting is the #1 success factor.','❌ Re‑watch the lighting section (≈ 18 min).')">Check</button><p id="intro-mc-1-feedback"></p></form>
+
+   <p><strong>Question 5:</strong> 	Which camera type integrates sensor and on‑board processing in the same small housing?</p>
+  <form id="intro-mc-2"><input type="radio" name="intro-mc-2" value="board"> Controller‑board camera <br>
+  <input type="radio" name="intro-mc-2" value="smart"> Smart‑camera <br>
+  <input type="radio" name="intro-mc-2" value="multi"> Multi‑camera cell controller <br>
+  <button type="button" onclick="checkMCQ('intro-mc-2','smart','✅ That’s the definition of a smart camera.','❌ Check the “types of vision systems” at 9 min.')">Check</button><p id="intro-mc-2-feedback"></p></form>
+
+
+</details>
+
+### **Chapter 1: Geometric Vision** {#chapter-1-vision}
+
+Before we dive into algorithms and code, we first need a picture of how geometry, cameras, and images fit together.
+This chapter lays that foundation. We will
+
+- build the two coordinate systems every vision problem starts with (world vs camera).
+
+- see how a simple rotation + translation moves points from one frame to the other.
+
+- follow each 3‑D point through the pinhole projection onto the image plane and on to actual pixel indices.
+
+- introduce the five classic intrinsic parameters and the common lens‑distortion model.
+
+- and finish by explaining what it really means to have a calibrated camera.
+
+The short video below previews these ideas visually. The text that follows walks through the maths step‑by‑step with conceptual questions so you can test your understanding as you go.
+
+
 ![](https://www.youtube.com/watch?v=qByYk6JggQU&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=2)
-
-Suppose there is a point in the real world, denoted as $(X,Y,Z)$. In order to describe how this point appears to a camera, we need to specify its location relative to the camera’s coordinate system. Usually, we place the camera coordinate system at its center of projection (roughly at the camera’s pinhole or main lens center) such that the $Z$-axis goes straight out from the camera (the optical axis).
 
 ---
 
 #### **Transforming From World Coordinates to Camera Coordinates**
+
+Suppose there is a point in the real world, denoted as $(X,Y,Z)$. In order to describe how this point appears to a camera, we need to specify its location relative to the camera’s coordinate system. Usually, we place the camera coordinate system at its center of projection (roughly at the camera’s pinhole or main lens center) such that the $Z$-axis goes straight out from the camera (the optical axis).
 
 Let:
 
@@ -92,7 +158,7 @@ where:
 - $T_i$ is a *translation vector* describing the shift from the camera’s origin to the world’s origin (or vice versa, depending on convention).
 
 This transformation says:  
-*“Take the point in world coordinates, rotate it so that the axes align with those of the camera, then translate it so the camera’s center is at the origin.”*
+>*“Take the point in world coordinates, rotate it so that the axes align with those of the camera, then translate it so the camera’s center is at the origin.”*
 
 <details markdown="1">
   <summary>Conceptual questions</summary>
@@ -136,22 +202,12 @@ The quantities $x_i$ and $y_i$ are often called *normalized coordinates* because
 <details markdown="1">
   <summary>Conceptual questions</summary>
 
-  <p><strong>Question 1:</strong> What does the matrix $R_i$​ represent in the transformation equation?</p>
+  <p><strong>Multiple choice (choose all statements that are correct) :</strong></p>
+  <form id="proj-multi"> <input type="checkbox" name="proj" value="A"> A. The normalized x‑coordinate is obtained by dividing \(X_{ci}\) by \(Z_{ci}\).<br> <input type="checkbox" name="proj" value="B"> B. The normalized y‑coordinate is obtained by dividing \(Y_{ci}\) by \(Z_{ci}\).<br> <input type="checkbox" name="proj" value="C"> C. All normalized points lie on the plane \(Z_{ci}=1\).<br> <input type="checkbox" name="proj" value="D"> D. Normalized coordinates already include the camera’s intrinsic parameters \(f,\alpha,\beta\).<br> <input type="checkbox" name="proj" value="E"> E. If a 3‑D point slides farther away along the same viewing ray, its normalized coordinates \((x_i,y_i)\) stay unchanged.<br><br>
 
-  <form id="Q1.1.2">
-    <input type="radio" name="Q1.1.2" value="1"> Scaling of the coordinates<br>
-    <input type="radio" name="Q1.1.2" value="2"> Rotation to align the world axes with the camera axes<br>
-    <input type="radio" name="Q1.1.2" value="3"> Translation from the world origin to the camera origin<br>
-    <input type="radio" name="Q1.1.2" value="4"> Shearing of the coordinate system<br><br>
+<button type="button" onclick=" const checked=[...document.querySelectorAll('#proj-multi input[name=proj]:checked')].map(cb=>cb.value).sort().join(''); const ok=(checked==='ABCE'); /* correct set */ document.getElementById('proj-multi-feedback').innerText = ok ? '✅ Correct! A, B, C and E all follow directly from $x=X/Z, y=Y/Z$.' : '❌ Not quite – remember: intrinsic parameters come **after** normalisation.'; ">Check</button>
+<p id="proj-multi-feedback"></p> </form>
 
-    <button type="button" onclick="checkMCQ('Q1.1.2', '2', 
-      '✅ Correct!', 
-      '❌ Incorrect. Try again!')">
-      Check Answer
-    </button>
-
-    <p id="Q1.1.2-feedback"></p>
-  </form>
 </details>
 ---
 
@@ -312,6 +368,30 @@ This is critical for many robotic tasks such as *navigation*, *obstacle avoidanc
   <p id="Q1.3.3-feedback"></p>
 </form>
 </details>
+
+<details markdown="1">
+  <summary>Advanced Mathematical Exerceises</summary>
+
+  <strong>Exercise 1 :</strong> 
+
+  - Determine the Intrinsic Parameter Matrix (𝑲) of a digital camera with an image size 640×480 pixels and a horizontal field of view of 90°
+  - Assume square pixels and the principal point as the center of the diagonals
+  - What is the vertical field of view?
+  - What’s the projection on the image plane of $cP = [1, 1, 2]^T$
+
+<details markdown="2">
+  <summary>Solution</summary>
+
+  <img src="{{ '/assets/images/Vision/ex1_1.png' | relative_url }}" alt="Intrinsic‑matrix solution">
+
+  <img src="{{ '/assets/images/Vision/ex1_2.png' | relative_url }}" alt="Projection solution">
+</details>
+
+  <strong>Exercise 2 :</strong> 
+  <iframe src="{{ site.baseurl }}{{'/assets/pdfs/Vision/01_Camera_Notation_Tutorial.pdf'}}" width="100%" height="600px"></iframe>
+
+</details>
+
 ---
 
 ### Chapter 1.2 : Calibration
@@ -407,7 +487,7 @@ Once we include lens distortion (and possibly correct it), the “ideal” pinho
 
 Then, for camera $i$, we have:
 $$
-λ_i u_i=K_i [R_i & T_i] X,
+\lambda_i \, u_i = K_i \begin{bmatrix} R_i & T_i \end{bmatrix} X
 $$
 where:
 
@@ -432,7 +512,38 @@ Because $\lambda_i$ is just a scalar, you can rearrange or eliminate it, leading
 <details markdown="1">
  <summary>Conceptual questions</summary>
 
-<p><strong>Question 1:</strong> If the matrix $K_i$ is unknown, how many different images of a known pattern are typically required to solve for these intrinsic parameters in a standard calibration method?</p>
+
+<!-- Q3 – True / False -->
+<p><strong>Question 1:</strong> If a camera has <em>perfectly square</em> sensor pixels, the aspect‑ratio parameter&nbsp;α in its intrinsic matrix equals&nbsp;1.</p>
+<form id="Calib-TF-3">
+  <input type="radio" name="Calib-TF-3" value="True"> True<br>
+  <input type="radio" name="Calib-TF-3" value="False"> False<br>
+  <button type="button"
+          onclick="checkTrueFalse('Calib-TF-3','True',
+          '✅ Correct – square pixels ⇒ equal horizontal & vertical scale, so α = 1.',
+          '❌ Remember, α reflects pixel shape; it is 1 only when pixels are square.')">
+    Check Answer
+  </button>
+  <p id="Calib-TF-3-feedback"></p>
+</form>
+
+<!-- Q4 – single‑answer MCQ -->
+<p><strong>Question 2:</strong> When you <em>zoom</em> a camera lens during operation, which intrinsic parameter is most directly affected?</p>
+<form id="Calib-MC-4">
+  <input type="radio" name="Calib-MC-4" value="f"> Focal length (<em>f</em>)<br>
+  <input type="radio" name="Calib-MC-4" value="cu"> Principal‑point c<sub>u</sub><br>
+  <input type="radio" name="Calib-MC-4" value="beta"> Skew β<br>
+  <input type="radio" name="Calib-MC-4" value="k1"> Radial‑distortion k<sub>1</sub><br><br>
+  <button type="button"
+          onclick="checkMCQ('Calib-MC-4','f',
+          '✅ Exactly – zooming changes the effective focal length.',
+          '❌ Think about what the zoom ring actually does to the optical system.')">
+    Check Answer
+  </button>
+  <p id="Calib-MC-4-feedback"></p>
+</form>
+
+<p><strong>Question 3:</strong> If the matrix $K_i$ is unknown, how many different images of a known pattern are typically required to solve for these intrinsic parameters in a standard calibration method?</p>
 <form id="Q2.2.1">
   <input type="radio" name="Q2.2.1" value="1"> Only one image<br>
   <input type="radio" name="Q2.2.1" value="2"> At least two images<br>
@@ -447,13 +558,105 @@ Because $\lambda_i$ is just a scalar, you can rearrange or eliminate it, leading
 
   <p id="Q2.2.1-feedback"></p>
 
-</form> </details>
+</form>
+
+<!-- Q4 – multiple‑answer checkbox -->
+<p><strong>Question&nbsp;4:</strong> <em>Select <u>all</u> quantities that are typically categorised as <strong>extrinsic</strong> parameters.</em></p>
+<form id="Calib-Multi-7">
+  <input type="checkbox" name="Calib-Multi-7" value="R"> A. Rotation matrix \(R\)<br>
+  <input type="checkbox" name="Calib-Multi-7" value="T"> B. Translation vector \(T\)<br>
+  <input type="checkbox" name="Calib-Multi-7" value="f"> C. Focal length \(f\)<br>
+  <input type="checkbox" name="Calib-Multi-7" value="cu"> D. Principal‑point \(c_u,c_v\)<br>
+  <input type="checkbox" name="Calib-Multi-7" value="k1"> E. Radial‑distortion \(k_1\)<br><br>
+  <button type="button"
+  onclick="
+    const good=['R','T'].sort().join('');
+    const chosen=[...document.querySelectorAll('#Calib-Multi-7 input:checked')].map(x=>x.value).sort().join('');
+    document.getElementById('Calib-Multi-7-feedback').innerText =
+      (chosen===good)
+      ? '✅ Correct – extrinsics describe pose (R and T).'
+      : '❌ Only R and T are extrinsic; the rest belong to K or distortion.';
+  ">Check Answer</button>
+  <p id="Calib-Multi-7-feedback"></p>
+</form>
+
+<!-- Q5 – True / False -->
+<p><strong>Question&nbsp;5:</strong> Radial‑distortion coefficients \(k_1,k_2,\dots\) are applied <em>before</em> we divide by depth \(Z_{ci}\) when computing normalized image coordinates.</p>
+<form id="Calib-TF-8">
+  <input type="radio" name="Calib-TF-8" value="True"> True<br>
+  <input type="radio" name="Calib-TF-8" value="False"> False<br>
+  <button type="button"
+    onclick="checkTrueFalse('Calib-TF-8','False',
+      '✅ Right – distortion acts on <em>already</em> normalised (x,y) coordinates.',
+      '❌ Recall the order: project → normalise (x,y) → then distort.')">
+    Check Answer
+  </button>
+  <p id="Calib-TF-8-feedback"></p>
+</form>
+
+<!-- Q6 – drag‑and‑drop via <select> combo (simple) -->
+<p><strong>Question&nbsp;6:</strong> Match each intrinsic term to the <em>effect</em> it compensates for.</p>
+
+<table>
+<tr><th>Parameter</th><th></th><th>Effect on image</th></tr>
+<tr><td>Skew β</td><td>→</td><td>
+<select id="match-1">
+  <option value="">– choose –</option>
+  <option value="shear">Sensor columns not perpendicular to rows</option>
+  <option value="scale">Overall scale of projection</option>
+  <option value="center">Shift of optical axis</option>
+</select></td></tr>
+<tr><td>Focal length f</td><td>→</td><td>
+<select id="match-2">
+  <option value="">– choose –</option>
+  <option value="scale">Overall scale of projection</option>
+  <option value="shear">Sensor columns not perpendicular to rows</option>
+  <option value="center">Shift of optical axis</option>
+</select></td></tr>
+<tr><td>Principal‑point c<sub>u,v</sub></td><td>→</td><td>
+<select id="match-3">
+  <option value="">– choose –</option>
+  <option value="center">Shift of optical axis</option>
+  <option value="shear">Sensor columns not perpendicular to rows</option>
+  <option value="scale">Overall scale of projection</option>
+</select></td></tr>
+</table><br>
+
+<button type="button"
+onclick="
+  const ok =
+    document.getElementById('match-1').value==='shear' &&
+    document.getElementById('match-2').value==='scale' &&
+    document.getElementById('match-3').value==='center';
+  document.getElementById('Calib-match-feedback').innerText =
+    ok ? '✅ Great match!' : '❌ Try again – revisit the intrinsics table.';
+">Check Answer</button>
+<p id="Calib-match-feedback"></p>
+
+<!-- Q7 – numeric fill‑in -->
+<p><strong>Question&nbsp;7:</strong> Your calibration image is 1280 × 720 pixels and you assume the principal point is exactly in the centre. What value should you enter for&nbsp;c<sub>u</sub>?</p>
+<form id="Calib-Num-9">
+  <input type="text" id="Calib-Num-9-field" size="6" placeholder="?">
+  <button type="button"
+   onclick="
+     const v=document.getElementById('Calib-Num-9-field').value.trim();
+     const ok=(v==='640' || v==='640.0');
+     document.getElementById('Calib-Num-9-feedback').innerText =
+       ok ? '✅ Correct – half of 1280 pixels.' : '❌ Hint: half the width.';
+   ">Check Answer</button>
+  <p id="Calib-Num-9-feedback"></p>
+</form>
+
+ </details>
 
 <details markdown="1">
  <summary>Advanced Mathematical Development</summary>
-![](https://www.youtube.com/watch?v=GUbWsXU1mac&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=3)
 
-![](https://www.youtube.com/watch?v=2XM2Rb2pfyQ&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=4)
+  The following explore more mathematically how to find the Camera Parameters
+
+  ![](https://www.youtube.com/watch?v=GUbWsXU1mac&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=3)
+
+  ![](https://www.youtube.com/watch?v=2XM2Rb2pfyQ&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=4)
 
 </details>
 
@@ -612,12 +815,15 @@ $$
   For a more thorough lecture on **pnp** you can watch the following youtube videos.
 
   Part 1:
+
   ![](https://www.youtube.com/watch?v=C5L7LnNL4oo)
 
   Part 2:
+
   ![](https://www.youtube.com/watch?v=8Nh1UeuD9-k)
 
   Part 3:
+
   ![](https://www.youtube.com/watch?v=9peph2zvSyY)
 
 </details>
@@ -642,6 +848,35 @@ In essence, triangulation involves using the principle of geometry to intersect 
 ### Chapter 1.6 : Structure from Motion
 
 See corresponding chapter in the PDF [*Springer Handbook of Robotics*](#chapter-1-vision)
+
+## Programming
+
+Let's move on to maybe the most exciting part: applying the Vision concepts you've learned in code and seeing your robot working right in front of you!
+
+*(Please refer to the **Install Webots** section if you haven't installed it yet.)*
+
+
+### Step 1: Setup your environment
+
+1. 📁 [Download the `irb` folder]({{ site.baseurl }}/assets/downloads/kinematics/irb_2025.zip)
+2. Extract the downloaded `.zip` file.
+3. Launch Webots. From the top-left corner select **File → Open World**.
+4. Navigate to the extracted `irb/worlds` folder and select your `.wbt` file.
+
+
+
+### Step 2: Let's start coding!
+
+Once successfully opened, your robot and its environment should appear, as illustrated in the screenshot below:
+
+<img src="{{ site.baseurl }}{{ '/assets/images/Vision/arm-camera.png' }}" width="500px" alt="arm_camera Image">
+
+
+Now, follow the instructions provided on the right side panel within Webots, and complete the code to make your robot move.
+
+Once you've implemented all the "COMPLETE THIS LINE OF CODE" sections, click "Build" or "Save"(`CTRL+S`) to compile your project, and then start the simulation.
+
+**Good luck and have fun!**
 
 ## Exercise
 
