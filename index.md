@@ -17,7 +17,7 @@ Dive into a structured and comprehensive robotics course designed specifically f
 ## Table of Contents 📚
 
 Chapter 1: Motion Control
-- [Definitions of Control Variables](Definitions)
+- [Control Variables](Variables)
 - [Kinematics](kinematics)
 - [Dynamics](dynamics)
 - [Force Control](force-control)
