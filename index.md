@@ -13,8 +13,7 @@ Dive into a structured and comprehensive robotics course designed specifically f
 ## 📚 Course Topics
 
 Explore in-depth topics including:
-
-
+- [Mathematical Foundation](docs/mathematical-foundation.md)
 - [Kinematics](docs/kinematics)
 - [Dynamics](docs/dynamics)
 - [Motion Control](docs/motion-control)
