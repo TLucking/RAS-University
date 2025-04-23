@@ -12,40 +12,18 @@ This website provides a structured and comprehensive robotics course for self-le
 
 Dive into a structured and comprehensive robotics course designed specifically for self-learners. Whether you're new to robotics or aiming to enhance your expertise, our content covers everything from foundational concepts to advanced applications.
 
-# 📚 Fundamental Robotics Course Topics
+# 📚 Fundamental Robotics [Course Topics](docs/index)
+**Chapter 0: Mathematical Foundation**
 
-## Table of Contents 📚
+**Chapter 1: Motion Control**
 
-Chapter 1: Motion Control
-- [Control Variables](Variables)
-- [Kinematics](kinematics)
-- [Dynamics](dynamics)
-- [Force Control](force-control)
-- [Motion Planning] (motion-planning)
-
-Chapter 2: Sensing
-- [Vision for Robotics](vision-for-robotics)
-- [Haptics for Robotics](haptics-for-robotics)
-- [New Sensors for Robotics](new sensors-for-robotics)
-- [Interfaces for Human-Robot Interaction](Interfaces-for-HRI)
-- [Sensing and Perception](sensing-and-perception)
-
-<!-- old version -->
-Explore in-depth topics including:
-- [Mathematical Foundation](docs/mathematical-foundation.md)
-- [Kinematics](docs/kinematics)
-- [Dynamics](docs/dynamics)
-- [Motion Control](docs/motion-control)
-- [Force Control](docs/force-control)
-- [Sensing and Perception](docs/sensing-and-perception)
-- [Vision for Robotics](docs/vision-for-robotics)
-
+**Chapter 2: Sensing**
 
 Each module provides:
 
 - ✅ Clear theoretical explanations
 - 🛠️ Practical implementation guides
-- 🌐 Real-world applications and case studies
+- 🌐 Real-world applications and case studies using Webots
 
 ---
 
