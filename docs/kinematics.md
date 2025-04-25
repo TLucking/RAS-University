@@ -20,8 +20,8 @@ To get the most out of this Kinematics module, it’s helpful to have:
 
 1. **Basic Mathematics**  
    - Familiarity with **trigonometry** (sine, cosine, angle addition formulas).  
-   - Understanding of **linear algebra** (vectors, matrices, basic matrix operations).  
-   - Comfort with **calculus** (especially differentiation), which is useful for topics like velocity kinematics and the Jacobian.
+   - Understanding of **[linear algebra](mathematical-foundation)** (vectors, matrices, basic matrix operations).  
+   - Comfort with **[calculus](mathematical-foundation)** (especially differentiation), which is useful for topics like velocity kinematics and the Jacobian.
 
 2. **Fundamental Physics or Mechanics**  
    - Basic concepts of **rigid-body motion** (translational and rotational movement).  
@@ -38,16 +38,21 @@ Have you ever watched a precision robot—like the Delta robot in the video—pi
 
 Kinematics, often referred to as the “**geometry of movement**,” is the study of *how bodies move in space without considering the forces or torques causing the motion*. By focusing on the geometry and arrangement of joints, links, and end-effectors, kinematics allows us to:
 
-- Predict and Control Robot Positions: From assembly lines to surgical suites, robots must position their end-effectors at **exact points in space**. Kinematics equations provide the road map, telling us how each joint angle translates into a specific position and orientation.
+- ***Predict and Control Robot Positions***: From assembly lines to surgical suites, robots must position their end-effectors at **exact points in space**. Kinematics equations provide the road map, telling us how each joint angle translates into a specific position and orientation.
 
-- Design Efficient Mechanisms: Whether it’s a Delta robot on a factory floor or a humanoid robot in a research lab, well-planned kinematic structures enable robots to work **faster**, with better range of motion and fewer mechanical constraints.
+- ***Design Efficient Mechanisms***: Whether it’s a Delta robot on a factory floor or a humanoid robot in a research lab, well-planned kinematic structures enable robots to work **faster**, with better range of motion and fewer mechanical constraints.
 
-- Streamline Path Planning: From pick-and-place tasks to drawing complex shapes, kinematics helps in **calculating paths**, ensuring the robot can move smoothly from one point to another without collisions or awkward joint motions.
+- ***Streamline Path Planning***: From pick-and-place tasks to drawing complex shapes, kinematics helps in **calculating paths**, ensuring the robot can move smoothly from one point to another without collisions or awkward joint motions.
 
 In this chapter, you’ll explore different ways of representing positions and orientations in 3D space, understand the kinematics behind common robotic joints, and learn a systematic way to map your robot’s geometry into the equations that bring the entire mechanism to life. By mastering kinematics, you’ll have a strong foundation for making robots move **precisely** and **reliably**, unlocking a world of innovative possibilities.
 
 
 ## 3. Course Content
+
+
+This course closely follows videos content shared by [Mohammad Zainullah Khan](https://www.zainullah.com/) and [Prof. Kevin Lynch](https://www.mccormick.northwestern.edu/research-faculty/directory/profiles/lynch-kevin.html) with some additional videos and conceptual and mathematical exercises.
+
+<!-- 
 This section of the course is primarily based on content shared by **Mohammad Zainullah Khan**, an engineer with a Master’s degree in Mechanical Engineering (specializing in robotics, design, and mechatronics) from the University of Dayton. You can find more information on his website: [www.zainullah.com](https://www.zainullah.com/).
 
 Mohammad’s videos are **well-structured**, **visually engaging** and **not very long** (less than 10 minute), making them an excellent resource for anyone beginning to study kinematics for robotics. We recommend starting with the videos listed below to build a solid foundation. 
@@ -56,18 +61,100 @@ Additionally other videos from other youtubers that we have found the most relev
 
 Once you’ve grasped the basics, you can further strengthen your understanding by working through  conceptual and mathematical exercises are inspired by [Prof. Mohamed Bouri](https://people.epfl.ch/mohamed.bour), Professor at EPFL. 
 
-For those looking to deepen their understanding or seeking clear explanations of more complex topics, we also suggest additional short and highly instructive videos by [Prof. Kevin Lynch](https://www.mccormick.northwestern.edu/research-faculty/directory/profiles/lynch-kevin.html), Professor of Mechanical Engineering at Northwestern University. These videos are based on the book "Modern Robotics:  Mechanics, Planning, and Control," by Kevin Lynch and Frank Park, Cambridge University Press 2017. See http://modernrobotics.org for information on the book, free software, and other materials.
+For those looking to deepen their understanding or seeking clear explanations of more complex topics, we also suggest additional short and highly instructive videos by [Prof. Kevin Lynch](https://www.mccormick.northwestern.edu/research-faculty/directory/profiles/lynch-kevin.html), Professor of Mechanical Engineering at Northwestern University. These videos are based on the book "Modern Robotics:  Mechanics, Planning, and Control," by Kevin Lynch and Frank Park, Cambridge University Press 2017. See http://modernrobotics.org for information on the book, free software, and other materials. -->
 
-⚠️ **Note on Notation**:
+⚠️ **Note on Notation**: 
+>*Please be aware that notation, variable naming, and the style of writing equations may slightly differ between instructors. Always refer to the provided formulas and definitions in this course when working on assignments or exercises to avoid any confusion.*
 
-Please be aware that notation, variable naming, and the style of writing equations may slightly differ between instructors. Always refer to the provided formulas and definitions in this course when working on assignments or exercises to avoid any confusion.
+### Chapter 0 : General Concepts
+In this chapter we are first going to learn how to represent robots, what is a joint, degrees of freedom, etc. before diving into specific transformations (2D coordinate transformations, rotation matrices, homogeneous matrices) to clearly link theoretical concepts to mathematical formalisms.
+
+#### **Serial vs. Parallel robots**
+Among the various configurations in which mechanical components can be arranged, two key topologies are particularly significant in robotics:
+- ***Serial Chains***: These consist of a series of rigid links connected sequentially by joints. Each link (except the first and last) is connected to exactly two other links. Serial chains are commonly seen in robotic arms.
+- ***Fully Parallel Mechanisms***: These mechanisms have two primary components (often the base and the end-effector) connected by multiple independent chains. Each of these connecting chains itself typically forms a serial structure. An example is the Delta robot used in high-speed pick-and-place tasks.
+
+For a visual comparison of these two robot types, watch the following short video:
+![serial_parallel](https://www.youtube.com/watch?v=3fbmguBgVPA)
+> In this video, the left side demonstrates a parallel robot, while the right side shows a serial robot.
+
+#### **Drawing kinematic diagrams**
+In robotics, accurately representing the structure of robots through kinematic diagrams is crucial. These diagrams help us clearly visualize joints, links, and their connections, facilitating easier calculation of mobility, degrees of freedom, and overall system analysis.
+
+By learning how to sketch these diagrams, you will be better prepared to analyze robot motion and systematically compute essential parameters such as mobility and degrees of freedom.
+
+#### **Mobility & Degrees of Freedom (DOF)**
+- ***Degrees of Freedom (DOF)*** refer to the number of independent parameters required to completely specify the position and orientation of a robot or its parts in space. For instance, a rigid body in three-dimensional space has six degrees of freedom—three translational (moving along the x, y, and z axes) and three rotational (rotating around these axes).
+
+- ***Mobility*** typically refers to the number of controllable, active joints (motors) a robot possesses, directly determining its range of motion and the complexity of its achievable tasks.
+
+To better understand these concepts, watch the following concise and clear explanation:
+![Degrees of Freedom of a Rigid Body](https://www.youtube.com/watch?v=z29hYlagOYM&list=PLggLP4f-rq02vX0OQQ5vrCxbJrzamYDfx&index=4)
+> Introduction to Degrees of Freedom (DOF) for rigid bodies.
+
+#### **Grübler’s formula and its application**
+***Grübler’s formula*** is a powerful tool to quickly calculate the degrees of freedom of mechanisms, especially useful for complex robot configurations:
+$$
+\boxed{ \text{DoF} = m(N - 1 - J) + \sum_{i=1}^{J} \text{f}_i }
+$$
+
+Where:
+- $m$ is the dimension of the space (e.g., $m = 3$ for planar mechanisms, $m = 6$ for spatial mechanisms).
+- $n$ is the number of links (including the frame).
+- $j$ is the number of joints.
+- $f_i$ is the number of degrees of freedom permitted by joint $i$.
 
 
-Before we start to watch videos let's check some basic notions, defintions that could be useful:
+To clearly understand how this formula is applied, check out the following detailed explanation:
+
+![Degrees of Freedom of a Robot](https://www.youtube.com/watch?v=zI64DyaRUvQ&list=PLggLP4f-rq02vX0OQQ5vrCxbJrzamYDfx&index=5)
+>  Detailed explanation of Grübler’s formula and practical examples of its application.
+
+### Chapter 1 : Introduction to Robotics | Kinematics & Modeling
+
+Now that we have seen some basics notions, foundational concepts, proceed to the next chapter for an in-depth exploration of kinematics and modeling:
+
+![Robotics 101: Full course for beginners](https://www.youtube.com/watch?v=K_xIJBlbjg4&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA)
+> This video gives you an introduction of the meaning of kinematics and modeling and will present you how his videos will be strucured.
+
+<!-- keys words on videos: forward kine, inv kine, gimbal rocks  -->
+
 
 <!-- Conceputal questions -->
 <details markdown="1">
   <summary>Conceptual Questions</summary>
+
+<!-- First question  -->
+<!-- <p><strong>Question 1: How long are Mohammad's videos typically?</strong></p>
+<form id="q1-duration">
+  <input type="radio" name="q1-duration" value="10"> Less than 10 minutes<br>
+  <input type="radio" name="q1-duration" value="30"> Around 30 minutes<br>
+  <input type="radio" name="q1-duration" value="60"> Around 1 hour<br>
+
+  <button type="button" onclick="checkMCQ('q1-duration', '10', 
+    'Correct! Mohammad’s videos usually last less than 10 minutes.', 
+    'Incorrect. Try again!')">
+    Check Answer
+  </button>
+  <p id="q1-duration-feedback"></p>
+</form> -->
+
+
+<!-- First question  -->
+<p><strong>Question 1: Forward kinematics (FK) is...</strong></p>
+<form id="q2-fk">
+  <input type="radio" name="q2-fk" value="option1"> How to calculate the position/orientation from given joint variables<br>
+  <input type="radio" name="q2-fk" value="option2"> Finding joint variables from end-effector position and orientation<br>
+  <input type="radio" name="q2-fk" value="option3"> Calculating robot dynamics<br>
+
+  <button type="button" onclick="checkMCQ('q2-fk', 'option1',
+    'Correct! Forward Kinematics computes the position and orientation from joint variables.',
+    'Incorrect. Please try again!')">
+    Check Answer
+  </button>
+
+  <p id="q2-fk-feedback"></p>
+</form>
 
 > Hint:
 
@@ -149,7 +236,7 @@ A mechanism in which two links (often the base and the end-effector) are connect
 
 
 <!-- First question  -->
-<p><strong>Question 1: A serial robot is a closed kinematic chain structure</strong></p>
+<p><strong>Question 2: A serial robot is a closed kinematic chain structure</strong></p>
 <form id="q1">
   <input type="radio" name="q1" value="True"> True<br>
   <input type="radio" name="q1" value="False"> False<br>
@@ -163,7 +250,7 @@ A mechanism in which two links (often the base and the end-effector) are connect
 </form>
 
 <!-- Second question  -->
-<p><strong>Question 2: In general, a parallel robot is more rigid than a serial robot</strong></p>
+<p><strong>Question 3: In general, a parallel robot is more rigid than a serial robot</strong></p>
 <form id="q2">
   <input type="radio" name="q2" value="True"> True<br>
   <input type="radio" name="q2" value="False"> False<br>
@@ -177,7 +264,7 @@ A mechanism in which two links (often the base and the end-effector) are connect
 </form>
 
 <!-- Third question  -->
-<p><strong>Question 3: A parallel robot is a structure characterized by a closed kinematic loop</strong></p>
+<p><strong>Question 4: A parallel robot is a structure characterized by a closed kinematic loop</strong></p>
 <form id="q3">
   <input type="radio" name="q3" value="True"> True<br>
   <input type="radio" name="q3" value="False"> False<br>
@@ -191,7 +278,7 @@ A mechanism in which two links (often the base and the end-effector) are connect
 </form>
 
 <!-- Fourth question  -->
-<p><strong>Question 4:</strong> A robot is considered <em>redundant</em> if it has ______ actuators than the number of degrees of freedom (DOF).</p>
+<p><strong>Question 5:</strong> A robot is considered <em>redundant</em> if it has ______ actuators than the number of degrees of freedom (DOF).</p>
 
 <form id="redundancy-question">
   <input type="radio" name="redundancy-question" value="more"> More actuators than DOF<br>
@@ -207,7 +294,7 @@ A mechanism in which two links (often the base and the end-effector) are connect
 </form>
 
 <!-- Fifth question  -->
-<p><strong>Question 5: Answer the following questions based on the robot structures shown below:</strong></p>
+<!-- <p><strong>Question 5: Answer the following questions based on the robot structures shown below:</strong></p>
 ![Robot_Structures]({{ site.baseurl }}/assets/images/kinematics/ex1_1.png)
 
 ---
@@ -316,7 +403,7 @@ A mechanism in which two links (often the base and the end-effector) are connect
   </button>
 
   <p id="q3b-dof-feedback"></p>
-</form>
+</form> -->
 
 
 </details>
@@ -380,65 +467,23 @@ For further understanding of the definition of **Degrees of Freedom (DOF)** or a
 </details>
 
 
-### Chapter 0 : Introduction to Robotics | Kinematics & Modeling
+### Chapter 2: Coordinate Transformations in 2D | Mapping {#chapter-1-coordinate-transformations-in-2D}
 
-This video gives you an introduction of the meaning of kinematics and modeling and will present you how his videos will be strucured.
-![Robotics 101: Full course for beginners](https://www.youtube.com/watch?v=K_xIJBlbjg4&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA)
+In this chapter, we focus on 2D coordinate transformations—specifically, **pure translations** and **pure rotations** for planar (serial) robots.
 
-<!-- Conceputal questions -->
-<details markdown="1">
-  <summary>Conceptual Questions</summary>
-
-<!-- First question  -->
-<p><strong>Question 1: How long are Mohammad's videos typically?</strong></p>
-<form id="q1-duration">
-  <input type="radio" name="q1-duration" value="10"> Less than 10 minutes<br>
-  <input type="radio" name="q1-duration" value="30"> Around 30 minutes<br>
-  <input type="radio" name="q1-duration" value="60"> Around 1 hour<br>
-
-  <button type="button" onclick="checkMCQ('q1-duration', '10', 
-    'Correct! Mohammad’s videos usually last less than 10 minutes.', 
-    'Incorrect. Try again!')">
-    Check Answer
-  </button>
-  <p id="q1-duration-feedback"></p>
-</form>
-
-
-<!-- Second question  -->
-<p><strong>Question 2: Forward kinematics (FK) is...</strong></p>
-<form id="q2-fk">
-  <input type="radio" name="q2-fk" value="option1"> How to calculate the position/orientation from given joint variables<br>
-  <input type="radio" name="q2-fk" value="option2"> Finding joint variables from end-effector position and orientation<br>
-  <input type="radio" name="q2-fk" value="option3"> Calculating robot dynamics<br>
-
-  <button type="button" onclick="checkMCQ('q2-fk', 'option1',
-    'Correct! Forward Kinematics computes the position and orientation from joint variables.',
-    'Incorrect. Please try again!')">
-    Check Answer
-  </button>
-
-  <p id="q2-fk-feedback"></p>
-</form>
-
-</details>
-
-### Chapter 1: Coordinate Transformations in 2D | Mapping {#chapter-1-coordinate-transformations-in-2D}
-
-In this chapter, we focus on 2D coordinate transformations—specifically, pure translations and pure rotations for planar (serial) robots.
-
-An introduction to 2D translations and rotations:
 ![Coordinate Transformations in 2D : Mapping Part 1](https://www.youtube.com/watch?v=H_94DTWd8ck&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=2)
+> An introduction to 2D translations and rotations
 
-Explains how translations and rotations combine simultaneously:
+
 ![Coordinate Transformations in 2D : Mapping Part 2](https://www.youtube.com/watch?v=TWTMoFvcBFc&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=3)
+> Explains how translations and rotations combine simultaneously
 
-Discusses how to handle successive coordinate transformations step by step:
 ![Coordinate Transformations in 2D : Mapping Part 3](https://www.youtube.com/watch?v=R_hxO5xBYfI&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=4)
+> Discusses how to handle successive coordinate transformations step by step
 
 As you've seen, a **general motion in the plane** can be described by a combination of translations and rotations around the origin. A sequence of translations and rotations comes up against the fact that the translation is a vector addition while the rotation a matrix multiplication.
 
-It would be very desirable to be able to integrate rotation and translation in a single operation in order to be able to link them together. The **homogeneous matrices** allow this integration of the translation into the transformation matrix. The price to pay is to increase the order of the matrix by one. The translation vector t is added to the right and a line [0 0 1] at the bottom:
+It would be very desirable to be able to integrate rotation and translation in a single operation in order to be able to link them together. The **homogeneous matrices** allow this integration of the translation into the transformation matrix. The price to pay is to increase the order of the matrix by one. Within the **rotation matrix \(R\)**, with **orientation \(θ\)**, the **translation vector \(t\)** on x and y axis is added to the right and a line [0 0 1] at the bottom:
 
 $$
 \begin{bmatrix}
@@ -452,7 +497,7 @@ $$
 \end{bmatrix}
 $$
 
-This is **the homogeneous matrix** of transformation in a two‐dimensional space (a plane), the third line has no spatial significance (no z axis for the moment !!). This matrix acts on a **homogeneous vector** in a two‐dimensional space which consists of its two coordinates plus a "scale factor" equal to one:
+<!-- This is **the homogeneous matrix** of transformation in a two‐dimensional space (a plane), the third line has no spatial significance (no z axis for the moment !!). This matrix acts on a **homogeneous vector** in a two‐dimensional space which consists of its two coordinates plus a "scale factor" equal to one:
 $$
 \mathbf{v} =
 \begin{bmatrix}
@@ -462,7 +507,7 @@ y \cr
 \end{bmatrix}.
 $$   
 
-To find the familiar vectors, just delete the last element. Matrices and homogeneous vectors for three dimensions contain four elements.
+To find the familiar vectors, just delete the last element. Matrices and homogeneous vectors for three dimensions contain four elements. -->
 
 <!-- Conceptual Questions -->
 <details markdown="1">
@@ -585,7 +630,7 @@ For further understanding of the definition of **Homogeneous Transformation Matr
 
 </details>
 
-### Chapter 2: Forward Kinematics of robots | Planar 2D robots
+### Chapter 3: Forward Kinematics of robots | Planar 2D robots
 
 
 In robotics, understanding how each joint movement translates into precise actions is essential. In this chapter, we'll dive into **forward kinematics** (also called Direct Geometric Model, DGM), a fundamental method that allows us to calculate exactly where a robot’s end-effector (such as a gripper or tool) ends up in space based on its joint configurations (for example its position (x,y) and orientation(θ) in 2D). We'll start by exploring simple planar 2D robots, laying a clear foundation for mastering more complex robotic systems.
@@ -596,7 +641,7 @@ Watch the following video for an intuitive overview before we delve into the mat
 
 
 
-### Chapter 3: Forward Kinematics (with solved examples) | Homogeneous Transformations 
+### Chapter 4: Forward Kinematics (with solved examples) | Homogeneous Transformations 
 
 Here you will see some examples of how to find this end effector positions in 2D using homogeneous transforms as we have seen in Chapter 1. 
 
@@ -658,7 +703,7 @@ Practice what you've learned with Exercises **1**,**2** and **3**.
 
 </details>
 
-### Chapter 3.5: Intro. to Quaternions 
+### Chapter 4.5: Intro. to Quaternions 
 
 <div style="float: left; margin-right: 15px; text-align: center;">
   <img src="{{ site.baseurl }}/assets/images/kinematics/R.gif" alt="Quaternions Explained" style="width: 200px; height: auto;">
@@ -811,16 +856,17 @@ For further understanding of the definition of **Quaternions**, the following co
 </details>
 
 
-### Chapter 4: Collision Detection using Homogeneous Transforms  
+### Chapter 6: Collision Detection using Homogeneous Transforms  
 
-In this chapter, we’ll explore how **collision detection** between robots can be performed using homogeneous transformations. Specifically, you’ll compute a new homogeneous transformation matrix that describes the relationship between two end-effectors, given two separate transformation matrices ($H_1$ and $H_2$). This new matrix will provide the relative distances $d_x$ and $d_y$ between the two end-effectors. When both $d_x$ and $d_y$ become zero, it indicates that the two robots are in collision.
-
+In this chapter, we’ll explore how **collision detection** between robots can be performed using homogeneous transformations. 
 
 Watch the following video to see this concept illustrated clearly:
 
 ![Homogeneous Transforms](https://www.youtube.com/watch?v=WQTnCIhkzNc&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=8)
+> Here, you will compute a new homogeneous transformation matrix that describes the relationship between two end-effectors, given two separate transformation matrices ($H_1$ and $H_2$). This new matrix will provide the relative distances $d_x$ and $d_y$ between the two end-effectors. When both $d_x$ and $d_y$ become zero, it indicates that the two robots are in collision.
 
-### Chapter 5: Inverse Kinematics of Robots
+
+### Chapter 6: Inverse Kinematics of Robots
 <!-- 
 Inversly as the forward kinematics, inverse kinematics (also called Indirect Geometric Model, IGM) allow us to find the values of the joint positions given the position and orientation of the end-effector relative to the base and the values of all the geometric link parameters. -->
 
@@ -834,8 +880,7 @@ If you have a solid understanding of forward kinematics, inverse kinematics beco
 Watch the following video for a clear introduction to inverse kinematics:
 
 ![Inverse Kinematics of Robots](https://www.youtube.com/watch?v=1-FJhmey7vk&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=9)
-
-In this next video, you will explore another example of inverse kinematics using a planar robot. Interestingly, this robot features both revolute and prismatic joints, making its parameters a combination of joint angles and link lengths. This type of robot is specifically known as an **'RRP' robot**.
+> In this next video, you will explore another example of inverse kinematics using a planar robot. Interestingly, this robot features both revolute and prismatic joints, making its parameters a combination of joint angles and link lengths. This type of robot is specifically known as an **'RRP' robot**.
 
 ![example_inverse_kinematics](https://www.youtube.com/watch?v=EzZDRwmk8Nw&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=10)
 
@@ -895,7 +940,7 @@ one of the sum of squares of sine and cosine.
 
 </details>
 
-### Chapter 6: Velocity Kinematics - Meet the Jacobian !
+### Chapter 7: Velocity Kinematics - Meet the Jacobian !
 
 Ready to dive deeper into robotics? This chapter introduces you to one of the coolest concepts in robot motion: the **Jacobian Matrix**! 
 
@@ -973,7 +1018,7 @@ Check it this video here:
 Now that you've understood the exciting concept of the Jacobian, let's practice calculating it ourselves! Follow along with this detailed solved example in the video below, and then reinforce your skills with some hands-on exercises. Give it a try! 
 
 ![how to find Jacobian Matrix](https://www.youtube.com/watch?v=EdvAHmIONMs&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=13)
-
+> Detailed example of how to solve jacobian Matrix
 
 <!-- Mathematical Development Questions -->
 <details markdown="1">
@@ -993,13 +1038,13 @@ Practice what you've learned with Exercises **1** and **2** below.
 </details>
 
 
-### Chapter 7: Robot Singularities & how to find them
+### Chapter 8: Robot Singularities & how to find them
 
 Singularities occur when a robot configuration causes it to lose the ability to move or become blocked in certain directions. Understanding and identifying these singularities is essential to safe and efficient robot operation.
 
-Watch the video below to clearly grasp what robot singularities are and how you can find them:
 
 ![Robot Singularities & how to find them](https://www.youtube.com/watch?v=WXEOr7X2bPE&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=14)
+> Definition of robot singularities are and how you can find them
 
 For *serial manipulators*, the singular positions result from the **loss of degrees of freedom** while in a *parallel manipulator*, they result of the **gain of one or more degrees of freedom**. Most of the time, passing through a singularity causes **over constraint**, to then inducing the loss of control of one or more degrees of freedom. Which means, not controllable, which is not good. 
 
@@ -1293,9 +1338,10 @@ If your code is correct, the robot arm will continuously attempt to reach the sp
 
 
 
-## Ressources
+## Resources
 
 ### Books
+- [Modern Robotics:  Mechanics, Planning, and Control](http://modernrobotics.org)," by Kevin Lynch and Frank Park, Cambridge University Press 2017.
 
 - [Springer Handbook of Robotics ](https://link.springer.com/chapter/10.1007/978-3-319-32552-1_2) (Chapter 2. Kinematics)
 
@@ -1303,9 +1349,15 @@ If your code is correct, the robot arm will continuously attempt to reach the sp
 
 ### Videos
 
-- [Introduction to Robotics: Kinematics & Modeling](https://www.youtube.com/watch?v=K_xIJBlbjg4&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA) (Youtube Channel by Mohammad Zainullah Khan)
+- Contents shared by **[Mohammad Zainullah Khan](https://www.zainullah.com/)**, an engineer with a Master’s degree in Mechanical Engineering (specializing in robotics, design, and mechatronics) from the University of Dayton.
+
+- Contents shared by **[Prof. Kevin Lynch](https://www.mccormick.northwestern.edu/research-faculty/directory/profiles/lynch-kevin.html)**, Professor of Mechanical Engineering at [Northwestern University](https://www.northwestern.edu/).
 
 - [Robotic Manipulation](https://www.youtube.com/watch?v=ZOXp_wixIzo&list=PLkx8KyIQkMfVRPReg9FHtBk_RGEwnVxU-&index=3) (MIT 2020)
+
+### Exercices 
+
+- Conceptual and mathematical exercises are inspired by **[Mr. Mohamed Bouri](https://people.epfl.ch/mohamed.bour)**, giving the course [Basic of Robotics for Manipulation](https://edu.epfl.ch/coursebook/en/basics-of-robotics-for-manipulation-MICRO-450) at [EPFL](https://www.epfl.ch/fr/). 
 
 ---
 
