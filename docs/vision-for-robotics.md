@@ -828,17 +828,188 @@ $$
 
 </details>
 
+---
+
 ### Chapter 1.4 : Triangulation
 
-See corresponding chapter in the PDF [*Springer Handbook of Robotics*](#chapter-1-vision)
+>**Goal of this section**
+>Show how a single 3-D point can be re-built from (at least) two calibrated >images by intersecting the two sight-rays that go through the image measurements.
 
-Triangulation is a fundamental technique in computer vision and 3D reconstruction, used to determine the 3D coordinates of a point in the world from its projections in two or more images. By leveraging the known camera positions and the 2D image coordinates of a point, triangulation enables the estimation of the point’s location in 3D space.
+<details markdown="1"><summary>Video explenation</summary>
 
-In essence, triangulation involves using the principle of geometry to intersect the lines of sight from multiple camera views. By obtaining the corresponding points from two or more views and knowing the camera positions (extrinsic parameters) and their internal characteristics (intrinsic parameters), we can solve for the 3D coordinates of the point.
-
-### Chapter 1.5 : Stereo Camera
+  Here is a good youtube video explaining in a more visual way how to do **triangulation**. Note that the notation in this video may not follow the notation of this course but the method is the same.
 
 ![](https://www.youtube.com/watch?v=hUVyDabn1Mg&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=5)
+
+</details>
+
+---
+
+#### 1 Why one view is never enough   
+
+With a single pinhole camera you can only say that the 3-D point lies somewhere on a ray that starts in the camera centre and passes through the pixel $u_1$. Mathematically (homogeneous notation)
+
+$$
+\lambda_1 u_1 = P_1 \begin{bmatrix}
+X \cr
+Y \cr
+Z \cr
+1
+\end{bmatrix}
+$$
+
+where $P_1 = K_1\,[\,R_1\mid T_1]$ and $\lambda_1 = Z_{c1}$ is the **unknown**
+depth.
+
+---
+
+#### 2 Two eyes give you depth  
+
+Add a second calibrated view
+
+$$
+\lambda_2 u_2 = P_2 \begin{bmatrix}
+X \cr
+Y \cr
+Z \cr
+1
+\end{bmatrix}
+$$
+
+Stack the two equations and eliminate the depths.  
+Let $(x,y)$ be the pixel in the current row and
+$P_i^{(k)}$ the $k$-th row of $P_i$:
+
+$$
+\underbrace{\begin{bmatrix}
+x\,P_1^{(3)}-P_1^{(1)} \cr
+y\,P_1^{(3)}-P_1^{(2)} \cr
+x\,P_2^{(3)}-P_2^{(1)} \cr
+y\,P_2^{(3)}-P_2^{(2)}
+\end{bmatrix}}_{\displaystyle A}
+\begin{bmatrix}
+X \cr
+Y \cr
+Z \cr
+1
+\end{bmatrix}=0.
+$$
+
+Here $P_i^{(k)}$ denotes the $k$-th row of $P_i$, and $(x,y)$ are the pixel coordinates in that view. In practice the two image rays do not intersect perfectly because of measurement noise, so matrix $A$ has full rank 4. The best estimate of $X$ is therefore the right-singular vector of $A$ corresponding to its smallest singular value (Direct Linear Triangulation, or DLT).
+
+>**Quick recipe (DLT)**
+  >1. Undistort and normalise the two image points.
+  >2. Build the $4\times4$ matrix $A$ in (2).
+  >3. Run an SVD $A=U\Sigma V^\top$ and take the last column of $V$.
+  >4. De-homogenise to obtain $(X,Y,Z)$.
+
+
+---
+
+#### 3 Epipolar sanity check   
+
+The pair $(u_1,u_2)$ must satisfy the **epipolar constraint**  
+
+$$
+\mathbf u_2^{\top}\,E\,\mathbf u_1 \;=\;0
+$$
+
+with $E$ the essential matrix built from the relative pose $[R\mid T]$ of the two cameras. If that constraint is violated the two rays can never meet and the SVD in (2) will merely return the least-squares compromise.
+
+---
+
+#### 4 Numerical hints   
+
+- Centre and scale image measurements before forming $A$ (improves conditioning).
+- A point that is very close to both cameras gives a tiny $Z$—beware of dividing by a noisy depth.
+- Use more than two images whenever possible; each extra view adds two more rows to $A$ and makes the SVD solution more robus
+
+---
+
+#### **Exercises**
+
+<details markdown="1"><summary>Conceptual questions</summary>
+
+**True / False**
+
+1. A single calibrated image suffices to recover a point’s depth.  
+<form id="tri-tf-1">
+<input type="radio" name="tri-tf-1" value="True"> True<br>
+<input type="radio" name="tri-tf-1" value="False"> False<br>
+<button type="button"
+onclick="checkTrueFalse('tri-tf-1','False',
+'✅ Correct – one image gives only a ray.',
+'❌ Depth needs another view!')">
+Check</button>
+<p id="tri-tf-1-feedback"></p></form>
+
+**Multiple choice**
+
+2. The linear system $A\,X=0$ admits a *finite* 3-D solution only when …  
+<form id="tri-mc-1">
+<input type="radio" name="tri-mc-1" value="1"> $\operatorname{rank}A=4$<br>
+<input type="radio" name="tri-mc-1" value="2"> $\operatorname{rank}A=3$<br>
+<input type="radio" name="tri-mc-1" value="3"> $A$ is symmetric<br>
+<button type="button"
+onclick="checkMCQ('tri-mc-1','2',
+'✅ Right – perfect correspondences drop the rank to 3.',
+'❌ Recall: epipolar-consistent rows are not independent.')">
+Check</button>
+<p id="tri-mc-1-feedback"></p></form>
+
+**Fill-in**
+
+3. Each extra view adds ____ new independent equations for the same 3-D
+   point.  
+<form id="tri-fi-1">
+<input type="text" id="tri-fi-1-box" size="4" placeholder="?">
+<button type="button"
+onclick="
+const ok=document.getElementById('tri-fi-1-box').value.trim()==='2';
+document.getElementById('tri-fi-1-feedback').innerText=
+ ok?'✅ Correct!':'❌ Hint: one $x$-row + one $y$-row.';">
+Check</button>
+<p id="tri-fi-1-feedback"></p></form>
+
+</details>
+
+<details markdown="1"><summary>Mathematical questions</summary>
+
+Two pin-hole cameras share  
+
+$$
+K=\begin{bmatrix}800&0&320 \cr
+                0&800&240 \cr
+                0&0&1\end{bmatrix}.
+$$
+
+Left camera: $P_1 = K[I\mid 0]$  
+Right camera: $P_2 = K[I\mid (-0.1,0,0)^\top]$
+
+Measurements: $\mathbf u_1=(340,240)$, $\mathbf u_2=(300,240)$ px.  
+**Estimate its 3-D coordinates.**
+
+Hint: follow the four-step DLT recipe above.
+<details markdown="1"><summary>Solution (sketch)</summary>
+
+Normalised points
+$\tilde{x}_1=\tfrac{1}{800}(20,0,1)^\top$,
+$\tilde{x}_2=\tfrac{1}{800}(-20,0,1)^\top$.
+Build $A$, run SVD $\Rightarrow$ $X\approx(0,0,1.0)$ m in the left-camera frame.
+</details>
+</details>
+
+#### **Key Takeaway:**
+
+- Triangulation turns 2-D correspondences into 3-D positions once the two projection matrices are known.
+
+- A clean linear formulation (DLT) relies on simple linear-algebra tools (SVD).
+
+- The geometry behind it is nothing more than “find the intersection of two lines in space”—but careful algebra keeps that intersection stable in the presence of noise.
+
+---
+
+### Chapter 1.5 : Stereo Camera
 
 ![](https://www.youtube.com/watch?v=dUDMQ6dwWDA&list=PL2zRqk16wsdoCCLpou-dGo7QQNks1Ppzo&index=6)
 
