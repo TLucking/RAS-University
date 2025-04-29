@@ -11,12 +11,21 @@ Explore the structured robotics courses below, designed to guide you from fundam
 
 ## Table of Contents 📚
 
-- [Kinematics](kinematics)
-- [Dynamics](dynamics)
-- [Motion Control](motion-control)
-- [Force Control](force-control)
-- [Sensing and Perception](sensing-and-perception)
-- [Vision for Robotics](vision-for-robotics)
+**Chapter 0:** [Mathematical Foundation](mathematical-foundation)
+
+**Chapter 1: Motion Control**
+- 📌 [Control Variables](Variables)
+- 🤖 [Kinematics](kinematics)
+- 📐 [Dynamics](dynamics)
+- 🦾 [Force Control](force-control)
+- 🗺️ [Motion Planning](motion-planning)
+
+**Chapter 2: Sensing**
+- 👁️ [Vision for Robotics](vision-for-robotics)
+- 🤚 [Haptics for Robotics](haptics-for-robotics)
+- 📡 [New Sensors for Robotics](new-sensors-for-robotics)
+- 🤝 [Interfaces for Human-Robot Interaction](Interfaces-for-HRI)
+- 🌐 [Sensing and Perception](sensing-and-perception)
 
 ---
 
