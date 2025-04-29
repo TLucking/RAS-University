@@ -24,8 +24,7 @@ gem install bundler jekyll
 
 ### 2. Clone the Repository
 ```bash
-git clone https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git
-cd YOUR-REPO-NAME
+git clone https://github.com/TLucking/RAS-University.git
 ```
 
 ### 3. Install the Required Gems
