@@ -36,7 +36,7 @@ Make sure you're inside the project folder (where the Gemfile is).
 bundle install
 ```
 
-4. Serve the Site Locally
+### 4. Serve the Site Locally
    
 ```bash
 bundle exec jekyll serve
