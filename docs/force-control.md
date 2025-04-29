@@ -26,8 +26,11 @@ math: mathjax
 * Basic knowledge of robotics kinematics and dynamics
 * Control theory..............
 
-## Motivation
+# Motivation
 ![Overview](https://youtu.be/mGuDXlZEoSc)
+><sub>*Northwestern Robotics (2018) Modern Robotics, Chapter 11.1: Control System Overview. YouTube video, 16 March. Available at: https://www.youtube.com/watch?v=mGuDXlZEoSc*</sub>
+>
+><sub>*Lynch, K.M. and Park, F.C. (2017) Modern Robotics: Mechanics, Planning, and Control. Cambridge: Cambridge University Press.*</sub>
 
 In **motion control** problems, the robot's objective is to follow a predefined trajectory as accurately as possible — regardless of contact with the environment. This is suitable for free-space movements where external forces are negligible or undesirable. While the premise of motion control might be basic in nature, it is a fundamental part of any higher-level robot manipulation. 
 
@@ -35,9 +38,6 @@ However, motion control alone is not sufficient when a robot physically interact
 
 This is why, in the past decade, research in robot force control has increased significantly, with applications across medical, industrial and service robotics. In industrial robotics, typical tasks that involves robot interaction with an environment such as polishing, cutting, scraping, pick-and-place, welding, etc. can benefit from the use of different methods of force control strategies. 
 Another particularly impactful area is physical human-robot interaction, where the robot must respond to human-applied forces and work in synchrony. In these scenarios, force control enables safe, adaptive and cooperative behavior in shared tasks.
-
-
-
 
 <details markdown="1">
 <summary><strong>Conceptual Exercise</strong></summary>
@@ -136,49 +136,21 @@ const correctMapping = {
 
 </details>
 
-## Chapter 1 : Interaction control overview
+# Chapter 1 : Interaction control overview
 While motion control focuses on following a desired trajectory regardless of external contact, force control aims to regulate how much force is exchanged between the robot and its environment. This raises a fundamental question: how does the robot respond to forces during contact? There are two broad paradigms for addressing this:
 
 * **Passive interaction control**: The trajectory of the end-effector is driven by the interaction forces due to the inherent nature or compliance of the robot (i.e., internally, such as joints, servo, joints, etc.). In passive control, the end-effector’s motion naturally deflects under force, as in soft robots. But, this lacks flexibility (every specific task might require a special end-effector to be designed and it can also have position and orientation deviations)​ and high contact forces could occur because there is no force measurement. 
 
-    ![Illustrative Video](https://youtu.be/4fnPVRWWEU8)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9ncqptpXT8w?start=47&amp;end=60" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+> *The video clearly presents how the robot’s end-effector deflects naturally in response to external forces, showcasing the principle of passive interaction control, where the robot's compliance governs its motion without active force regulation.*
 
 * **Active interaction control**: It relies on sensors (e.g., force/torque sensors) and/or feedback controllers to measure interaction forces and adjust the robot’s commands accordingly—whether by modifying its trajectory or the way it manipulates objects. This approach enables real-time reactions to contact, offering high flexibility and accuracy. However, it comes with added complexity and limitations in speed. To achieve effective task execution and robust disturbance rejection, active control is typically combined with some degree of passive compliance. Active strategies can be futer divided into indirect methods (such as admittance and impedance control) and direct force control techniques (such as hybrid force/motion control).
     
     ![Illustrative video](https://www.youtube.com/watch?v=7Nvlki1xo-c)	
 
-### Mathematical foundation
-![Kevin Lynch](https://youtu.be/M1U629sREiY?si=De33y2G69TbPp6_q)
+> *This video provides an intuitive demonstration of active interaction force control. Pay attention to how sensors and feedback controllers allow the robot to adjust its actions in real time based on the forces it experiences. These concepts, including different active control strategies, will be explored in greater detail throughout the course.*
 
-At a quasi-static level (i.e., for slow or stationary motions), the joint torques $\tau$ are related to the end-effector contact force $F_{\text{tip}}$ by the following fundamental equation:
-
-$$
-\tau = g(\theta) + J^T(\theta) F_{tip}
-$$
-where:
-
-* $ g(\theta)$ is the vector of joint torques needed to counteract gravity at the configuration $\theta$.
-* $ J(\theta) $ is the Jacobian matrix mapping velocities from joint space to end-effector space,
-* $ F_{tip} $ is the force applied at the end-effector.
-
-This relationship holds for both types of interaction control but the way it's used differs:
-* In **passive interaction control**, $F_{\text{tip}}$ is imposed by the environment, and the resulting deflection of the robot depends on its intrinsic compliance.
-* In **active interaction control**, the same equation becomes a control law. We specify a desired contact force $F_d$ and compute the torque needed to achieve it:
-$$
-\tau = \tilde{g}(\theta) + J^T(\theta) F_d
-$$
- where $\tilde{g}(\theta)$ is a model of the gravitational torques.
-
- This is open-loop force control. It assumes the robot's model and the environment are accurate.  However, since models are never perfect, this approach is sensitive to disturbances or uncertainty. To increase robustness, we add feedback — typically with a PI controller:
-
-$$
-\tau = \tilde{g}(\theta) + J^T(\theta) \left( F_d + K_{fp}F_e + K_{fi} \int F_e\, dt \right)
-$$
-$$ 
-F_e = F_d - F_{tip}
-$$
-
-This feedback formulation allows the robot to adjust its torques based on measured force errors, improving stability and accuracy even as the environment changes.
 
 <details markdown = "1">
   <summary><strong>Conceptual exercise</strong></summary>
@@ -264,13 +236,177 @@ const correctMapping2 = {
 <button class="check-button" onclick="checkDragDropAnswer(correctMapping2, 'feedback-passive_active')">Check Answer</button>
 <div class="feedback" id="feedback-passive_active"></div>
 
+</details>
+
+### Mathematical Foundation
+*Note: The following builds upon the equation derived in ..., $$EQUATION$$. Ensure that the meaning of each term is clearly understood before engaging with this section.*
+
+![Kevin Lynch](https://youtu.be/M1U629sREiY?si=De33y2G69TbPp6_q)
+><sub>*Northwestern Robotics (2018) Modern Robotics, Chapter 11.5: Force Control. YouTube video, 16 March. Available at: https://www.youtube.com/watch?v=M1U629sREiY*</sub>
+>
+><sub>*Lynch, K.M. and Park, F.C. (2017) Modern Robotics: Mechanics, Planning, and Control. Cambridge: Cambridge University Press.*</sub>
+
+At a quasi-static level (i.e., for slow or stationary motions), the joint torques $\boldsymbol{\tau}$ are related to the end-effector contact force $\boldsymbol{F_{\text{tip}}}$ by the following fundamental equation:
+
+$$
+\boldsymbol{\tau} = \boldsymbol{g}(\boldsymbol{\theta}) + \boldsymbol{J}^T(\boldsymbol{\theta}) \boldsymbol{F_{\text{tip}}}
+$$
+
+where:
+- $\boldsymbol{\tau} \in \mathbb{R}^m$ is the vector of joint torques (units: $\mathrm{Nm}$), where $m$ is the number of robot joints.
+- $\boldsymbol{g}(\boldsymbol{\theta}) \in \mathbb{R}^m$ is the vector of joint torques required to counteract gravity at configuration $\boldsymbol{\theta}$ (units: $\mathrm{Nm}$).
+- $\boldsymbol{J}(\boldsymbol{\theta}) \in \mathbb{R}^{n \times m}$ is the manipulator Jacobian, mapping joint velocities (units: $\mathrm{rad/s}$) to end-effector velocities (units: $\mathrm{m/s}$ and/or $\mathrm{rad/s}$), where:
+- $\boldsymbol{F_{\text{tip}}} \in \mathbb{R}^n$ is the force and moment (wrench) applied at the end-effector (units: $\mathrm{N}$ for forces, $\mathrm{Nm}$ for moments).
+
+*Note that through the whole course:*
+  - *$n$ is the number of task-space dimensions (e.g., $n=6$ in 3D Cartesian space, $n=2$ in planar tasks)*
+  - *$m$ is the number of robot joints.*
+
+This relationship holds for both types of interaction control, but the way it is used differs:
+
+- In **passive interaction control**, $\boldsymbol{F_{\text{tip}}}$ is imposed by the environment, and the resulting motion depends on the robot’s intrinsic compliance.
+- In **active interaction control**, this equation becomes a control law: we specify a desired contact force $\boldsymbol{F_d}$ and compute the torque needed to apply it:
+
+$$
+\boldsymbol{\tau} = \tilde{\boldsymbol{g}}(\boldsymbol{\theta}) + \boldsymbol{J}^T(\boldsymbol{\theta}) \boldsymbol{F_d}
+$$
+
+where:
+- $\tilde{\boldsymbol{g}}(\boldsymbol{\theta}) \in \mathbb{R}^n$ is a model-based estimate of gravitational torques.
+
+This corresponds to **open-loop force control**: it assumes the robot's model and the environment are accurate. However, because models are never perfect, this method is sensitive to disturbances and uncertainties.
+
+To improve robustness, **feedback** is introduced — typically using a PI (Proportional-Integral) controller:
+
+$$
+\boldsymbol{\tau} = \tilde{\boldsymbol{g}}(\boldsymbol{\theta}) + \boldsymbol{J}^T(\boldsymbol{\theta}) \left( \boldsymbol{F_d} + \boldsymbol{K_p} \boldsymbol{F_e} + \boldsymbol{K_i} \int \boldsymbol{F_e}\, dt \right)
+$$
+
+where:
+- $\boldsymbol{K_p} \in \mathbb{R}^{n\times n}$ is the proportional gain matrix
+- $\boldsymbol{K_i} \in \mathbb{R}^{n\times n}$ is the integral gain matrix
+- $\boldsymbol{F_e} = \boldsymbol{F_d} - \boldsymbol{F_{\text{tip}}} \in \mathbb{R}^n$ is the force error (units: $\mathrm{N}$ for forces, $\mathrm{Nm}$ for moments).
+
+
+This feedback formulation allows the robot to adjust its torques based on measured force errors, improving stability and accuracy even as the environment changes.
+
+
+<details markdown = "1">
+<summary><strong>Mathematical exercise</strong></summary>
+
+**EXERCISE 1:**
+<form id="q-interaction">
+  <input type="radio" name="q-interaction" value="a"> In <strong>active interaction control</strong>, the robot controls the <strong>desired force</strong> $F_d$, and the actual force $F_{\text{tip}}$ is the result of the robot’s actions<br>
+  <input type="radio" name="q-interaction" value="b"> In <strong>passive interaction control</strong>, the robot controls the actual force $F_{\text{tip}}$, and the desired force $F_d$ is imposed by the environment.<br>
+  <input type="radio" name="q-interaction" value="c"> In <strong>both passive and active interaction control</strong>, the robot controls the desired force $F_d$, and the actual force $F_{\text{tip}}$ is simply a consequence of the environment.<br>
+  <input type="radio" name="q-interaction" value="d"> In <strong>both passive and active interaction control</strong>, the robot controls $F_{\text{tip}}$, and the desired force $F_d$ is an abstract goal that is not directly controlled. <br><br>
+
+  <button type="button" onclick="checkMCQ('q-interaction', 'a', 
+    'Correct! Good job!', 
+    'Incorrect. Try again!')">
+    Check Answer
+  </button>
+
+  <p id="q-interaction-feedback"></p>
+</form>
+<br>
+
+### Exercise 2: Joint Torque Computation under Interaction Control
+
+Consider a robotic arm operating in a 2D plane. The Jacobian matrix $\boldsymbol{J}(\boldsymbol{\theta})$ at a given configuration is:
+
+$$
+\boldsymbol{J}(\boldsymbol{\theta}) = \begin{bmatrix} 
+1 & 2 \\ 
+0 & 1 
+\end{bmatrix}
+$$
+
+where:
+- $\boldsymbol{J}(\boldsymbol{\theta}) \in \mathbb{R}^{2\times2}$ maps joint velocities (units: $\mathrm{rad/s}$) to end-effector linear velocities (units: $\mathrm{m/s}$).
+
+Two scenarios are considered:
+
+- **Scenario A: Active Interaction Control**  
+  The robot must apply a desired end-effector force:  
+  $$\boldsymbol{F_d} = \begin{bmatrix} 3 \\ 1 \end{bmatrix} \, \mathrm{N}$$
+
+- **Scenario B: Passive Interaction Control**  
+  The environment imposes an external force measured at the end-effector:  
+  $$\boldsymbol{F_{\text{tip}}} = \begin{bmatrix} 2 \\ 0.5 \end{bmatrix} \, \mathrm{N}$$
+
+Assume that the model of gravitational torques is zero, i.e., $\tilde{\boldsymbol{g}}(\boldsymbol{\theta}) = \boldsymbol{0}$.
+
+**Task:** Compute the joint torques $\boldsymbol{\tau}$ in both scenarios.
+
+<details markdown="1">
+<summary><strong>Solution</strong></summary>
+
+### Scenario A: Active Interaction Control
+
+First, compute the transpose of the Jacobian:
+
+$$
+\boldsymbol{J}^T(\boldsymbol{\theta}) = \begin{bmatrix} 
+1 & 0 \\ 
+2 & 1 
+\end{bmatrix}
+$$
+
+Then, compute the joint torques using:
+
+$$
+\boldsymbol{\tau} = \boldsymbol{J}^T(\boldsymbol{\theta}) \boldsymbol{F_d}
+$$
+
+Substituting $\boldsymbol{F_d}$:
+
+$$
+\boldsymbol{\tau} = \begin{bmatrix} 
+1 & 0 \\ 
+2 & 1 
+\end{bmatrix} \begin{bmatrix} 3 \\ 1 \end{bmatrix}
+$$
+
+Thus, the joint torques for **Scenario A** are:
+$$
+\boldsymbol{\tau} = \begin{bmatrix} 1 \times 3 + 0 \times 1 \\ 2 \times 3 + 1 \times 1 \end{bmatrix} = \begin{bmatrix} 3 \\ 7 \end{bmatrix}\, \mathrm{N\cdot m}
+$$
+
+### Scenario B: Passive Interaction Control
+
+Again, using:
+
+$$
+\boldsymbol{\tau} = \boldsymbol{J}^T(\boldsymbol{\theta}) \boldsymbol{F_{\text{tip}}}
+$$
+
+Substituting $\boldsymbol{F_{\text{tip}}}$:
+
+$$
+\boldsymbol{\tau} = \begin{bmatrix} 
+1 & 0 \\ 
+2 & 1 
+\end{bmatrix} \begin{bmatrix} 2 \\ 0.5 \end{bmatrix}
+$$
+
+Thus, the joint torques for **Scenario B** are:
+
+$$
+\boldsymbol{\tau} = \begin{bmatrix} 1 \times 2 + 0 \times 0.5 \\ 2 \times 2 + 1 \times 0.5 \end{bmatrix} = \begin{bmatrix} 2 \\ 4.5 \end{bmatrix} \, \mathrm{N\cdot m}
+$$
+
+
+**Conclusion:** The purpose of this exercise is to show that the calculations governing passive and active interaction control are similar, what changes is how the force is interpreted. For active interaction control, it's a force that we desire to achieve whereas, for passive interaction control, it's a force imposed by the environment.
+</details>
 
 </details>
 
-## Chapter 2: Active interaction control
+
+# Chapter 2: Active interaction control
 Active interaction control strategies can be grouped into two categories: those performing indirect force control and those performing direct force control. The main difference is that indirect methods regulate interaction forces through motion behaviors — without explicitly closing a force feedback loop — whereas direct force control explicitly commands and tracks contact forces through sensor-based feedback.
 
-### Chapter 2.1 : Indirect Force Control
+## Chapter 2.1 : Indirect Force Control
 
 Indirect force control strategies achieve force regulation by modulating the robot’s motion response rather than directly commanding forces. The robot behaves like a virtual mechanical system (typically a mass-spring-damper) so that when it is pushed, it responds with motion that generates restoring forces, just like a compliant structure would. 
 
@@ -279,11 +415,17 @@ In this approach, we are not controlling nor tracking the force directly. Instea
 Imagine pressing on the end-effector of a robot. With only knowledge of the robot’s own parameters — not the properties of the environment, we can design a controller so that the robot responds as if you were pushing against a virtual spring-mass-damper system, not because it's tracking a specific force, but because its motion is governed by a virtual dynamic behavior that generates restoring forces naturally. Rather than rigidly following a trajectory, the controller modulates the system’s virtual dynamics (e.g., stiffness, damping) and lets the compliant behavior manage contact.
 
 ![Illustrative example 1](https://youtu.be/KJ8s1BUHoks)
+><sub>*Harmonic Bionics (2021) Impedance Control vs. Position Control. YouTube video, 20 April. Available at: https://youtu.be/KJ8s1BUHoks*</sub>
+>
+> *Notice how the position-controlled arm is stiff, rigid and challenging to interrupt. It completes the movement, as programmed, with little distraction from the human attempting to disrupt the intended path of movement. Meanwhile, the same disruptions (force and direction) are applied to the impedance-controlled arm. Notice how it ‘gives in’ to these forces in a soft, spring-like manner and can easily be disrupted from completing the movement.* 
 
 This approach has powerful advantages:
 - It provides intuitive and robust interaction with unknown environments.
+  *If the right arm in the video unexpectedly hits a wall, it adapts and moves compliantly, avoiding damage. The left arm would crash into it rigidly which might be very dangerous.*
 - It is robust to modeling errors and external disturbances.
+ *When the human pushes the right arm, it smoothly adjusts. Even if friction or force models are wrong, it stays stable, unlike the stiff left arm.*
 - If both the robot and the environment behave like passive (dissipative) systems, the overall interaction remains stable. 
+*When pushed, the right arm and the human’s hand both yield softly, keeping the motion smooth and stable.*
 
 <details markdown = "1">
 <summary><em>Stability of passive systems</em></summary>
@@ -294,9 +436,11 @@ If you're unfamiliar with what it means for a system to be passive, this short v
 **What does it really mean for a robot to “behave like a spring-mass-damper" ?**
 
 ![This short video (7 min)](https://youtu.be/Vz5c3il0Dys)
-> This short video by Polytech Montréal gives a concise and intuitive introduction to these concepts. It explores the dynamic relationship between force and motion, and shows how this relationship — known as **mechanical impedance** — underlies both impedance and admittance control. If you're unfamiliar with these terms, watch this first — it sets the stage for what follows.
+><sub>*Gesta, A. (2022) POLAR SkillShare 4 – Impedance Control for Robotic Rehabilitation. YouTube video, 29 July. Available at: https://www.youtube.com/watch?v=Vz5c3il0Dys*</sub>
+>
+> *This short video by Polytech Montréal gives a concise and intuitive introduction to these concepts. It explores the dynamic relationship between force and motion, and shows how this relationship — known as **mechanical impedance** — underlies both impedance and admittance control. If you're unfamiliar with these terms, watch this first — it sets the stage for what follows.*
 
-#### Chapter 2.1.1: Mechanical Impedance - the shared foundation
+### Chapter 2.1.1: Mechanical Impedance - the shared foundation
 At the core of both impedance and admittance control lies the idea of **mechanical impedance**. It describes how a physical system resists motion when subjected to a force. Unlike static stiffness (which links force to displacement), impedance captures **dynamic behavior** — how velocity (or acceleration) influences the force a system generates or absorbs.
 
 Mathematically, the impedance $Z$ relates the force $F$ to the velocity $v$ of a system $F = Z v$
@@ -314,7 +458,7 @@ From this shared foundation, two distinct approaches emerge:
 - In **impedance control**, we specify the mechanical impedance and **generate force** in response to motion.
 - In **admittance control**, we specify the inverse behavior — the mechanical admittance — and **generate motion** in response to force.
 
-#### **Chapter 2.1.2 : Impedance control**
+### Chapter 2.1.2 : Impedance control
 
 Impedance control is a strategy where the robot is made to replicate the behaviour of a mechanical system, usually a combination of **mass, spring, and damper**, designed to resist motion when subjected to a force. We do not directly command the contact force, but rather define how the robot should respond when force is applied to it by dynamically adjusting the virtual inertia, damping and stiffness of the robot
 
@@ -325,24 +469,83 @@ Impedance control is a strategy where the robot is made to replicate the behavio
 
 This desired behavior is formalized by the following second-order differential equation:
 $$
-m_d \ddot{x} + b_d \dot{x} + k_d(x - x_r) = f_e \tag{3.5}
+M_d \ddot{X} + B_d \dot{X} + K_d(X - X_r) = F_{ext}
 $$
 
 where:
-* $x$ is the end-effector position, and $x_r$ is the reference trajectory,
-* $m_d$, $b_d$, and $k_d$ are the desired virtual mass, damping, and stiffness,
-* $f_e$ is the external force exerted by the environment.
+* $X$ is the end-effector position, and $x_r$ is the reference trajectory,
+* $M$, $B_d$, and $K_d$ are the desired virtual mass, damping and stiffness,
+* $F_{ext}$ is the external force exerted by the environment.
 
 
 This equation describes how the robot should react to forces. For example:
-- A high stiffness ($k_d$) makes the robot stiffer, resisting deviations from $x_r$.
-- A high damping ($b_d$) smooths out motion and reduces vibrations.
-- A high inertia ($m_d$) makes the robot less sensitive to sudden changes.
+- A high stiffness ($K_d$) makes the robot stiffer, resisting deviations from $X_r$.
+- A high damping ($B_d$) smooths out motion and reduces vibrations.
+- A high inertia ($M_d$) makes the robot less sensitive to sudden changes.
 
 The system doesn’t track force — the force arises naturally through this interaction law. Hence, by controlling the impedance of the robot we can manipulate the behavior of the end-effector depending on the interaction with the environment. For example, we can set very low impedance (or high compliance) and make it act like a very loose spring which is useful in physical human-robot interaction or we can set the stiffness very high where the robot would only move to the desired position without much oscillation which is important for precise industrial tasks.
 
 ![Illustrative example 2](https://www.youtube.com/watch?v=WS1gSRcJbJQ)
+><sub>*EESCRobManLab (2012) Impedance Control: Impedance Control Tests Performed on a Linear Axis. YouTube video, 20 June. Available at: https://www.youtube.com/watch?v=WS1gSRcJbJQ*</sub>
+>
+>*This video demonstrates impedance control in action: the robot behaves like a virtual mass-spring-damper system. Notice how the arm remains compliant to external perturbations and can even land safely on a fragile object like a potato chip without breaking it. The different experiences show how we achieve precise force control indirectly through the desired mechanical behavior by adjusting the dynamic relationship between force and motion through impedance control.*
 
+<details markdown ="1">
+<summary><strong>Mathematical exercise</strong></summary>
+
+You observe that the robot reacts too violently to small, sudden forces (sharp perturbations).  
+Which **desired virtual impedance parameter** should you increase to smooth out the motion?
+
+<form id="q-impedance">
+  <input type="radio" name="q-impedance" value="a_imp"> Increase desired virtual mass $M_d$ (inertia) <br>
+  <input type="radio" name="q-impedance" value="b_imp"> Increase desired virtual damping $B_d$ (damping)<br>
+  <input type="radio" name="q-impedance" value="c_imp"> Increase desired virtual stiffness $K_d$ (stiffness)  <br>
+  <input type="radio" name="q-impedance" value="d_imp"> Decrease desired virtual damping $B_d$ (damping) <br>
+
+  <button type="button" onclick="checkMCQ('q-impedance', 'a_imp', 
+    'Correct! Good job!', 
+    'Incorrect. Try again!')">
+    Check Answer
+  </button>
+
+  <p id="q-impedance-feedback"></p>
+</form>
+
+<details markdown="1">
+<summary><strong>Detailed solution</strong></summary>
+
+Let's reason carefully:
+
+- $M_d$ multiplies **acceleration** $\ddot{x}$ in the impedance equation:
+  $$
+  f_{\text{ext}} = M_d \ddot{x} + B_d \dot{x} + K_d(x - x_r)
+  $$
+- Increasing $M_d$ for a given external force reduces the resulting acceleration:
+  $$
+  \ddot{x} = \frac{f_{\text{ext}} - B_d \dot{x} - K_d(x-x_r)}{M_d}
+  $$
+- Thus, if $M_d$ increases, $\ddot{x}$ becomes smaller, meaning the robot becomes less sensitive to sharp impulses.
+
+**Physical interpretation:**
+- Larger virtual mass makes the robot behave as if it is heavier.
+- A heavier system accelerates less in response to sudden forces, leading to smoother, less violent reactions.
+
+**What about damping $B_d$?**
+- Increasing $B_d$ helps reduce **velocity oscillations** over time (continuous vibrations), not instantaneous accelerations.
+- Damping would slow down motion, but it doesn't primarily buffer sharp instantaneous perturbations.
+
+**Summary:**
+
+| Goal | Best Parameter to Adjust |
+|:---|:---|
+| Reduce violent, sharp reactions (instant accelerations) | **Increase $M_d$** |
+| Smooth out continuous velocity oscillations | **Increase $B_d$** |
+| Control position deviation under force | **Adjust $K_d$** |
+
+**Correct answer: Increase desired virtual mass $M_d$**.
+</details>
+</details>
+<br>
 **Stiffness control : a subset of impedance control**
 
 Through impedance control, it is possible to achieve a desired **dynamic** behaviour. A subset of this task is to achieve a **static** behaviour. Instead of specifying how the robot responds dynamically (with mass, damping, and stiffness), we only define a static relationship between the deviation in position/orientation and the force exerted on the environment. This is done by acting on the elements of the stiffness **K** in the impedance model while ignoring inertial and damping terms → **Stiffness control** 
@@ -354,7 +557,11 @@ The control law focuses on maintaining a desired position while allowing some co
 This trade-off allows us to limit contact forces and moments, even without a force/torque sensor — simply by choosing the right stiffness. However, in the presence of disturbances (e.g. joint friction), using too low a stiffness may cause the end-effector to deviate significantly from the desired position, even without external contact.
 
 ![Illustrative example](https://www.youtube.com/watch?v=pXH7rwrzh6s)
-
+><sub>*ARMLab CU-ICAR (2014) Planar Cable Robot with Variable Stiffness. YouTube video, 15 September. Available at https://www.youtube.com/watch?v=pXH7rwrzh6s*</sub>
+>
+><sub>*Zhou, X., Jun, S. and Krovi, V. (2014) ‘Planar Cable Robot with Variable Stiffness’, Proceedings of the 2014 International Symposium on Experimental Robotics, Marrakech/Essaouira, Morocco, 15–18 June.*</sub>
+>
+> *This video illustrates the concept of stiffness control. Observe how a system with high stiffness tracks its desired position more accurately and reacts faster to disturbances, while a compliant (low-stiffness) system shows larger deviations upon collision with an external object. The graph highlights how stiffness influences both the speed and magnitude of the response, an essential trade-off in designing compliant behaviors without direct force sensing.*
 
 <details markdown = "1">
 <summary><strong>But how is impedance control actually implemented in a robot? How do we compute the joint torques τ that produce a response matching this desired impedance?</strong></summary>
@@ -407,13 +614,63 @@ This expression tells us how the robot resists motion across different frequency
 Thus, impedance is not constant — it changes with the rate of motion, which is why impedance control can stabilize interaction with a wide range of environments.
 </details>
 
+<details markdown="1">
+<summary><strong>Mathematical exercise</strong></summary>
+
+Consider a one-degree-of-freedom impedance-controlled robot. The environment applies a force $F_e(t)$, and we want the robot to behave such that its deviation from a reference trajectory $x_r(t)$ satisfies:
+$$F_e(t) = m_d \ddot{x}(t) + b_d \dot{x}(t) + k_d (x(t) - x_r(t))$$
+Assume the external force is measured and given by:
+$$F_e(t) = 2 \cos(10t)$$
+The reference trajectory is constant: $x_r(t) = 0$. The robot moves with the position profile:
+$$
+x(t) = \cos(10t + \phi)
+$$
+**(a)** Substitute $x(t)$ into the impedance equation and express $F_e(t)$ in terms of $A$, $\phi$, and the impedance parameters.
+
+**(b)** Find values of $m_d$, $b_d$, and $k_d$ such that $F_e(t) = 2 \cos(10t)$ exactly — i.e., the robot’s impedance matches the applied force.
+
+<details markdown="1">
+<summary><strong>Solution</strong></summary>
+
+We are given:
+- $x(t) = \cos(10t + \phi)$
+- $x_r(t) = 0$
+
+Then:
+$$
+\dot{x}(t) = -10\sin(10t + \phi), \quad
+\ddot{x}(t) = -100 \cos(10t + \phi)$$
+Substitute into the impedance model:
+$$F_e(t) = m_d (-100 \cos(10t + \phi)) + b_d (-10 \sin(10t + \phi)) + k_d (\cos(10t + \phi))$$ 
+$$F_e(t) = (-100m_d + k_d) \cos(10t + \phi) -10 b_d \sin(10t + \phi)$$
+We want:
+$$F_e(t) = 2 \cos(10t)$$
+So, we need:
+
+- The force to be **pure cosine**: no sine term → this forces $\phi = 0$ or $\pi$
+- Let’s pick $\phi = 0$ so $\sin(10t + \phi) = 0$
+
+Then: $$F_e(t) = (-100m_d + k_d) \cos(10t)$$
+
+Set this equal to $2 \cos(10t)$ for all t:
+$$-100m_d + k_d = 2 \Rightarrow k_d = 2 + 100m_d$$
+
+So any pair $(m_d, k_d)$ satisfying this equation will produce the desired force. For example:
+- $m_d = 0$ → $k_d = 2$ (pure stiffness)
+- $m_d = 0.01$ → $k_d = 3$
+- $m_d = 0.02$ → $k_d = 4$, etc.
+
+As long as $b_d = 0$ and $\phi = 0$, the impedance force matches the environment.
+
+</details>
+</details>
 
 <details markdown="1">
   <summary><strong>Practical considerations for implementation</strong></summary>
   In an impedance-controlled robot, the goal is to simulate the behavior:
 
   $$
-  M \ddot{x} + B \dot{x} + K x = f_{\text{ext}} \tag{3.6}
+  M \ddot{x} + B \dot{x} + K X = f_{\text{ext}}
   $$
   where
   * $x \in \mathbb{R}^n$ is the end-effector task-space position (e.g., in $\mathbb{R}^3$),
@@ -442,7 +699,7 @@ Thus, impedance is not constant — it changes with the rate of motion, which is
 
 
 
-#### **Chapter 2.1.3: Admittance control**
+### Chapter 2.1.3: Admittance control
 It is conceptually the dual of impedance. 
 In impedance control, we define how much force the robot should apply in response to a deviation in motion. In admittance control, it’s the opposite: we measure an external force and compute how much the robot should move to accommodate that force.
 Rather than generating force commands from motion errors, admittance control takes a force input and outputs a position or velocity adjustment. It creates a compliant behavior by letting the robot “yield” in a controlled way. Practically, the robot is typically position-controlled at its core, but an outer loop takes the force error and computes a small shift in the commanded position (or trajectory) to relieve or accommodate that force​. For instance, if a force of 10N is pushing the robot off its path, an admittance controller might say “yield by 1 mm” (depending on a compliance setting) – effectively, the robot moves slightly until the force reduces. 
@@ -484,6 +741,57 @@ where:
 - $k_p$ and $k_v$ are the control gains.
 
 ![Illustrative example](https://www.youtube.com/watch?v=JRbAesam-EE)
+><sub>Panjan, S. (2015) Basic Admittance Control. YouTube video, 3 July. Available at: https://www.youtube.com/watch?v=JRbAesam-EE </sub>
+>
+> *This video illustrates admittance control by showing how the robot reacts to external disturbances with different compliance settings.*
+>
+>* *Before 20 seconds, the system is fully passive and compliant, moving freely with the external force without returning to its original position.* 
+>* *At 20 seconds, admittance control is activated: the robot starts to slowly return toward its desired trajectory after perturbations.*
+>* *At 27 seconds, the control gains are increased, making the correction faster and more noticeable.*
+>* *At 38 seconds, with even higher gains, the system reacts much more quickly and robustly to external forces.*
+>
+>*This progression highlights how adjusting admittance parameters allows precise control over the robot’s compliant behavior.*
+
+
+<details markdown = "1">
+<summary><strong>Conceptual exercise</strong></summary>
+Consider a robot that uses **admittance control** to respond to external contact forces. Answer the following questions:
+
+* Which of the following best describes the role of the *outer loop*?
+  <form id="q-admittance1">
+    <input type="radio" name="q-admittance1" value="a_ad1"> It generates torque commands to directly resist the measured contact force <br>
+    <input type="radio" name="q-admittance1" value="b_ad1"> It tracks the reference trajectory with high accuracy<br>
+    <input type="radio" name="q-admittance1" value="c_ad1"> It interprets the external force and adjusts the desired motion accordingly  <br>
+    <input type="radio" name="q-admittance1" value="d_ad1"> It measures joint velocities and compensates for Coriolis terms<br>
+
+    <button type="button" onclick="checkMCQ('q-admittance1', 'c_ad1', 
+      'Correct! The outer loop of an admittance controller defines a virtual mechanical relationship between force and motion (e.g., via mass-spring-damper dynamics), then uses this to compute an updated compliant trajectory. It does not directly apply torques — that’s handled by the inner position control loop.', 
+      'Incorrect. Try again!')">
+      Check Answer
+    </button>
+
+    <p id="q-admittance1-feedback"></p>
+  </form>
+  <br>
+
+* Suppose the virtual damping parameter $b_d$ is increased significantly. How would the robot’s response to an external disturbance change?
+  <form id="q-admittance2">
+    <input type="radio" name="q-admittance2" value="a_ad2">It would become more compliant, yielding more easily <br>
+    <input type="radio" name="q-admittance2" value="b_ad2">It would resist motion more, returning more slowly to the reference<br>
+    <input type="radio" name="q-admittance2" value="c_ad2">It would oscillate more around the reference<br>
+    <input type="radio" name="q-admittance2" value="d_ad2">It would become unstable and amplify small forces<br>
+
+    <button type="button" onclick="checkMCQ('q-admittance2', 'b_ad2', 
+      'Correct! Increasing **virtual damping** makes the system resists motion proportionally to velocity. As a result, the robot slows down its response to force disturbances. It still returns to the reference (if k\_d > 0), but more slowly and smoothly.', 'Incorrect. Try again!')">
+      Check Answer
+    </button>
+
+    <p id="q-admittance2-feedback"></p>
+  </form>
+  <br>
+
+</details>
+
 
 <details markdown="1">
   <summary><strong> Going deeper : Admittance in the Laplace domain</strong></summary>
@@ -508,8 +816,8 @@ $$
 This is the inverse of the impedance $Z(s)$. The admittance $Y(s)$ tells us how much motion results from a given force input, and its behavior depends on frequency:
 
 * At low frequency, $Y(s)$ is dominated by stiffness $k_d$,
-* At medium frequency, by damping $b_d$,
-* At high frequency, by inertia $m_d$.
+* At medium frequency, $Y(s)$ is dominated by damping $b_d$,
+* At high frequency, $Y(s)$ is dominated by inertia $m_d$.
 
 
 Low admittance (i.e., small motion in response to force) tends to enhance stability; high admittance (fast motion) may lead to instability if not properly controlled.
@@ -525,24 +833,14 @@ Both impedance and admittance achieve force indirectly by shaping how the robot 
 This lecture from **Sapienza University of Rome** provides a thorough and rigorous look at impedance control. It dives into the mathematical foundations and practical considerations behind the method, making it especially useful if you're aiming to understand how impedance control is derived and implemented at a deeper level. Recommended for students who are already comfortable with dynamics, control theory and robotic modeling.
 </details>
 
-<details markdown = "1">
-<summary><strong>Conceptual exercise</strong></summary>
 
-*What is the difference between traditional position control with a PD controller and joint-stiffness control?*
-
-The difference in the algebra is quite small. A PD control would typically have the form $$u=K_p(q_d-q) +
-      K_d(\dot{q}_d - \dot{q}),$$
-whereas stiffness control is $$u = -\tau_g(q)
-      + K_p(q_d-q) + K_d(\dot{q}_d - \dot{q}).$$
-In other words, stiffness control tries to cancel out the gravity and any other estimated terms, like friction, in the model. As written, this obviously requires an estimated model (which we have for iiwa, but don't believe we have for most arms with large gear-ratio transmissions) and torque control. But this small difference in the algebra can make a profound difference in practice. The controller is no longer depending on error to achieve the joint position in steady state. As such we can turn the gains way down, and in practice have a much more compliant response while still achieving good tracking when there are no external torques.
-</details>
 <details>
 <summary><strong>Programming Exercise</strong></summary>
 
 [2.1 Programming Exercise : Impedance controller](https://learningadaptivereactiverobotcontrol.github.io/book-website.io//documentation/L9-Impedance.html)
 </details>
 
-### Chapter 2.2: Direct Force Control
+## Chapter 2.2: Direct Force Control
 
 Direct force control uses explicit feedback from the interaction with the environment to regulate the forces applied by the robot. Based on this contact force, the controller adjusts the robot’s joint torques or positions to achieve a desired force profile necessary to complete a task.
 
@@ -571,8 +869,9 @@ Here’s how it behaves:
 
 This is a basic example. In more complex tasks, we often need to control motion along some axes and force along others, depending on environmental constraints. This leads naturally to **hybrid force/motion control**, which generates position commands in unconstrained directions and force commands in constrained ones.
 
-#### **Chapter 2.2.1: Hybrid Force/Motion Control**
+### Chapter 2.2.1: Hybrid Force/Motion Control
 ![Intuition](https://www.youtube.com/watch?v=BXu9C3joUSk)	
+><sub>*Magic Marks (2021) Architecture of Hybrid Position/Force Control System | Industrial Automation & Robotics. YouTube video, 22 March. Available at: https://www.youtube.com/watch?v=BXu9C3joUSk*</sub>
 
 The aim of hybrid force/motion control is to split up simultaneous control of both end-effector motion and contact forces into two separate decoupled but coordinated subproblems
 
@@ -590,7 +889,10 @@ Consider the illustrative scenario below, where a robot end-effector slides on a
   <figcaption>End-effector sliding and corresponding block diagram to control normal contact force in Z and position in X</figcaption>
 </figure>
 
-![Illustrative example](https://www.youtube.com/watch?v=R2zwEaxyhY0)
+![Illustrative example](https://youtu.be/R2zwEaxyhY0?t=29)
+><sub>*Winiarski, T. and Zieliński, C. (2011) Position/force control with irb6 manipulators under supervision of MRROC++. YouTube video, 27 October. Roboticist from Warsaw. Warsaw University of Technology, Institute of Control and Computation Engineering. Available at: https://www.youtube.com/watch?v=R2zwEaxyhY0*</sub>
+>
+>*This video shows a series of experiments demonstrating hybrid force/motion control with the IRB6 manipulator. Observe how the robot follows a complex contour with high precision while regulating the contact force — a result of simultaneously controlling motion in the plane of the contour and force along the contact normal. Later in the video, a house is drawn by applying force control in the Z-axis (to maintain consistent surface contact) and motion control in the X and Y axes (to follow the desired path). These examples clearly illustrate how hybrid control decouples force and motion along different task directions to achieve both precision and safe interaction.*
 
 **How to Choose the Constraints: Natural vs Artificial**
 
@@ -608,7 +910,15 @@ This means: if $s_j = 1$ (force-controlled axis), track the desired force $F_{d,
 
 This structure allows the robot to behave appropriately in tasks with partial constraint — controlling contact forces where needed, while allowing motion freedom in unconstrained directions.
 
-![Hybrid motion/force control](https://youtu.be/UR0GpaaBVKk?si=_8KyDB-Hhl7YSeX9) --> A short video explaining in more mathematical terms what was presented in this section
+![Hybrid motion/force control](https://youtu.be/UR0GpaaBVKk?si=_8KyDB-Hhl7YSeX9)
+><sub>*Northwestern Robotics (2018) Modern Robotics, Chapter 11.6: Hybrid Motion-Force Control. YouTube video, 16 March. Available at: https://www.youtube.com/watch?v=UR0GpaaBVKk (Accessed: 29 April 2025).*</sub>
+>
+><sub>*Lynch, K.M. and Park, F.C. (2017) Modern Robotics: Mechanics, Planning, and Control. Cambridge: Cambridge University Press.*</sub>
+ --> A short video explaining in more mathematical terms what was presented in this section
+>
+>*This short video provides a mathematical explanation of hybrid force/motion control, expanding on the concepts introduced in this section. It details how task space is split into force- and motion-controlled directions using a selection matrix, and presents the hybrid control law in formal terms. This video offers a more theoretical perspective, complementing the intuitive examples and experiments discussed earlier.*
+
+
 
 <details>
 <summary><strong>Conceptual Exercise</strong></summary>
@@ -799,13 +1109,88 @@ function drop(ev) {
 </html>
 </details>
 
+<details markdown = "1">
+<Summary><strong>Mathematical Exercise</strong></summary>
+A robotic arm is tasked with **drawing a figure on a horizontal surface**.
+<details markdown="1">
+<summary><strong>What does it imply ?</strong></summary>
 
+- It must maintain a **constant contact force** in the $z$-axis (normal to the surface) to ensure proper pen pressure.
+- It must **precisely follow a trajectory** in the $x$ and $y$ directions to trace the desired path.
+</details>
+
+At a given instant, the following measurements are available:
+
+- End-effector forces: $\mathbf{F} = \begin{bmatrix} 0 \\ 1 \\ 8 \end{bmatrix}\ \mathrm{N}$
+- End-effector positions: $\mathbf{X} = \begin{bmatrix} 0.3 \\ 0.5 \\ 0.1 \end{bmatrix}\ \mathrm{m}$
+
+The desired values are:
+
+- Desired forces: $\mathbf{F_d} = \begin{bmatrix} 0 \\ 0 \\ 10 \end{bmatrix}\ \mathrm{N}$
+- Desired positions: $\mathbf{X_d} = \begin{bmatrix} 0.35 \\ 0.55 \\ \mathrm{(irrelevant)} \end{bmatrix}\ \mathrm{m}$
+
+**Tasks:**
+
+**(a)** Identify the hybrid force/motion selection vector. *We will take as convention 0 for motion control and 1 for force control.*   
+**(b)** Write explicitly the control condition enforced by the hybrid controller along each axis ($x$, $y$, $z$). (Write an equation.)
+**(c)** Calculate the control errors that need to be corrected.  
+**(d)** Based on these errors, explain briefly how the robot should adjust its commands to satisfy the hybrid control goals.  
+**(e)** Briefly explain why hybrid control is necessary here, instead of pure force control or pure motion control.
+
+<details markdown="1">
+<summary><strong>Solution</strong></summary>
+
+*NB: In the following solution, d is used to refer to the desired value.*
+ 
+**(a) Hybrid force/motion selection vector:**
+$$S = \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}$$
+
+where:
+- $S_x = 0$ → **motion control** along $x$-axis
+- $S_y = 0$ → **motion control** along $y$-axis
+- $S_z = 1$ → **force control** along $z$-axis
+
+Apply the hybrid control law:
+$$S_j (F_j - F_{d,j}) + (1-S_j)(X_j - X_{d,j}) = 0 \tag{j = {x, y, z}}$$
+
+**(b) Control conditions:**
+
+- **X-axis** :  $X_x - X_{d,x} = 0$
+- **Y-axis** : $X_y - X_{d,y} = 0$
+- **Z-axis** : $F_z - F_{d,z} = 0$
+
+**(c) Error Calculations:**
+
+- **X-axis** (position error): $X_x - X_{d,x} = 0.3 - 0.35 = -0.05\ \mathrm{m}$
+- **Y-axis** (position error): $X_y - X_{d,y} = 0.5 - 0.55 = -0.05\ \mathrm{m} $
+- **Z-axis** (force error): $F_z - F_{d,z} = 8 - 10 = -2\ \mathrm{N}$
+
+**(d) How the Robot Should Correct:**
+
+- Along $x$ and $y$, the robot should **move forward** by $5\,\mathrm{cm}$ along each axis to better track the path.
+- Along $z$, the robot should **push slightly harder** (increase the normal contact force by $2\,\mathrm{N}$) to reach the desired pen pressure.
+
+Thus, the robot would generate small motion corrections in $x$ and $y$, and a small increase in force along $z$.
+
+**(e) Why Hybrid Control?**
+
+- **Pure force control** would make it difficult to follow the desired trajectory precisely — the robot might move unpredictably along the surface.
+- **Pure motion control** would force the pen down without adapting to surface variations — too much or too little contact pressure.
+- **Hybrid control** allows the robot to maintain **gentle, consistent contact force** ($z$-axis) while **accurately tracking the path** in the $x$-$y$ plane. It balances **safe interaction** with **precise path following**, exactly what is needed in tasks like drawing, painting, polishing, or welding.
+
+</details>
+
+</details>
+
+<details markdown ="1">
+<summary><strong>Practical considerations</strong></summary>
 Hybrid position/force control is based on a nominal model of the interaction. Inconsistency
 may however occur in the measurements, due e.g. to:
 * friction at the contact (a force is detected in a nominally free direction)
 * compliance in the robot structure and/or at the contact (a displacement is detected in a
 direction which is nominally constrained in motion)
 * uncertainty in the environment geometry at the contact
+</details>
 
 <details markdown = "1">
 <summary><strong>Deeper in the theory: University course</strong></summary>
@@ -818,7 +1203,7 @@ his lecture dives deeper into the theoretical formulation behind hybrid force/mo
 Now that you’ve explored the theory behind interaction control, it’s time to bring it to life in simulation. You’ll get hands-on experience applying active force control to a simplified robot model — and see how your controller responds to real-time contact dynamics.
 *(Please refer to the **Install Webots** section if you haven't installed it yet.)*
 
-### Step 1: Setup your environment
+### Setup your environment
 Head to the following page:
 
 🔗 [Boom Monopod Simulation](https://courses.ideate.cmu.edu/16-375/f2024/text/simulations/boom-monopod.html)
@@ -836,16 +1221,132 @@ The system consists of a 1-DOF leg mounted on a boom that moves only vertically.
   <figcaption>Webots model of the boom-monopod</figcaption>
 </figure>
 
-### Step 2: Apply your force control strategy
+### Exercise 1: Baseline Passive Behavior
+**Goal:** Understand passive compliance in action.
+**Task:** Examine the given code and answer the following questions:
 
-Follow the guidance in the controller's code. It already includes comments and `TODO` areas to help you:
+* What type of force control is used in this example?
+><details markdown ="1">
+><summary>Answer</summary>
+>
+></details>
 
-- Implement feedback control using force measurements
-- Tune the response by adjusting gains
-- Observe how the system reacts under different force targets
+*  What’s the role of neutral?
+><details markdown ="1">
+><summary>Answer</summary>
+>*neutral* defines the default compression (spring rest length offset) for the leg. It’s like a target for the uncompressed length — ensuring that during liftoff, a small preload is added to generate thrust.
+></details>
 
-You can run the simulation directly in Webots to see how your controller performs.
-This exercise is a great opportunity to test real-time interaction with the environment — and to get a feel for how force control works in practice.
+* What happens if `b_y` is 0? Why? 
+><details markdown = "1">
+><summary>Answer</summary>
+>When `b_y == 0`, the foot is not in contact with the ground. Thus, `neutral = 0`, and no additional thrust force is applied — only passive spring behavior (no active force).
+></details>
+
+* Try varying thrust :
+><details markdown = "1">
+><summary>What happens ?</summary>
+> * Higher thrust → higher jump when leaving the ground.
+> * Lower thrust → makes the monopod barely lift or not lift off at all.
+></details>
+><details markdown = "1">
+><summary>Why ? <em>Hint: Uncommenting the final in the <strong>poll_control</strong> function could be useful to understand the values taken by each variable at each phase of the movement</em></summary>
+>In the `poll_control` function,  the spring force applied to the leg is computed as:  $$spring_force=−120×(leg_length−neutral)$$
+>where leg_length is the measured extension of the leg, and neutral is either zero or a positive thrust value. During ground contact and while the robot is descending, the controller sets `neutral` equal to `thrust`, which is a small positive offset.
+>Since the leg length is negative during ground contact (the robot is compressed against the ground), increasing `neutral` makes the quantity `(leg_length−neutral)` more negative. Because the spring force formula multiplies this quantity by a negative spring constant, the resulting spring force becomes more positive. In other words, the actuator generates a stronger upward pushing force.
+>This upward force helps the robot resist ground penetration and store additional energy for a potential rebound or jump. The greater the thrust value (neutral offset), the larger the upward force produced during contact. Thus, adjusting neutral provides a way to control how forcefully the robot pushes against the ground.
+></details>
+
+* In the `poll_control` function, locate the line where the spring force is computed. Try varying the spring stiffness (the numerical value 120):
+><details markdown = "1">
+><summary>What happens ?</summary>
+>* Higher stiffness → stronger upward force during contact → robot jumps faster and higher, but rebounds can become too violent or unstable. 
+>* Lower stiffness → softer upward force → robot lands more gently but struggles to jump or rebound effectively. </details>
+></details>
+
+* How does changing stiffness interact with thrust (neutral)?
+><details markdown="1"> <summary>Answer</summary> Thrust (neutral) shifts the spring force curve upward, while stiffness controls the slope (how sharply force changes with leg deformation). With a higher spring stiffness, even a small thrust offset causes a large increase in spring force, making the thrust effect much more powerful. With a lower spring stiffness, the thrust still shifts the neutral point, but the resulting upward force is smaller. Thus, the two parameters together shape how much lift and bounce the robot achieves. </details>
+
+* Which combination would you recommend for:
+    - Soft landings with minimal bounce?
+    - Maximizing jump height and quick rebound?
+
+    ><details markdown="1"> <summary>Answer</summary> - For **soft landings with minimal bounce**, use **low stiffness** and **small thrust**. This combination produces gentle upward forces and high compliance.
+    > - For maximizing jump height and quick rebound, use high stiffness and a large thrust.
+    >This combination generates strong upward forces, stores more energy in the spring, and enables more powerful jumps — but at the cost of stability.
+    ></details>
+
+### Exercise 2: Add Force Feedback
+**Goal:** Implement active force control.
+**Task 1:** Modify `poll_control()` to include a desired ground contact force, $f_d$ = 6N using a PI controller: 
+$$
+\tau = \tilde{g}(\theta) + J^T(\theta) \left( F_d + K_{p}F_e + K_{i} \int F_e\, dt \right)
+$$
+$$ 
+F_e = F_d - F_{leg}
+$$
+*Hint: The new expression of the force to be applied using a PI controller is $$spring\text{_}force = Kp \times self.force\text{\_}error + Ki \times integral\text{\_}error$$. Thus, The task comes down to expressing the `force_error` and the `integral_error`*
+><details markdown="1">
+><summary>Code solution</summary>
+```python 
+estimated_contact_force = k_leg * (neutral - self.leg_length)
+self.force_error = f_d - estimated_contact_force
+integral_error += self.force_error * self.delta_t
+spring_force = Kp * self.force_error + Ki * integral_error
+```
+></details>
+
+**Task 2:** Tune `Kp` and `Ki`. What happens?
+><details>
+><summary>Answer</summary>
+>* Low Kp → Slow convergence to the desired force, slow correction of errors.
+>* High Kp → Faster convergence, but can cause overshoot or oscillation.
+>* Low K_i → weak or slow elimination of steady-state force error
+>* High Ki → Decreases steady-state error, but too much can cause instability.
+></details>
+
+### Exercise 3: Impedance control
+**Goal:** Simulate an impedance response (spring-damper).
+**Task 1** Modify `poll_control()` to implement impedance control :
+Recall that the desired behavior is given by this second-order differential equation:
+$$
+m_d \ddot{x} + b_d \dot{x} + k_d(x - x_r) = f_ext
+$$
+
+where:
+* $x$ is the end-effector position, and $x_r$ is the reference trajectory,
+* $m_d$, $b_d$, and $k_d$ are the desired virtual mass, damping, and stiffness,
+* $f_ext$ is the external force exerted by the environment.
+
+In this exercise, we neglect We neglected virtual inertia ($m_d = 0$)
+
+><details markdown="1">
+><summary>Code solution</summary>
+```python
+# In __init__()
+self.k_impedance = 120.0   # Spring stiffness (N/m)
+self.b_impedance = 5.0     # Damping (N·s/m)
+self.desired_leg_length = 0.0
+self.x_last = 0.0
+# In poll_control()
+x = self.leg_length
+v = (x - self.x_last) / self.delta_t
+self.x_last = x
+impedance_force = -self.k_impedance * (x - self.desired_leg_length) - self.b_impedance * v
+self.leg_actuator.setForce(impedance_force)
+```
+></details>
+
+**Task 2:** Tune the stiffness `k` and damping `b`. Does higher stiffness help? What about damping?
+><details markdown="1">
+><summary>Answer</summary>
+>* Higher stiffness → The leg resists compression more strongly — behaves more rigidly.
+>* Higher damping  → Slows down the motion, reduces oscillations.
+>
+>Trade-off:
+>* High stiffness = precise control but can cause bouncing.
+>* High damping = soft landing, but slow responsiveness.
+></details>
 
 # Summary
 
