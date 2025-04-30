@@ -19,6 +19,7 @@ Explore the structured robotics courses below, designed to guide you from fundam
 - 📐 [Dynamics](dynamics)
 - 🦾 [Force Control](force-control)
 - 🗺️ [Motion Planning](motion-planning)
+- 🔁 [Diffeomorphism](diffeomorphism)
 
 **Chapter 2: Sensing**
 - 👁️ [Vision for Robotics](vision-for-robotics)

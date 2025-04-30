@@ -78,10 +78,14 @@ For a visual comparison of these two robot types, watch the following short vide
 ![serial_parallel](https://www.youtube.com/watch?v=3fbmguBgVPA)
 > In this video, the left side demonstrates a parallel robot, while the right side shows a serial robot.
 
+<!-- add exercices QCM  -->
+
 #### **Drawing kinematic diagrams**
 In robotics, accurately representing the structure of robots through kinematic diagrams is crucial. These diagrams help us clearly visualize joints, links, and their connections, facilitating easier calculation of mobility, degrees of freedom, and overall system analysis.
 
 By learning how to sketch these diagrams, you will be better prepared to analyze robot motion and systematically compute essential parameters such as mobility and degrees of freedom.
+
+<!-- add exercices from bouri -->
 
 #### **Mobility & Degrees of Freedom (DOF)**
 - ***Degrees of Freedom (DOF)*** refer to the number of independent parameters required to completely specify the position and orientation of a robot or its parts in space. For instance, a rigid body in three-dimensional space has six degrees of freedom—three translational (moving along the x, y, and z axes) and three rotational (rotating around these axes).
@@ -91,6 +95,8 @@ By learning how to sketch these diagrams, you will be better prepared to analyze
 To better understand these concepts, watch the following concise and clear explanation:
 ![Degrees of Freedom of a Rigid Body](https://www.youtube.com/watch?v=z29hYlagOYM&list=PLggLP4f-rq02vX0OQQ5vrCxbJrzamYDfx&index=4)
 > Introduction to Degrees of Freedom (DOF) for rigid bodies.
+
+<!-- add exercices from bourri -->
 
 #### **Grübler’s formula and its application**
 ***Grübler’s formula*** is a powerful tool to quickly calculate the degrees of freedom of mechanisms, especially useful for complex robot configurations:
@@ -109,6 +115,8 @@ To clearly understand how this formula is applied, check out the following detai
 
 ![Degrees of Freedom of a Robot](https://www.youtube.com/watch?v=zI64DyaRUvQ&list=PLggLP4f-rq02vX0OQQ5vrCxbJrzamYDfx&index=5)
 >  Detailed explanation of Grübler’s formula and practical examples of its application.
+
+<!-- add exercices from kevin lynch -->
 
 ### Chapter 1 : Introduction to Robotics | Kinematics & Modeling
 
