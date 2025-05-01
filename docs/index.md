@@ -18,8 +18,8 @@ Explore the structured robotics courses below, designed to guide you from fundam
 - 🤖 [Kinematics](kinematics)
 - 📐 [Dynamics](dynamics)
 - 🦾 [Force Control](force-control)
-- 🗺️ [Motion Planning](motion-planning)
-- 🔁 [Diffeomorphism](diffeomorphism)
+<!-- - 🗺️ [Motion Planning](motion-planning)
+- 🔁 [Diffeomorphism](diffeomorphism) -->
 
 **Chapter 2: Sensing**
 - 👁️ [Vision for Robotics](vision-for-robotics)
@@ -27,6 +27,17 @@ Explore the structured robotics courses below, designed to guide you from fundam
 - 📡 [New Sensors for Robotics](new-sensors-for-robotics)
 - 🤝 [Interfaces for Human-Robot Interaction](Interfaces-for-HRI)
 - 🌐 [Sensing and Perception](sensing-and-perception)
+
+**Chapter 3: Motion Planning**
+- 👁️ [Sample-Based methods]()
+- 👁️ [Dynamical system-Based methods]()
+- 👁️ [Combinatorial methods]()
+
+**Chapter 4: Simultaneous Localization and Mapping**
+- 👁️ [Under Construction]()
+
+**Chapter 5: Learning for Robotics**
+- 👁️ [Under Construction]()
 
 ---
 
