@@ -17,7 +17,7 @@ Explore the structured robotics courses below, designed to guide you from fundam
 -  [Control Variables](Variables) - In progress
 -  [Kinematics](kinematics) - In progress
 -  [Dynamics](dynamics) 
--  [Force Control](force-control) - In progress
+-  [Force Control](force-control.md) - In progress
 
 **Chapter 2: Sensing for Robotics**
 -  [Vision for Robotics](vision-for-robotics) - In progress
