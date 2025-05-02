@@ -38,5 +38,10 @@ bundle install
 ### 4. Serve the Site Locally
    
 ```bash
-bundle exec jekyll serve
+bundle exec jekyll serve --port 4004
+```
+
+### 5. then open your browser
+```bash
+http://localhost:4004
 ```

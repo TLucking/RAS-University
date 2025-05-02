@@ -29,15 +29,15 @@ Explore the structured robotics courses below, designed to guide you from fundam
 - 🌐 [Sensing and Perception](sensing-and-perception)
 
 **Chapter 3: Motion Planning**
-- 👁️ [Sample-Based methods]()
-- 👁️ [Dynamical system-Based methods]()
-- 👁️ [Combinatorial methods]()
+- 🧭 [Sample-Based methods](Sample-Based-methods)
+- 🌊 [Dynamical system-Based methods](Dynamical-system-Based-methods)
+- 🧩 [Combinatorial methods](Combinatorial-methods)
 
 **Chapter 4: Simultaneous Localization and Mapping**
-- 👁️ [Under Construction]()
+- 🗺️ [Under Construction]()
 
 **Chapter 5: Learning for Robotics**
-- 👁️ [Under Construction]()
+- 🧠 [Under Construction]()
 
 ---
 
