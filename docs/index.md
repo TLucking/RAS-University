@@ -11,7 +11,7 @@ Explore the structured robotics courses below, designed to guide you from fundam
 
 ## Table of Contents 📚
 
-**Chapter 0:** [Mathematical Foundation](mathematical-foundation.md) 
+**Chapter 0:** [Mathematical Foundation](mathematical-foundation) 
 
 **Chapter 1: Basics of Motion Control**
 -  [Control Variables](Variables.md) - In progress
