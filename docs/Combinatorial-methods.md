@@ -9,7 +9,6 @@ layout: default
 
 # Combinatorial methods {#start}
 
-Under Construction
-
+![alt text](image.png)
 
 [Back to Top](#start)
