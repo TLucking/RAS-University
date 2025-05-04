@@ -311,7 +311,7 @@ This feedback formulation allows the robot to adjust its torques based on measur
 </form>
 <br>
 
-### Exercise 2: Joint Torque Computation under Interaction Control
+**EXERCISE 2:**
 
 Consider a robotic arm operating in a 2D plane. The Jacobian matrix $\boldsymbol{J}(\boldsymbol{\theta})$ at a given configuration is:
 
@@ -468,20 +468,23 @@ Impedance control is a strategy where the robot is made to replicate the behavio
 </figure>
 
 This desired behavior is formalized by the following second-order differential equation:
+
 $$
-M_d \ddot{X} + B_d \dot{X} + K_d(X - X_r) = F_{ext}
+\boldsymbol{M_d} \ddot{\boldsymbol{x}} + \boldsymbol{B_d} \dot{\boldsymbol{x}} + \boldsymbol{K_d}(\boldsymbol{x} - \boldsymbol{x_r}) = \boldsymbol{f_{\text{ext}}}
 $$
 
 where:
-* $X$ is the end-effector position, and $x_r$ is the reference trajectory,
-* $M$, $B_d$, and $K_d$ are the desired virtual mass, damping and stiffness,
-* $F_{ext}$ is the external force exerted by the environment.
-
+- $\boldsymbol{x} \in \mathbb{R}^n$ is the end-effector position (units: $\mathrm{m}$),
+- $\boldsymbol{x_r} \in \mathbb{R}^n$ is the reference trajectory (units: $\mathrm{m}$),
+- $\boldsymbol{M_d} \in \mathbb{R}^{n \times n}$ is the desired virtual mass matrix (units: $\mathrm{kg}$),
+- $\boldsymbol{B_d} \in \mathbb{R}^{n \times n}$ is the desired virtual damping matrix (units: $\mathrm{Ns/m}$),
+- $\boldsymbol{K_d} \in \mathbb{R}^{n \times n}$ is the desired virtual stiffness matrix (units: $\mathrm{N/m}$),
+- $\boldsymbol{f_{\text{ext}}} \in \mathbb{R}^n$ is the external force exerted by the environment (units: $\mathrm{N}$).
 
 This equation describes how the robot should react to forces. For example:
-- A high stiffness ($K_d$) makes the robot stiffer, resisting deviations from $X_r$.
-- A high damping ($B_d$) smooths out motion and reduces vibrations.
-- A high inertia ($M_d$) makes the robot less sensitive to sudden changes.
+- A high stiffness ($\boldsymbol{K_d}$) makes the robot stiffer, resisting deviations from $\boldsymbol{x_r}$.
+- A high damping ($\boldsymbol{B_d}$) smooths out motion and reduces vibrations.
+- A high inertia ($\boldsymbol{M_d}$) makes the robot less sensitive to sudden external disturbances.
 
 The system doesn’t track force — the force arises naturally through this interaction law. Hence, by controlling the impedance of the robot we can manipulate the behavior of the end-effector depending on the interaction with the environment. For example, we can set very low impedance (or high compliance) and make it act like a very loose spring which is useful in physical human-robot interaction or we can set the stiffness very high where the robot would only move to the desired position without much oscillation which is important for precise industrial tasks.
 
@@ -493,14 +496,14 @@ The system doesn’t track force — the force arises naturally through this int
 <details markdown ="1">
 <summary><strong>Mathematical exercise</strong></summary>
 
-You observe that the robot reacts too violently to small, sudden forces (sharp perturbations).  
+You observe that the robot reacts too violently to small sudden forces (sharp perturbations).  
 Which **desired virtual impedance parameter** should you increase to smooth out the motion?
 
 <form id="q-impedance">
-  <input type="radio" name="q-impedance" value="a_imp"> Increase desired virtual mass $M_d$ (inertia) <br>
-  <input type="radio" name="q-impedance" value="b_imp"> Increase desired virtual damping $B_d$ (damping)<br>
-  <input type="radio" name="q-impedance" value="c_imp"> Increase desired virtual stiffness $K_d$ (stiffness)  <br>
-  <input type="radio" name="q-impedance" value="d_imp"> Decrease desired virtual damping $B_d$ (damping) <br>
+  <input type="radio" name="q-impedance" value="a_imp"> Increase desired virtual mass $\boldsymbol{M_d}$ (inertia) <br>
+  <input type="radio" name="q-impedance" value="b_imp"> Increase desired virtual damping $\boldsymbol{B_d}$ (damping)<br>
+  <input type="radio" name="q-impedance" value="c_imp"> Increase desired virtual stiffness $\boldsymbol{K_d}$ (stiffness)<br>
+  <input type="radio" name="q-impedance" value="d_imp"> Decrease desired virtual damping $\boldsymbol{B_d}$ (damping) <br>
 
   <button type="button" onclick="checkMCQ('q-impedance', 'a_imp', 
     'Correct! Good job!', 
@@ -514,24 +517,23 @@ Which **desired virtual impedance parameter** should you increase to smooth out 
 <details markdown="1">
 <summary><strong>Detailed solution</strong></summary>
 
-Let's reason carefully:
+The impedance model introduced in this course is:
+$$
+\boldsymbol{f_{\text{ext}}} = \boldsymbol{M_d} \ddot{\boldsymbol{x}} + \boldsymbol{B_d} \dot{\boldsymbol{x}} + \boldsymbol{K_d}(\boldsymbol{x} - \boldsymbol{x_r})
+$$
+$$
+\ddot{\boldsymbol{x}} = \frac{\boldsymbol{f_{\text{ext}}} - \boldsymbol{B_d} \dot{\boldsymbol{x}} - \boldsymbol{K_d}(\boldsymbol{x} - \boldsymbol{x_r})}{\boldsymbol{M_d}}
+$$
 
-- $M_d$ multiplies **acceleration** $\ddot{x}$ in the impedance equation:
-  $$
-  f_{\text{ext}} = M_d \ddot{x} + B_d \dot{x} + K_d(x - x_r)
-  $$
-- Increasing $M_d$ for a given external force reduces the resulting acceleration:
-  $$
-  \ddot{x} = \frac{f_{\text{ext}} - B_d \dot{x} - K_d(x-x_r)}{M_d}
-  $$
-- Thus, if $M_d$ increases, $\ddot{x}$ becomes smaller, meaning the robot becomes less sensitive to sharp impulses.
+- Increasing $\boldsymbol{M_d}$ for a given external force **reduces** the resulting acceleration.
+- Thus, increasing $\boldsymbol{M_d}$ **smooths out** the robot's reaction to impulsive forces.
 
 **Physical interpretation:**
 - Larger virtual mass makes the robot behave as if it is heavier.
 - A heavier system accelerates less in response to sudden forces, leading to smoother, less violent reactions.
 
 **What about damping $B_d$?**
-- Increasing $B_d$ helps reduce **velocity oscillations** over time (continuous vibrations), not instantaneous accelerations.
+- Increasing $\boldsymbol{B_d}$ helps reduce **velocity oscillations** over time (continuous vibrations), not instantaneous accelerations.
 - Damping would slow down motion, but it doesn't primarily buffer sharp instantaneous perturbations.
 
 **Summary:**
@@ -542,17 +544,17 @@ Let's reason carefully:
 | Smooth out continuous velocity oscillations | **Increase $B_d$** |
 | Control position deviation under force | **Adjust $K_d$** |
 
-**Correct answer: Increase desired virtual mass $M_d$**.
 </details>
 </details>
 <br>
+
 **Stiffness control : a subset of impedance control**
 
 Through impedance control, it is possible to achieve a desired **dynamic** behaviour. A subset of this task is to achieve a **static** behaviour. Instead of specifying how the robot responds dynamically (with mass, damping, and stiffness), we only define a static relationship between the deviation in position/orientation and the force exerted on the environment. This is done by acting on the elements of the stiffness **K** in the impedance model while ignoring inertial and damping terms → **Stiffness control** 
 
 The control law focuses on maintaining a desired position while allowing some compliance, without needing explicit force sensing.
-- High stiffness 𝐾 → accurate position tracking, but less compliant
-- Low stiffness 𝐾 → more compliant, but allows larger motion deviations under external forces.
+- High stiffness $\boldsymbol{K_d}$ → accurate position tracking, but less compliant
+- Low stiffness $\boldsymbol{K_d}$ → more compliant, but allows larger motion deviations under external forces.
 
 This trade-off allows us to limit contact forces and moments, even without a force/torque sensor — simply by choosing the right stiffness. However, in the presence of disturbances (e.g. joint friction), using too low a stiffness may cause the end-effector to deviate significantly from the desired position, even without external contact.
 
@@ -566,17 +568,19 @@ This trade-off allows us to limit contact forces and moments, even without a for
 <details markdown = "1">
 <summary><strong>But how is impedance control actually implemented in a robot? How do we compute the joint torques τ that produce a response matching this desired impedance?</strong></summary>
 
+
 The key idea is to design a control law that cancels the robot’s internal dynamics and replaces them with the behavior of a virtual mass-spring-damper system. This is typically done in task space using the following impedance-control algorithm:
+
 $$
-\tau = J^T(\theta) \left( \tilde{\Lambda}(\theta)\ddot{x} + \tilde{\eta}(\theta, \dot{x}) - (M\ddot{x} + B\dot{x} + Kx) \right) \tag{3.6}
+\boldsymbol{\tau} = \boldsymbol{J}^T(\boldsymbol{\theta}) \left( \tilde{\boldsymbol{\Lambda}}(\boldsymbol{\theta}) \ddot{\boldsymbol{x}} + \tilde{\boldsymbol{\eta}}(\boldsymbol{\theta}, \dot{\boldsymbol{x}}) - (\boldsymbol{M_d} \ddot{\boldsymbol{x}} + \boldsymbol{B_d} \dot{\boldsymbol{x}} + \boldsymbol{K_d}(\boldsymbol{x} - \boldsymbol{x_r})) \right)
 $$
 
-Here:
-  * $\tau$ is the commanded joint torque
-  * $J(\theta)$ is the manipulator Jacobian
-  * $\tilde{\Lambda}(\theta)\ddot{x} + \tilde{\eta}(\theta, \dot{x})$ represents a model-based estimate of the robot’s actual dynamics (inertia, Coriolis, and gravity effects) --> arm dynamics compensation
-  * $M$, $B$, and $K$ are the virtual impedance parameters — the desired inertia, damping, and stiffness
-  * $(M\ddot{x} + B\dot{x} + Kx)$ defines the force that would be generated by a virtual mechanical system.
+where:
+- $\boldsymbol{\tau} \in \mathbb{R}^m$ is the commanded joint torque (units: $\mathrm{Nm}$),
+- $\boldsymbol{J}(\boldsymbol{\theta}) \in \mathbb{R}^{n\times m}$ is the manipulator Jacobian,
+- $\tilde{\boldsymbol{\Lambda}}(\boldsymbol{\theta})$ is the estimated mass matrix in task space,
+- $\tilde{\boldsymbol{\eta}}(\boldsymbol{\theta}, \dot{\boldsymbol{x}})$ represents Coriolis, centrifugal, and gravity terms,
+- $\boldsymbol{M_d}$, $\boldsymbol{B_d}$, $\boldsymbol{K_d}$ are the desired virtual impedance parameters.
 
 This means that the robot behaves as if it has the mechanical properties we choose — even if it doesn’t physically have them. For instance, you can make a light robot behave like a massive, heavily damped system, enhancing safety and predictability during contact. This control strategy can be visualized as compensating for the robot's true dynamics while injecting the desired mechanical impedance behavior.
 
@@ -592,40 +596,27 @@ The measured motion is compared to the reference and used by the impedance contr
 
 
 <details markdown="1">
-  <summary><strong>Going deeper : Impedance in the Laplace Domain</strong></summary>
-
-To better understand how impedance behaves at different frequencies, we can use the Laplace transform. Taking the Laplace transform of Equation (3.5), assuming zero initial conditions, we obtain:
-
-$$
-(m_d s^2 + b_d s + k_d)\left( X(s) - X_r(s) \right) = F_e(s)
-$$
-
-Solving for the transfer function between force and position deviation:
-
-$$
-Z(s) = \frac{F_e(s)}{X(s) - X_r(s)} = m_d s^2 + b_d s + k_d
-$$
-
-This expression tells us how the robot resists motion across different frequency bands:
-- At low frequency ($s \to 0$): $Z(s) \approx k_d$ → stiffness dominates.
-- At medium frequencies: $Z(s) \approx b_d s$ → damping dominates.
-- At high frequency ($s \to \infty$): $Z(s) \approx m_d s^2$ → inertia dominates.
-
-Thus, impedance is not constant — it changes with the rate of motion, which is why impedance control can stabilize interaction with a wide range of environments.
-</details>
-
-<details markdown="1">
 <summary><strong>Mathematical exercise</strong></summary>
 
 Consider a one-degree-of-freedom impedance-controlled robot. The environment applies a force $F_e(t)$, and we want the robot to behave such that its deviation from a reference trajectory $x_r(t)$ satisfies:
-$$F_e(t) = m_d \ddot{x}(t) + b_d \dot{x}(t) + k_d (x(t) - x_r(t))$$
+
+$$
+F_e(t) = m_d \ddot{x}(t) + b_d \dot{x}(t) + k_d \left(x(t) - x_r(t)\right)
+$$
+
 Assume the external force is measured and given by:
-$$F_e(t) = 2 \cos(10t)$$
+
+$$
+F_e(t) = 2 \cos(10t)
+$$
+
 The reference trajectory is constant: $x_r(t) = 0$. The robot moves with the position profile:
+
 $$
 x(t) = \cos(10t + \phi)
 $$
-**(a)** Substitute $x(t)$ into the impedance equation and express $F_e(t)$ in terms of $A$, $\phi$, and the impedance parameters.
+
+**(a)** Substitute $x(t)$ into the impedance equation and express $F_e(t)$ in terms of $m_d$, $b_d$, $k_d$, and $\phi$.
 
 **(b)** Find values of $m_d$, $b_d$, and $k_d$ such that $F_e(t) = 2 \cos(10t)$ exactly — i.e., the robot’s impedance matches the applied force.
 
@@ -637,56 +628,89 @@ We are given:
 - $x_r(t) = 0$
 
 Then:
+
 $$
-\dot{x}(t) = -10\sin(10t + \phi), \quad
-\ddot{x}(t) = -100 \cos(10t + \phi)$$
+\dot{x}(t) = -10 \sin(10t + \phi), \quad
+\ddot{x}(t) = -100 \cos(10t + \phi)
+$$
+
 Substitute into the impedance model:
-$$F_e(t) = m_d (-100 \cos(10t + \phi)) + b_d (-10 \sin(10t + \phi)) + k_d (\cos(10t + \phi))$$ 
-$$F_e(t) = (-100m_d + k_d) \cos(10t + \phi) -10 b_d \sin(10t + \phi)$$
+
+$$
+F_e(t) = m_d (-100 \cos(10t + \phi)) + b_d (-10 \sin(10t + \phi)) + k_d \cos(10t + \phi)
+$$
+
+$$
+F_e(t) = (-100 m_d + k_d) \cos(10t + \phi) - 10 b_d \sin(10t + \phi)
+$$
+
 We want:
-$$F_e(t) = 2 \cos(10t)$$
-So, we need:
 
-- The force to be **pure cosine**: no sine term → this forces $\phi = 0$ or $\pi$
-- Let’s pick $\phi = 0$ so $\sin(10t + \phi) = 0$
+$$
+F_e(t) = 2 \cos(10t)
+$$
 
-Then: $$F_e(t) = (-100m_d + k_d) \cos(10t)$$
+This implies:
+- The force must be a **pure cosine** → the sine term must vanish $\Rightarrow \phi = 0$ or $\phi = \pi$
+- Choose $\phi = 0$ so that $\sin(10t + \phi) = 0$
 
-Set this equal to $2 \cos(10t)$ for all t:
-$$-100m_d + k_d = 2 \Rightarrow k_d = 2 + 100m_d$$
+Then:
 
-So any pair $(m_d, k_d)$ satisfying this equation will produce the desired force. For example:
-- $m_d = 0$ → $k_d = 2$ (pure stiffness)
+$$
+F_e(t) = (-100 m_d + k_d) \cos(10t)
+$$
+
+Match with the desired force:
+
+$$
+-100 m_d + k_d = 2 \Rightarrow k_d = 2 + 100 m_d
+$$
+
+Therefore, any pair $(m_d, k_d)$ that satisfies this condition produces the desired impedance. For example:
+- $m_d = 0$ → $k_d = 2$
 - $m_d = 0.01$ → $k_d = 3$
-- $m_d = 0.02$ → $k_d = 4$, etc.
+- $m_d = 0.02$ → $k_d = 4$
 
-As long as $b_d = 0$ and $\phi = 0$, the impedance force matches the environment.
+Provided that $b_d = 0$ and $\phi = 0$, the robot will behave as desired.
 
 </details>
 </details>
+
+
+
+<details markdown="1">
+  <summary><strong>Going deeper: Impedance in the Laplace Domain</strong></summary>
+
+To better understand how impedance behaves at different frequencies, we can use the Laplace transform. Taking the Laplace transform of the impedance equation, assuming zero initial conditions, we obtain:
+
+$$
+\left( \boldsymbol{M_d} s^2 + \boldsymbol{B_d} s + \boldsymbol{K_d} \right)\left( \boldsymbol{X}(s) - \boldsymbol{X_r}(s) \right) = \boldsymbol{F_e}(s)
+$$
+
+Solving for the transfer function between force and position deviation:
+
+$$
+\boldsymbol{Z}(s) = \frac{\boldsymbol{F_e}(s)}{\boldsymbol{X}(s) - \boldsymbol{X_r}(s)} = \boldsymbol{M_d} s^2 + \boldsymbol{B_d} s + \boldsymbol{K_d}
+$$
+
+This expression tells us how the robot resists motion across different frequency bands:
+- At low frequency ($s \to 0$): $\boldsymbol{Z}(s) \approx \boldsymbol{K_d}$ → stiffness dominates.
+- At medium frequencies: $\boldsymbol{Z}(s) \approx \boldsymbol{B_d} s$ → damping dominates.
+- At high frequency ($s \to \infty$): $\boldsymbol{Z}(s) \approx \boldsymbol{M_d} s^2$ → inertia dominates.
+
+Thus, impedance is not constant — it changes with the rate of motion, which is why impedance control can stabilize interaction with a wide range of environments.
+</details>
+
 
 <details markdown="1">
   <summary><strong>Practical considerations for implementation</strong></summary>
-  In an impedance-controlled robot, the goal is to simulate the behavior:
+The impedance model described earlier defines how the robot should react to external forces by mimicking virtual mass, damping, and stiffness in task space. In practice:
 
-  $$
-  M \ddot{x} + B \dot{x} + K X = f_{\text{ext}}
-  $$
-  where
-  * $x \in \mathbb{R}^n$ is the end-effector task-space position (e.g., in $\mathbb{R}^3$),
-  * $f_{\text{ext}} \in \mathbb{R}^n$ is the external force (or wrench) applied to the robot,
-  * $M \in \mathbb{R}^{n \times n}$ is the virtual mass matrix,
-  * $B \in \mathbb{R}^{n \times n}$ is the virtual damping matrix,
-  * $K \in \mathbb{R}^{n \times n}$ is the virtual stiffness matrix.
-  \end{itemize}
+- Acceleration $\ddot{\boldsymbol{x}}$ is often noisy and hard to measure.
+- Many implementations set $\boldsymbol{M_d} = 0$ to eliminate the mass term and improve robustness.
+- Most use only encoders and velocity observers — no force sensor is required.
+- Virtual stiffness $\boldsymbol{K_d}$ and damping $\boldsymbol{B_d}$ must be tuned for stability.
 
-  This equation defines how the robot should react to external forces by mimicking virtual mass, damping, and stiffness in task space. The robot senses its own position $x(t)$, velocity $\dot{x}(t)$, and in some cases acceleration $\ddot{x}(t) $ in order to compute motion deviations and apply corresponding torques.
-
-  In practice:
-  * Acceleration $ \ddot{x}(t) $ is often noisy and hard to measure.
-  * It is common to set $M = 0$, eliminating the mass term for robustness.
-  * Most implementations use only encoders and velocity observers — no force sensor is required.
-  * Virtual stiffness $K$ and damping $B$ are chosen based on the task and stability.
 
   Too high a stiffness value $K$ can cause problems, especially in stiff environments or with low-resolution sensors:
   * Small encoder errors or time delays can result in large torque commands.
@@ -713,32 +737,48 @@ Admittance control often involves two loops:
   <figcaption>General admittance control scheme for a robot manipulator</figcaption>
 </figure>
 
-**Outer Loop: Virtual Mechanical behavior**
-The outer loop defines a second-order mechanical behavior that governs how the compliant trajectory $x_c$  evolves in response to force:
 
-  $$
-      m_d(\ddot{x}_c - \ddot{x}_r) + b_d(\dot{x}_c - \dot{x}_r) + k_d(x_c - x_r) = f_e
-  $$
-  where:
-  - $x_c$: compliant position generated by the controller
-  - $x_r$: desired nominal trajectory.
-  - $f_e$: external force
-  -$m_d$, $b_d$, $k_d$: desired virtual inertia, damping, and stiffness.
+### Outer Loop: Virtual Mechanical Behavior
 
-  In many implementations, $\dot{x}_r$ and $\ddot{x}_r$ are zero, simplifying to:
-  $$
-      m_d \ddot{x}_c + b_d \dot{x}_c + k_d(x_c - x_r) = f_e 
-  $$
-  This dynamic relationship defines how the commanded position $x_c$ is adjusted in response to the external force $f_e$.
+The outer loop defines a second-order mechanical behavior that governs how the compliant trajectory $\boldsymbol{x_c}$ evolves in response to the external force $\boldsymbol{f_e}$:
 
-**Inner Loop: Tracking the Compliant Motion**
-The inner controller, then, drives the robot to track $x_c$ using a standard feedback law, for instance:
-  $$
-    F = k_p(x_c - x) + k_v(\dot{x}_c - \dot{x})
-  $$
+$$
+\boldsymbol{M_d}(\ddot{\boldsymbol{x}}_c - \ddot{\boldsymbol{x}}_r) + \boldsymbol{B_d}(\dot{\boldsymbol{x}}_c - \dot{\boldsymbol{x}}_r) + \boldsymbol{K_d}(\boldsymbol{x}_c - \boldsymbol{x}_r) = \boldsymbol{f_e}
+$$
+
 where:
-- $x$ and $\dot{x}$: the actual end-effector position and velocity
-- $k_p$ and $k_v$ are the control gains.
+- $\boldsymbol{x_c} \in \mathbb{R}^n$: compliant position generated by the controller (units: $\mathrm{m}$),
+- $\boldsymbol{x_r} \in \mathbb{R}^n$: desired nominal trajectory (units: $\mathrm{m}$),
+- $\boldsymbol{f_e} \in \mathbb{R}^n$: external force measured at the end-effector (units: $\mathrm{N}$),
+- $\boldsymbol{M_d} \in \mathbb{R}^{n \times n}$: desired virtual inertia matrix (units: $\mathrm{kg}$),
+- $\boldsymbol{B_d} \in \mathbb{R}^{n \times n}$: desired virtual damping matrix (units: $\mathrm{Ns/m}$),
+- $\boldsymbol{K_d} \in \mathbb{R}^{n \times n}$: desired virtual stiffness matrix (units: $\mathrm{N/m}$).
+
+In many implementations, the reference trajectory is slowly varying or static, so $\dot{\boldsymbol{x}}_r = \boldsymbol{0}$ and $\ddot{\boldsymbol{x}}_r = \boldsymbol{0}$, simplifying the equation to:
+
+$$
+\boldsymbol{M_d} \ddot{\boldsymbol{x}}_c + \boldsymbol{B_d} \dot{\boldsymbol{x}}_c + \boldsymbol{K_d}(\boldsymbol{x}_c - \boldsymbol{x}_r) = \boldsymbol{f_e}
+$$
+
+This dynamic relationship defines how the commanded position $\boldsymbol{x}_c$ is adjusted in response to the external force $\boldsymbol{f_e}$.
+
+
+### Inner Loop: Tracking the Compliant Motion
+
+The inner controller drives the robot to track $\boldsymbol{x}_c$ using a standard feedback law, for instance:
+
+$$
+\boldsymbol{F} = \boldsymbol{K_p}(\boldsymbol{x}_c - \boldsymbol{x}) + \boldsymbol{K_d}(\dot{\boldsymbol{x}}_c - \dot{\boldsymbol{x}})
+$$
+
+where:
+- $\boldsymbol{x} \in \mathbb{R}^n$: actual end-effector position (units: $\mathrm{m}$),
+- $\dot{\boldsymbol{x}} \in \mathbb{R}^n$: actual end-effector velocity (units: $\mathrm{m/s}$),
+- $\boldsymbol{K_p} \in \mathbb{R}^{n \times n}$: proportional gain matrix (units: $\mathrm{N/m}$),
+- $\boldsymbol{K_d} \in \mathbb{R}^{n \times n}$: derivative gain matrix (units: $\mathrm{Ns/m}$),
+- $\boldsymbol{F} \in \mathbb{R}^n$: commanded force or torque to the low-level controller (units: $\mathrm{N}$ or $\mathrm{Nm}$).
+
+This control law ensures that the robot tracks the compliant reference $\boldsymbol{x}_c$ while respecting the dynamic behavior imposed by the admittance model.
 
 ![Illustrative example](https://www.youtube.com/watch?v=JRbAesam-EE)
 ><sub>Panjan, S. (2015) Basic Admittance Control. YouTube video, 3 July. Available at: https://www.youtube.com/watch?v=JRbAesam-EE </sub>
@@ -792,33 +832,32 @@ Consider a robot that uses **admittance control** to respond to external contact
 
 </details>
 
-
 <details markdown="1">
-  <summary><strong> Going deeper : Admittance in the Laplace domain</strong></summary>
-Just like impedance, admittance is often studied in the frequency domain. Starting from the equation:
+  <summary><strong>Going deeper: Admittance in the Laplace Domain</strong></summary>
+
+Just like impedance, admittance is often studied in the frequency domain. Starting from the general multi-DOF admittance control equation:
 
 $$
-m_d \ddot{x}_c + b_d \dot{x}_c + k_d (x_c - x_r) = f_e
+\boldsymbol{M_d} \ddot{\boldsymbol{x}}_c + \boldsymbol{B_d} \dot{\boldsymbol{x}}_c + \boldsymbol{K_d} (\boldsymbol{x}_c - \boldsymbol{x}_r) = \boldsymbol{f_e}
 $$
 
-we take the Laplace transform (assuming $x_r = 0$), which yields:
+we take the Laplace transform (assuming $\boldsymbol{x_r}(t) = \boldsymbol{0}$ and zero initial conditions), which yields:
 
 $$
-(m_d s^2 + b_d s + k_d) X_c(s) = F_e(s)
+\left( \boldsymbol{M_d} s^2 + \boldsymbol{B_d} s + \boldsymbol{K_d} \right) \boldsymbol{X_c}(s) = \boldsymbol{F_e}(s)
 $$
 
-Solving for the transfer function gives the admittance:
+Solving for the transfer function gives the **admittance**:
 
 $$
-Y(s) = \frac{X_c(s)}{F_e(s)} = \frac{1}{m_d s^2 + b_d s + k_d}
+\boldsymbol{Y}(s) = \frac{\boldsymbol{X_c}(s)}{\boldsymbol{F_e}(s)} = \left( \boldsymbol{M_d} s^2 + \boldsymbol{B_d} s + \boldsymbol{K_d} \right)^{-1}
 $$
 
-This is the inverse of the impedance $Z(s)$. The admittance $Y(s)$ tells us how much motion results from a given force input, and its behavior depends on frequency:
+This is the **inverse** of the impedance $\boldsymbol{Z}(s)$. The admittance $\boldsymbol{Y}(s)$ tells us how much **motion** results from a given **force input**, and its behavior depends on frequency:
 
-* At low frequency, $Y(s)$ is dominated by stiffness $k_d$,
-* At medium frequency, $Y(s)$ is dominated by damping $b_d$,
-* At high frequency, $Y(s)$ is dominated by inertia $m_d$.
-
+- At low frequency ($s \to 0$): $\boldsymbol{Y}(s) \approx \boldsymbol{K_d}^{-1}$ → stiffness dominates,
+- At medium frequency: $\boldsymbol{Y}(s) \approx \boldsymbol{B_d}^{-1} \cdot \frac{1}{s}$ → damping dominates,
+- At high frequency ($s \to \infty$): $\boldsymbol{Y}(s) \approx \boldsymbol{M_d}^{-1} \cdot \frac{1}{s^2}$ → inertia dominates.
 
 Low admittance (i.e., small motion in response to force) tends to enhance stability; high admittance (fast motion) may lead to instability if not properly controlled.
 </details>
@@ -827,10 +866,15 @@ Low admittance (i.e., small motion in response to force) tends to enhance stabil
 Both impedance and admittance achieve force indirectly by shaping how the robot responds to contact. They can be used to make a robot compliant without sacrificing stability. However, they have different practical considerations: for example, admittance control assumes a very stiff inner position control (common in industrial arms) and adjusts commands externally, which works well when you can trust the position control to execute quickly​. Impedance control embeds compliance in the low-level control (joint torques), which can be more direct but may face stability issues if the environment is very stiff and the controller is also stiff​. In summary, indirect force control lets the robot simulate a mechanical behavior (softness or stiffness) to handle contact forces gracefully, rather than directly pushing or pulling with a specified force.
 
 
-<details>
-<summary><strong>Deeper in the theory: University course</strong></summary>
-[Robotics 2 – Impedance Control](https://www.youtube.com/watch?v=IolG5V_skv8)  
-This lecture from **Sapienza University of Rome** provides a thorough and rigorous look at impedance control. It dives into the mathematical foundations and practical considerations behind the method, making it especially useful if you're aiming to understand how impedance control is derived and implemented at a deeper level. Recommended for students who are already comfortable with dynamics, control theory and robotic modeling.
+<details markdown="1">
+<summary><strong>Deeper in the theory: Sapienza University course - Impedance control</strong></summary>
+<figure>
+  <img src="{{ site.baseurl }}/assets/images/Force/video_de_luca_impedance_control.png" alt="https://www.youtube.com/watch?v=IolG5V_skv8">
+</figure>
+
+>*<sub>De Luca, A. (2020) Robotics 2 – Impedance Control. YouTube video, 6 May. Sapienza University of Rome. Available at:(https://www.youtube.com/watch?v=IolG5V_skv8)</sub>*  
+>
+> *This [lecture](https://www.youtube.com/watch?v=IolG5V_skv8) from **Sapienza University of Rome** provides a thorough and rigorous look at impedance control. It dives into the mathematical foundations and practical considerations behind the method, making it especially useful if you're aiming to understand how impedance control is derived and implemented at a deeper level. Recommended for students who are already comfortable with dynamics, control theory and robotic modeling.*
 </details>
 
 
@@ -905,13 +949,42 @@ In theory:
 * Force control should be applied along directions that are naturally constrained (e.g. control the contact force along the surface normal).
 * Motion control should be applied along directions that are unconstrained by the environment (e.g. free tangential movement).
 
-A binary selection vector $s$ is often used to helps distinguish force-controlled and position-controlled axes. If $s_j = 1$, the controller prioritizes force control along the corresponding axis, enforcing a desired force $F_{d,j}$ while allowing position adjustment. Conversely, if $s_j = 0$, position control dominates, tracking the trajectory $x_{d,j}$ regardless of the force generated.The controller is then designed to enforce $$s_i(F_j - F_{d,j}) + (1 - s_i)(x_j - x_{d,j}) = 0$$
-This means: if $s_j = 1$ (force-controlled axis), track the desired force $F_{d,j}$ (let position adjust as needed), and if $s_j = 0$ (position-controlled axis), track the desired position $x_{d,j}$ (while allowing whatever force arises).
+To formalize this, we introduce a **binary selection vector**:
+
+$$
+\boldsymbol{s} \in \\{0, 1\\}^n
+$$
+where $s_j = 1$ means that **force control** is applied along the $j$-th axis, and $s_j = 0$ means **motion control** is applied.
+
+The hybrid control objective is expressed as:
+
+$$
+s_j (F_j - F_{d,j}) + (1 - s_j)(x_j - x_{d,j}) = 0
+$$
+
+This means:
+- If $s_j = 1$ (force-controlled axis), enforce the desired force $F_{d,j}$, and let position adjust freely.
+- If $s_j = 0$ (motion-controlled axis), track the desired position $x_{d,j}$, and allow the force to vary naturally.
+
+
+We can write the same equation more compactly in vector form:
+
+$$
+\boldsymbol{s} \odot (\boldsymbol{F} - \boldsymbol{F_d}) + (\boldsymbol{1} - \boldsymbol{s}) \odot (\boldsymbol{x} - \boldsymbol{x_d}) = \boldsymbol{0}
+$$
+
+where:
+- $\boldsymbol{x} \in \mathbb{R}^n$: actual end-effector position (units: $\mathrm{m}$),
+- $\boldsymbol{x_d} \in \mathbb{R}^n$: desired position trajectory (units: $\mathrm{m}$),
+- $\boldsymbol{F} \in \mathbb{R}^n$: measured contact wrench (units: $\mathrm{N}$ or $\mathrm{Nm}$),
+- $\boldsymbol{F_d} \in \mathbb{R}^n$: desired contact wrench (units: $\mathrm{N}$ or $\mathrm{Nm}$),
+- $\boldsymbol{s} \in \{0,1\}^n$: selection vector indicating which directions are force-controlled,
+- $\odot$: element-wise (Hadamard) product.
 
 This structure allows the robot to behave appropriately in tasks with partial constraint — controlling contact forces where needed, while allowing motion freedom in unconstrained directions.
 
 ![Hybrid motion/force control](https://youtu.be/UR0GpaaBVKk?si=_8KyDB-Hhl7YSeX9)
-><sub>*Northwestern Robotics (2018) Modern Robotics, Chapter 11.6: Hybrid Motion-Force Control. YouTube video, 16 March. Available at: https://www.youtube.com/watch?v=UR0GpaaBVKk (Accessed: 29 April 2025).*</sub>
+><sub>*Northwestern Robotics (2018) Modern Robotics, Chapter 11.6: Hybrid Motion-Force Control. YouTube video, 16 March. Available at: https://www.youtube.com/watch?v=UR0GpaaBVKk.*</sub>
 >
 ><sub>*Lynch, K.M. and Park, F.C. (2017) Modern Robotics: Mechanics, Planning, and Control. Cambridge: Cambridge University Press.*</sub>
  --> A short video explaining in more mathematical terms what was presented in this section
@@ -1111,7 +1184,7 @@ function drop(ev) {
 
 <details markdown = "1">
 <Summary><strong>Mathematical Exercise</strong></summary>
-A robotic arm is tasked with **drawing a figure on a horizontal surface**.
+A robotic arm is tasked with drawing a figure on a horizontal surface.
 <details markdown="1">
 <summary><strong>What does it imply ?</strong></summary>
 
@@ -1121,13 +1194,13 @@ A robotic arm is tasked with **drawing a figure on a horizontal surface**.
 
 At a given instant, the following measurements are available:
 
-- End-effector forces: $\mathbf{F} = \begin{bmatrix} 0 \\ 1 \\ 8 \end{bmatrix}\ \mathrm{N}$
-- End-effector positions: $\mathbf{X} = \begin{bmatrix} 0.3 \\ 0.5 \\ 0.1 \end{bmatrix}\ \mathrm{m}$
+- End-effector forces: $\boldsymbol{F} = \begin{bmatrix} 0 \\ 1 \\ 8 \end{bmatrix} \, \mathrm{N}, \quad \boldsymbol{F} \in \mathbb{R}^3$
+- End-effector positions:   $\boldsymbol{X} = \begin{bmatrix} 0.3 \\ 0.5 \\ 0.1 \end{bmatrix} \, \mathrm{m}, \quad \boldsymbol{X} \in \mathbb{R}^3$
 
 The desired values are:
 
-- Desired forces: $\mathbf{F_d} = \begin{bmatrix} 0 \\ 0 \\ 10 \end{bmatrix}\ \mathrm{N}$
-- Desired positions: $\mathbf{X_d} = \begin{bmatrix} 0.35 \\ 0.55 \\ \mathrm{(irrelevant)} \end{bmatrix}\ \mathrm{m}$
+- Desired forces:  $\boldsymbol{F_d} = \begin{bmatrix} 0 \\ 0 \\ 10 \end{bmatrix} \, \mathrm{N}$
+- Desired positions:   $\boldsymbol{X_d} = \begin{bmatrix} 0.35 \\ 0.55 \\ \text{(irrelevant)} \end{bmatrix} \, \mathrm{m}$
 
 **Tasks:**
 
@@ -1142,22 +1215,34 @@ The desired values are:
 
 *NB: In the following solution, d is used to refer to the desired value.*
  
-**(a) Hybrid force/motion selection vector:**
-$$S = \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}$$
+**(a) Selection vector $\boldsymbol{s}$:**
 
-where:
-- $S_x = 0$ → **motion control** along $x$-axis
-- $S_y = 0$ → **motion control** along $y$-axis
-- $S_z = 1$ → **force control** along $z$-axis
+Since we want **motion control** in $x$ and $y$, and **force control** in $z$:
+
+$$
+\boldsymbol{s} = \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix} \in \{0,1\}^3
+$$
+
+- $s_x = 0$ → motion control (track position)
+- $s_y = 0$ → motion control (track position)
+- $s_z = 1$ → force control (regulate contact force)
 
 Apply the hybrid control law:
 $$S_j (F_j - F_{d,j}) + (1-S_j)(X_j - X_{d,j}) = 0 \tag{j = {x, y, z}}$$
 
 **(b) Control conditions:**
+The hybrid control law per axis:
 
-- **X-axis** :  $X_x - X_{d,x} = 0$
-- **Y-axis** : $X_y - X_{d,y} = 0$
-- **Z-axis** : $F_z - F_{d,z} = 0$
+$$
+s_j (F_j - F_{d,j}) + (1 - s_j)(X_j - X_{d,j}) = 0 \tag{j = {x, y, z}}
+$$
+
+Applying this:
+
+- **$x$-axis**: $X_x - X_{d,x} = 0$
+- **$y$-axis**: $X_y - X_{d,y} = 0$
+- **$z$-axis**: $F_z - F_{d,z} = 0$
+
 
 **(c) Error Calculations:**
 
@@ -1170,7 +1255,7 @@ $$S_j (F_j - F_{d,j}) + (1-S_j)(X_j - X_{d,j}) = 0 \tag{j = {x, y, z}}$$
 - Along $x$ and $y$, the robot should **move forward** by $5\,\mathrm{cm}$ along each axis to better track the path.
 - Along $z$, the robot should **push slightly harder** (increase the normal contact force by $2\,\mathrm{N}$) to reach the desired pen pressure.
 
-Thus, the robot would generate small motion corrections in $x$ and $y$, and a small increase in force along $z$.
+Thus, the robot would generate small motion corrections in $x$ and $y$ and a small increase in force along $z$.
 
 **(e) Why Hybrid Control?**
 
@@ -1193,9 +1278,15 @@ direction which is nominally constrained in motion)
 </details>
 
 <details markdown = "1">
-<summary><strong>Deeper in the theory: University course</strong></summary>
-![Video to go deeper into theory](https://www.youtube.com/watch?v=TyzTkIbWPyQ) 
-his lecture dives deeper into the theoretical formulation behind hybrid force/motion control. It builds on the ideas introduced in Chapter 2.2 and 2.2.1, detailing how tasks are decomposed using selection matrices, and how controllers are structured to enforce force or motion objectives in orthogonal subspaces. The video covers the mathematical models, control laws, and stability considerations involved—making it an excellent resource for students already comfortable with robot dynamics and control theory, and who want to understand the full structure of hybrid controllers from the ground up.
+<summary><strong>Deeper in the theory: Indian Institue of Science (Bengaluru) course</strong></summary>
+
+<figure>
+  <img src="{{ site.baseurl }}/assets/images/Force/video_bengaluru.png" alt="https://www.youtube.com/watch?v=TyzTkIbWPyQ">
+</figure>
+
+>*<sub>NPTEL – Indian Institute of Science, Bengaluru (2021) lec36 Force control of manipulators, Hybrid position/force control of manipulators. YouTube video, 4 January. Available at: https://www.youtube.com/watch?v=TyzTkIbWPyQ</sub>*
+>
+>*This [lecture](https://www.youtube.com/watch?v=TyzTkIbWPyQ) dives deeper into the theoretical formulation behind hybrid force/motion control. It builds on the ideas introduced in Chapter 2.2 and 2.2.1, detailing how tasks are decomposed using selection matrices, and how controllers are structured to enforce force or motion objectives in orthogonal subspaces. The video covers the mathematical models, control laws, and stability considerations involved—making it an excellent resource for students already comfortable with robot dynamics and control theory, and who want to understand the full structure of hybrid controllers from the ground up.*
 </details>
 
 
@@ -1224,12 +1315,6 @@ The system consists of a 1-DOF leg mounted on a boom that moves only vertically.
 ### Exercise 1: Baseline Passive Behavior
 **Goal:** Understand passive compliance in action.
 **Task:** Examine the given code and answer the following questions:
-
-* What type of force control is used in this example?
-><details markdown ="1">
-><summary>Answer</summary>
->
-></details>
 
 *  What’s the role of neutral?
 ><details markdown ="1">
