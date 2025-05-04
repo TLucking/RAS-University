@@ -3,8 +3,8 @@ title: Dynamics
 parent: Courses
 layout: default
 ---
-# Dynamics
-
+# Dynamics [In progress]
+<!-- 
 Let us start by introducing the projection of the world to an image plane. Assume that a point in the world $(X, Y, Z)$ has coordinates $(X_{ci}, Y_{ci}, Z_{ci})$ with respect to the coordinate system of a camera $c_i$, related to each other by the following transformation:
 
 $$\begin{pmatrix} X_{ci} \\ Y_{ci} \\ Z_{ci} \end{pmatrix} = R_i \begin{pmatrix} X \\ Y \\ Z \\ 1 \end{pmatrix} + T_i$$
@@ -40,4 +40,4 @@ r^2 = x_i^2 + y_i^2
 $$
 
 We temporarily assume that the image center is at $(0,0)$. The image coordinates $(x_i, y_i)$ in equation (32.3) should be replaced with the distorted coordinates $(x_{dist}, y_{dist})$.
-
+ -->
