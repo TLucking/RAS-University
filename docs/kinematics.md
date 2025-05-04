@@ -8,7 +8,7 @@ math: mathjax
 <!-- Link external JavaScript file -->
 <script src="questions.js"></script>
 
-# Kinematics
+# Kinematics changes
 
 <!-- bundle exec jekyll serve -->
 
