@@ -12,7 +12,7 @@ layout: default
     position: fixed;
     bottom: 30px;
     right: 30px;
-    background-color:rgb(92, 89, 94); /* Green background */
+    background-color:rgb(0, 0, 0); /* Green background */
     color: white;
     border: none;
     padding: 10px 15px;

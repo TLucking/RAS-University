@@ -16,7 +16,7 @@ nav_order: 2
     position: fixed;
     bottom: 30px;
     right: 30px;
-    background-color:rgb(92, 89, 94); /* Green background */
+    background-color:rgb(0, 0, 0); /* Green background */
     color: white;
     border: none;
     padding: 10px 15px;
@@ -566,10 +566,8 @@ To find the familiar vectors, just delete the last element. Matrices and homogen
 </details>
 
 <!-- Mathematical Development Questions -->
-<details markdown="1">
+<!-- <details markdown="1">
   <summary>Mathematical Development Questions</summary>
-
-<!-- Question 1 -->
 <p><strong>Question 1: </strong> Express the homogeneous transformation matrix representing a rotation by angle θ followed by translation \( t = (t_x, t_y) \) in a 2D plane.</p>
 
   <details markdown="2">
@@ -607,7 +605,7 @@ To find the familiar vectors, just delete the last element. Matrices and homogen
   </details>
 
 
-</details>
+</details> -->
 
 
 <!-- Mathematical Development Questions -->
@@ -636,24 +634,29 @@ For further understanding of the definition of **Homogeneous Transformation Matr
 
 </details>
 
+--- 
+
 ### Chapter 3: Forward Kinematics of robots | Planar 2D robots
 
 
-In robotics, understanding how each joint movement translates into precise actions is essential. In this chapter, we'll dive into **forward kinematics** (also called Direct Geometric Model, DGM), a fundamental method that allows us to calculate exactly where a robot’s end-effector (such as a gripper or tool) ends up in space based on its joint configurations (for example its position (x,y) and orientation(θ) in 2D). We'll start by exploring simple planar 2D robots, laying a clear foundation for mastering more complex robotic systems.
+In robotics, understanding how each joint movement translates into precise actions is essential. 
 
-Watch the following video for an intuitive overview before we delve into the mathematical details.
+Watch the following video for an intuitive overview of **forward kinematics** before we delve into the mathematical details.
 
 ![Forward Kinematics of robots](https://www.youtube.com/watch?v=svyhLDAoyKc&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=5)
+> In this chapter, we'll dive into **forward kinematics** (also called Direct Geometric Model, DGM), a fundamental method that allows us to calculate exactly where a robot’s end-effector (such as a gripper or tool) ends up in space based on its joint configurations (for example its position (x,y) and orientation(θ) in 2D). We'll start by exploring simple planar 2D robots, laying a clear foundation for mastering more complex robotic systems.
 
-
+---
 
 ### Chapter 4: Forward Kinematics (with solved examples) | Homogeneous Transformations 
 
 Here you will see some examples of how to find this end effector positions in 2D using homogeneous transforms as we have seen in Chapter 1. 
 
 ![examples](https://www.youtube.com/watch?v=mO7JJxaVtkE&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=6)
+> First solved example of how to find this end effector positions in 2D using homogeneous transforms
 
 ![examples2](https://www.youtube.com/watch?v=zg5sS9LZGAM&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=7)
+> Second solved example of how to find this end effector positions in 2D using homogeneous transforms
 
 Now that we've seen how to compute forward kinematics using homogeneous transformations, let's explore **another insightful way** to approach planar rotations. Sometimes, it's more intuitive or practical to represent motion as rotation around an **arbitrary point \( p \)** rather than just around the origin.
 
@@ -708,6 +711,8 @@ Practice what you've learned with Exercises **1**,**2** and **3**.
 </details>
 
 </details>
+
+--- 
 
 ### Chapter 4.5: Intro. to Quaternions 
 
@@ -861,8 +866,9 @@ For further understanding of the definition of **Quaternions**, the following co
 
 </details>
 
+---
 
-### Chapter 6: Collision Detection using Homogeneous Transforms  
+### Chapter 5: Collision Detection using Homogeneous Transforms  
 
 In this chapter, we’ll explore how **collision detection** between robots can be performed using homogeneous transformations. 
 
@@ -871,6 +877,7 @@ Watch the following video to see this concept illustrated clearly:
 ![Homogeneous Transforms](https://www.youtube.com/watch?v=WQTnCIhkzNc&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=8)
 > Here, you will compute a new homogeneous transformation matrix that describes the relationship between two end-effectors, given two separate transformation matrices ($H_1$ and $H_2$). This new matrix will provide the relative distances $d_x$ and $d_y$ between the two end-effectors. When both $d_x$ and $d_y$ become zero, it indicates that the two robots are in collision.
 
+---
 
 ### Chapter 6: Inverse Kinematics of Robots
 <!-- 
@@ -889,7 +896,7 @@ Watch the following video for a clear introduction to inverse kinematics:
 > In this next video, you will explore another example of inverse kinematics using a planar robot. Interestingly, this robot features both revolute and prismatic joints, making its parameters a combination of joint angles and link lengths. This type of robot is specifically known as an **'RRP' robot**.
 
 ![example_inverse_kinematics](https://www.youtube.com/watch?v=EzZDRwmk8Nw&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=10)
-
+> Solved example of Inverse Kinematics with a planar robot
 
 <!-- Conceptual Questions -->
 <details markdown="1">
@@ -945,6 +952,8 @@ one of the sum of squares of sine and cosine.
 </details>
 
 </details>
+
+---
 
 ### Chapter 7: Velocity Kinematics - Meet the Jacobian !
 
@@ -1043,6 +1052,7 @@ Practice what you've learned with Exercises **1** and **2** below.
 
 </details>
 
+---
 
 ### Chapter 8: Robot Singularities & how to find them
 
@@ -1281,6 +1291,7 @@ Any 3D rotation can be expressed as a product of these fundamental rotations.
 
 Quaternions provide a non-singular way to interpolate and compute 3D orientations, often used in control and simulation. -->
 
+---
 
 ## Programming
 
@@ -1342,7 +1353,7 @@ If your code is correct, the robot arm will continuously attempt to reach the sp
   Your browser does not support the video tag.
 </video> -->
 
-
+---
 
 ## Resources
 
