@@ -118,3 +118,5 @@ Install the required module in the correct Python environment by executing these
 pip install --upgrade pip
 pip install ikpy
 ```
+
+> *Same procedure to do for any other libraries, modules that needs to be installed such as matplotlib, numpy,...*

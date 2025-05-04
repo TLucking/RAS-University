@@ -723,14 +723,17 @@ Practice what you've learned with Exercises **1**,**2** and **3**.
 
 While Euler angles and rotation matrices are common ways to describe rotations in robotics, they have some limitations, notably the phenomenon known as **gimbal lock**: phenomenon that occurs when using Euler angles (roll, pitch, yaw) to represent orientations or rotations, typically in three-dimensional space. It happens when two of the rotation axes align, causing the loss of one degree of rotational freedom. In simpler terms, you become unable to rotate around one particular axis because two axes have essentially "collapsed" into one. Here is very nice [video](https://www.youtube.com/watch?v=zc8b2Jo7mno) explaining this phenomeon.
 
-Quaternions are an elegant mathematical alternative for representing 3D rotations, avoiding issues like gimbal lock and allowing smooth rotational interpolations. They are widely used in robotics, computer graphics, and aerospace for their efficiency and accuracy in handling rotations.
+**Quaternions** are an elegant mathematical alternative for **representing 3D rotations**, avoiding issues like gimbal lock and allowing smooth rotational interpolations. They are widely used in robotics, computer graphics, and aerospace for their efficiency and accuracy in handling rotations.
 
 For an intuitive, visual understanding of quaternions, it is recommended to watch the following engaging videos from the channel **[3Blue1Brown](https://www.youtube.com/@3blue1brown)**:
 
 ![Visualizing quaternions (4D numbers)](https://www.youtube.com/watch?v=d4EgbgTm0Bg)
-![Quaternions and 3D rotation, explained interactively](https://www.youtube.com/watch?v=zjMuIxRvygQ)
+> Definition about **Quaternions**
 
-As you have understood in these previous videos, **Quaternions** are a generalization of complex numbers containing:
+![Quaternions and 3D rotation, explained interactively](https://www.youtube.com/watch?v=zjMuIxRvygQ)
+> With some reminder about euler angles and complex number, this video will introduce you how to describe 3D rotation using quaternions from *3:58*
+
+As you have understood in these previous videos (if not we suggest you to re-watch from *17:25* on the [first video](https://www.youtube.com/watch?v=d4EgbgTm0Bg)), **Quaternions** are a generalization of complex numbers containing:
 - **a real scalar part** $ \lambda_0 $
 - **three imaginary components** $ [\lambda_1, \lambda_2, \lambda_3]^T$, which can be interpreted as a vector part $\underline{\lambda} $.
 
@@ -893,7 +896,7 @@ If you have a solid understanding of forward kinematics, inverse kinematics beco
 Watch the following video for a clear introduction to inverse kinematics:
 
 ![Inverse Kinematics of Robots](https://www.youtube.com/watch?v=1-FJhmey7vk&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=9)
-> In this next video, you will explore another example of inverse kinematics using a planar robot. Interestingly, this robot features both revolute and prismatic joints, making its parameters a combination of joint angles and link lengths. This type of robot is specifically known as an **'RRP' robot**.
+> In this video, you will explore another example of inverse kinematics using a planar robot. Interestingly, this robot features both revolute and prismatic joints, making its parameters a combination of joint angles and link lengths. This type of robot is specifically known as an **'RRP' robot**.
 
 ![example_inverse_kinematics](https://www.youtube.com/watch?v=EzZDRwmk8Nw&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=10)
 > Solved example of Inverse Kinematics with a planar robot
