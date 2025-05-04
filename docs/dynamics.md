@@ -2,6 +2,7 @@
 title: Dynamics
 parent: Courses
 layout: default
+nav_order: 3
 ---
 # Dynamics [In progress]
 <!-- 

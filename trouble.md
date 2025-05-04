@@ -4,6 +4,33 @@ nav_order: 4
 layout: default
 ---
 
+<a name="top"></a>
+
+<style>
+  #back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color:rgb(92, 89, 94); /* Green background */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    font-size: 30px;
+    cursor: pointer;
+    text-decoration: none;
+    z-index: 1000;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+
+  #back-to-top:hover {
+    opacity: 1;
+  }
+</style>
+
+<a href="#top" id="back-to-top" title="Back to Top">🔝​</a>
+
 # 🛠️ Do you have any trouble?
 
 Don't worry, we're here to help! Below are solutions to some common issues you might encounter when using **Webots**.

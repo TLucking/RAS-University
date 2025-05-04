@@ -1,5 +1,5 @@
 ---
-title: diffeomorphism
+title: Diffeomorphism
 parent: Courses
 layout: default
 math: mathjax
