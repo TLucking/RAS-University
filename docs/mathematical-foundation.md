@@ -3,11 +3,14 @@ title: Mathematical Foundation
 parent: Courses
 layout: default
 math: mathjax
+nav_order: 0
 ---
 
 # Mathematical Foundation
 
 Robotics heavily relies on a robust mathematical foundation. To succeed in this course, familiarity with the following areas is recommended:
+
+- **Trigonometry**: Fundamental for analyzing angles, rotations, and transformations in robotic systems.
 
 - **Linear Algebra**: Essential for understanding robotic motion, kinematics, and system modeling.
 
@@ -20,6 +23,12 @@ This section provides brief overviews and key concepts from these mathematical f
 
 ---
 To start your journey in these topics, we recommend exploring the following resources:
+
+### Supervised Online Course:
+
+- **Khan Academy**: A nonprofit organization offering free, standards-aligned educational content. This platform provides engaging courses with numerous instructional videos and exercises complete with solutions, ideal for structured learning.
+
+📚 [Explore Trigonometry on Khan Academy](https://www.khanacademy.org/math/trigonometry)
 
 ### Quick and Visual Introduction:
 

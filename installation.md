@@ -4,6 +4,34 @@ nav_order: 3
 layout: default
 ---
 
+<a name="top"></a>
+
+<style>
+  #back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color:rgb(0, 0, 0); /* Green background */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    font-size: 30px;
+    cursor: pointer;
+    text-decoration: none;
+    z-index: 1000;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+
+  #back-to-top:hover {
+    opacity: 1;
+  }
+</style>
+
+<a href="#top" id="back-to-top" title="Back to Top">🔝​</a>
+
+
 # 🛠️ Installing Webots Simulator
 
 To engage practically with our robotics courses—coding, simulating, and visualizing robots in action—you will need **Webots**, an open-source robotics simulator. Webots provides an interactive 3D environment to visually test and verify your robot designs and code implementations.

@@ -5,6 +5,32 @@ nav_order: 1
 ---
 
 
+<a name="top"></a>
+
+<style>
+  #back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color:rgb(0, 0, 0); /* Green background */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    font-size: 30px;
+    cursor: pointer;
+    text-decoration: none;
+    z-index: 1000;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+
+  #back-to-top:hover {
+    opacity: 1;
+  }
+</style>
+
+<a href="#top" id="back-to-top" title="Back to Top">🔝​</a>
 
 # 🚀 Welcome to the Free Robotics Course!
 
@@ -13,11 +39,6 @@ This website provides a structured and comprehensive robotics course for self-le
 Dive into a structured and comprehensive robotics course designed specifically for self-learners. Whether you're new to robotics or aiming to enhance your expertise, our content covers everything from foundational concepts to advanced applications.
 
 # 📚 Fundamental Robotics [Course Topics](docs/index)
-**Chapter 0: Mathematical Foundation**
-
-**Chapter 1: Motion Control**
-
-**Chapter 2: Sensing**
 
 Each module provides:
 

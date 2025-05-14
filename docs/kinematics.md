@@ -3,12 +3,41 @@ title: Kinematics
 parent: Courses
 layout: default
 math: mathjax
+nav_order: 2
 ---
 
 <!-- Link external JavaScript file -->
 <script src="questions.js"></script>
 
-# Kinematics
+<a name="top"></a>
+
+<style>
+  #back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color:rgb(0, 0, 0); /* Green background */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    font-size: 30px;
+    cursor: pointer;
+    text-decoration: none;
+    z-index: 1000;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+
+  #back-to-top:hover {
+    opacity: 1;
+  }
+</style>
+
+<a href="#top" id="back-to-top" title="Back to Top">🔝​</a>
+
+
+# Kinematics 
 
 <!-- bundle exec jekyll serve -->
 
@@ -19,7 +48,7 @@ math: mathjax
 To get the most out of this Kinematics module, it’s helpful to have:
 
 1. **Basic Mathematics**  
-   - Familiarity with **trigonometry** (sine, cosine, angle addition formulas).  
+   - Familiarity with **[trigonometry](mathematical-foundation)** (sine, cosine, angle addition formulas).  
    - Understanding of **[linear algebra](mathematical-foundation)** (vectors, matrices, basic matrix operations).  
    - Comfort with **[calculus](mathematical-foundation)** (especially differentiation), which is useful for topics like velocity kinematics and the Jacobian.
 
@@ -29,6 +58,7 @@ To get the most out of this Kinematics module, it’s helpful to have:
 
 While you don’t need to be an expert in any one of these areas, having a comfortable grasp of each will make your study of kinematics more productive and enjoyable.
 
+---
 
 ## 2. General Motivation
 
@@ -46,6 +76,7 @@ Kinematics, often referred to as the “**geometry of movement**,” is the stud
 
 In this chapter, you’ll explore different ways of representing positions and orientations in 3D space, understand the kinematics behind common robotic joints, and learn a systematic way to map your robot’s geometry into the equations that bring the entire mechanism to life. By mastering kinematics, you’ll have a strong foundation for making robots move **precisely** and **reliably**, unlocking a world of innovative possibilities.
 
+---
 
 ## 3. Course Content
 
@@ -78,104 +109,11 @@ For a visual comparison of these two robot types, watch the following short vide
 ![serial_parallel](https://www.youtube.com/watch?v=3fbmguBgVPA)
 > In this video, the left side demonstrates a parallel robot, while the right side shows a serial robot.
 
-<!-- add exercices QCM  -->
-
-#### **Drawing kinematic diagrams**
-In robotics, accurately representing the structure of robots through kinematic diagrams is crucial. These diagrams help us clearly visualize joints, links, and their connections, facilitating easier calculation of mobility, degrees of freedom, and overall system analysis.
-
-By learning how to sketch these diagrams, you will be better prepared to analyze robot motion and systematically compute essential parameters such as mobility and degrees of freedom.
-
-<!-- add exercices from bouri -->
-
-#### **Mobility & Degrees of Freedom (DOF)**
-- ***Degrees of Freedom (DOF)*** refer to the number of independent parameters required to completely specify the position and orientation of a robot or its parts in space. For instance, a rigid body in three-dimensional space has six degrees of freedom—three translational (moving along the x, y, and z axes) and three rotational (rotating around these axes).
-
-- ***Mobility*** typically refers to the number of controllable, active joints (motors) a robot possesses, directly determining its range of motion and the complexity of its achievable tasks.
-
-To better understand these concepts, watch the following concise and clear explanation:
-![Degrees of Freedom of a Rigid Body](https://www.youtube.com/watch?v=z29hYlagOYM&list=PLggLP4f-rq02vX0OQQ5vrCxbJrzamYDfx&index=4)
-> Introduction to Degrees of Freedom (DOF) for rigid bodies.
-
-<!-- add exercices from bourri -->
-
-#### **Grübler’s formula and its application**
-***Grübler’s formula*** is a powerful tool to quickly calculate the degrees of freedom of mechanisms, especially useful for complex robot configurations:
-$$
-\boxed{ \text{DoF} = m(N - 1 - J) + \sum_{i=1}^{J} \text{f}_i }
-$$
-
-Where:
-- $m$ is the dimension of the space (e.g., $m = 3$ for planar mechanisms, $m = 6$ for spatial mechanisms).
-- $n$ is the number of links (including the frame).
-- $j$ is the number of joints.
-- $f_i$ is the number of degrees of freedom permitted by joint $i$.
-
-
-To clearly understand how this formula is applied, check out the following detailed explanation:
-
-![Degrees of Freedom of a Robot](https://www.youtube.com/watch?v=zI64DyaRUvQ&list=PLggLP4f-rq02vX0OQQ5vrCxbJrzamYDfx&index=5)
->  Detailed explanation of Grübler’s formula and practical examples of its application.
-
-<!-- add exercices from kevin lynch -->
-
-### Chapter 1 : Introduction to Robotics | Kinematics & Modeling
-
-Now that we have seen some basics notions, foundational concepts, proceed to the next chapter for an in-depth exploration of kinematics and modeling:
-
-![Robotics 101: Full course for beginners](https://www.youtube.com/watch?v=K_xIJBlbjg4&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA)
-> This video gives you an introduction of the meaning of kinematics and modeling and will present you how his videos will be strucured.
-
-<!-- keys words on videos: forward kine, inv kine, gimbal rocks  -->
-
-
 <!-- Conceputal questions -->
 <details markdown="1">
   <summary>Conceptual Questions</summary>
 
-<!-- First question  -->
-<!-- <p><strong>Question 1: How long are Mohammad's videos typically?</strong></p>
-<form id="q1-duration">
-  <input type="radio" name="q1-duration" value="10"> Less than 10 minutes<br>
-  <input type="radio" name="q1-duration" value="30"> Around 30 minutes<br>
-  <input type="radio" name="q1-duration" value="60"> Around 1 hour<br>
-
-  <button type="button" onclick="checkMCQ('q1-duration', '10', 
-    'Correct! Mohammad’s videos usually last less than 10 minutes.', 
-    'Incorrect. Try again!')">
-    Check Answer
-  </button>
-  <p id="q1-duration-feedback"></p>
-</form> -->
-
-
-<!-- First question  -->
-<p><strong>Question 1: Forward kinematics (FK) is...</strong></p>
-<form id="q2-fk">
-  <input type="radio" name="q2-fk" value="option1"> How to calculate the position/orientation from given joint variables<br>
-  <input type="radio" name="q2-fk" value="option2"> Finding joint variables from end-effector position and orientation<br>
-  <input type="radio" name="q2-fk" value="option3"> Calculating robot dynamics<br>
-
-  <button type="button" onclick="checkMCQ('q2-fk', 'option1',
-    'Correct! Forward Kinematics computes the position and orientation from joint variables.',
-    'Incorrect. Please try again!')">
-    Check Answer
-  </button>
-
-  <p id="q2-fk-feedback"></p>
-</form>
-
-> Hint:
-
-
-> **Serial Chain**  
-A sequence of rigid links where each link is connected to the next by a joint, except for the first and last link, which each have only one connection.  
->*Example:* A typical robotic arm, where each segment is attached end-to-end.
-
-> **Fully Parallel Mechanism**  
-A mechanism in which two links (often the base and the end-effector) are connected by multiple independent chains.  
->*Example:* The Delta robot, where the end-effector is connected to the base by several parallel arms.
-
-<p><strong>Question 0: Drag each characteristic to the correct robot category (2 per category):</strong></p>
+<p><strong>Question 1: Drag each characteristic to the correct robot category (2 per category):</strong></p>
 
 <style>
   .drag-container {
@@ -285,31 +223,50 @@ A mechanism in which two links (often the base and the end-effector) are connect
   <p id="q3-feedback"></p>
 </form>
 
-<!-- Fourth question  -->
-<p><strong>Question 5:</strong> A robot is considered <em>redundant</em> if it has ______ actuators than the number of degrees of freedom (DOF).</p>
-
-<form id="redundancy-question">
-  <input type="radio" name="redundancy-question" value="more"> More actuators than DOF<br>
-  <input type="radio" name="redundancy-question" value="less"> Fewer actuators than DOF<br><br>
-
-  <button type="button" onclick="checkMCQ('redundancy-question', 'more', 
-    '✅ Correct! A redundant robot has more actuators than degrees of freedom.', 
-    '❌ Incorrect. Try again!')">
-    Check Answer
-  </button>
-
-  <p id="redundancy-question-feedback"></p>
-</form>
-
-<!-- Fifth question  -->
-<!-- <p><strong>Question 5: Answer the following questions based on the robot structures shown below:</strong></p>
-![Robot_Structures]({{ site.baseurl }}/assets/images/kinematics/ex1_1.png)
+</details>
 
 ---
 
+#### **Drawing kinematic diagrams**
+In robotics, accurately representing the structure of robots through kinematic diagrams is crucial. These diagrams help us clearly visualize joints, links, and their connections, facilitating easier calculation of mobility, degrees of freedom, and overall system analysis.
+
+By learning how to sketch these diagrams, you will be better prepared to analyze robot motion and systematically compute essential parameters such as mobility and degrees of freedom.
+
+<!-- Mathematical Development Questions -->
+<details markdown="1">
+  <summary>Mathematical Development Questions</summary>
+
+Here are some exercie to learn how to draw the **kinematic representation structures** of the robots.
+
+<iframe src="{{ site.baseurl }}{{'/assets/pdfs/kinematics/Exercise_set_1.pdf'}}" width="100%" height="600px"></iframe>
+
+<details markdown="2">
+<summary><strong>Click here for Solutions</strong></summary>
+<iframe src="{{ site.baseurl }}{{'/assets/pdfs/kinematics/Solution_set_1.pdf'}}" width="100%" height="600px"></iframe>
+</details>
+
+</details>
+
+#### **Mobility & Degrees of Freedom (DOF)**
+- ***Degrees of Freedom (DOF)*** refer to the number of independent parameters required to completely specify the position and orientation of a robot or its parts in space. For instance, a rigid body in three-dimensional space has six degrees of freedom—three translational (moving along the x, y, and z axes) and three rotational (rotating around these axes).
+
+- ***Mobility*** typically refers to the number of controllable, active joints (motors) a robot possesses, directly determining its range of motion and the complexity of its achievable tasks.
+
+To better understand these concepts, watch the following concise and clear explanation:
+![Degrees of Freedom of a Rigid Body](https://www.youtube.com/watch?v=z29hYlagOYM&list=PLggLP4f-rq02vX0OQQ5vrCxbJrzamYDfx&index=4)
+> Introduction to Degrees of Freedom (DOF) for rigid bodies.
+
+<!-- Conceputal questions -->
+<details markdown="1">
+  <summary>Conceptual Questions</summary>
+
+<!-- First question  -->
+<p><strong>Question : Answer the following questions based on the robot structures shown below:</strong></p>
+![Robot_Structures]({{ site.baseurl }}/assets/images/kinematics/ex1_1.png)
+
 <p><strong>1. How many motors does each robot have?</strong></p>
 
-<p><strong>(a)</strong></p> Stäubli TX60:
+**(a)** Left Robot:
 
 <form id="q1a-motors">
   <input type="radio" name="q1a-motors" value="4"> 4 motors<br>
@@ -325,7 +282,7 @@ A mechanism in which two links (often the base and the end-effector) are connect
   <p id="q1a-motors-feedback"></p>
 </form>
 
-**(b)** Second robot:
+**(b)** Right robot:
 
 <form id="q1b-motors">
   <input type="radio" name="q1b-motors" value="3"> 3 motors<br>
@@ -341,11 +298,9 @@ A mechanism in which two links (often the base and the end-effector) are connect
   <p id="q1b-motors-feedback"></p>
 </form>
 
----
-
 **2. What is the Mobility (MO) of each robot?**
 
-**(a)** Stäubli TX60:
+**(a)** Left Robot:
 
 <form id="q2a-mo">
   <input type="radio" name="q2a-mo" value="4"> 4<br>
@@ -361,7 +316,7 @@ A mechanism in which two links (often the base and the end-effector) are connect
   <p id="q2a-mo-feedback"></p>
 </form>
 
-**(b)** Second robot:
+**(b)** Rigth robot:
 
 <form id="q2b-mo">
   <input type="radio" name="q2b-mo" value="3"> 3<br>
@@ -377,11 +332,9 @@ A mechanism in which two links (often the base and the end-effector) are connect
   <p id="q2b-mo-feedback"></p>
 </form>
 
----
-
 **3. What is the number of Degrees of Freedom (DOF) for each robot?**
 
-**(a)** Stäubli TX60:
+**(a)** Left Robot:
 
 <form id="q3a-dof">
   <input type="radio" name="q3a-dof" value="3"> 3 DOF (translations only)<br>
@@ -397,7 +350,7 @@ A mechanism in which two links (often the base and the end-effector) are connect
   <p id="q3a-dof-feedback"></p>
 </form>
 
-**(b)** Second robot:
+**(b)** Right robot:
 
 <form id="q3b-dof">
   <input type="radio" name="q3b-dof" value="3"> 3 DOF (translations only)<br>
@@ -411,10 +364,30 @@ A mechanism in which two links (often the base and the end-effector) are connect
   </button>
 
   <p id="q3b-dof-feedback"></p>
-</form> -->
-
+</form> 
 
 </details>
+
+---
+
+#### **Grübler’s formula and its application**
+***Grübler’s formula*** is a powerful tool to quickly calculate the degrees of freedom of mechanisms, especially useful for complex robot configurations:
+$$
+\boxed{ \text{DoF} = m(N - 1 - J) + \sum_{i=1}^{J} \text{f}_i }
+$$
+
+Where:
+- $m$ is the dimension of the space (e.g., $m = 3$ for planar mechanisms, $m = 6$ for spatial mechanisms).
+- $n$ is the number of links (including the frame).
+- $j$ is the number of joints.
+- $f_i$ is the number of degrees of freedom permitted by joint $i$.
+
+
+To clearly understand how this formula is applied, check out the following detailed explanation:
+
+![Degrees of Freedom of a Robot](https://www.youtube.com/watch?v=zI64DyaRUvQ&list=PLggLP4f-rq02vX0OQQ5vrCxbJrzamYDfx&index=5)
+>  Detailed explanation of Grübler’s formula and practical examples of its application.
+
 
 <!-- Mathematical Development Questions -->
 <details markdown="1">
@@ -464,16 +437,41 @@ Where, $ lo $ is the number of closed kinematic loops.
 
 </details>
 
-<!-- Additional Content -->
+---
+
+### Chapter 1 : Introduction to Robotics | Kinematics & Modeling
+
+Now that we have seen some basics notions, foundational concepts, proceed to the next chapter for an in-depth exploration of kinematics and modeling:
+
+![Robotics 101: Full course for beginners](https://www.youtube.com/watch?v=K_xIJBlbjg4&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA)
+> This video gives you an introduction of the meaning of kinematics and modeling and will present you how his videos will be strucured.
+
+<!-- keys words on videos: forward kine, inv kine, gimbal rocks  -->
+
+
+<!-- Conceputal questions -->
 <details markdown="1">
-  <summary>Additional Content</summary>
+  <summary>Conceptual Questions</summary>
 
-For further understanding of the definition of **Degrees of Freedom (DOF)** or an alternative approach to applying **Grübler's formula**, the following concise and informative video is recommended:
+<!-- First question  -->
+<p><strong>Question 1: Forward kinematics (FK) is...</strong></p>
+<form id="q2-fk">
+  <input type="radio" name="q2-fk" value="option1"> How to calculate the position/orientation from given joint variables<br>
+  <input type="radio" name="q2-fk" value="option2"> Finding joint variables from end-effector position and orientation<br>
+  <input type="radio" name="q2-fk" value="option3"> Calculating robot dynamics<br>
 
-[Degrees of Freedom & Grübler’s Formula (Prof. Kevin Lynch)](https://www.youtube.com/watch?v=zI64DyaRUvQ&list=PLggLP4f-rq02vX0OQQ5vrCxbJrzamYDfx&index=5)
+  <button type="button" onclick="checkMCQ('q2-fk', 'option1',
+    'Correct! Forward Kinematics computes the position and orientation from joint variables.',
+    'Incorrect. Please try again!')">
+    Check Answer
+  </button>
+
+  <p id="q2-fk-feedback"></p>
+</form>
 
 </details>
 
+---
 
 ### Chapter 2: Coordinate Transformations in 2D | Mapping {#chapter-1-coordinate-transformations-in-2D}
 
@@ -568,10 +566,8 @@ To find the familiar vectors, just delete the last element. Matrices and homogen
 </details>
 
 <!-- Mathematical Development Questions -->
-<details markdown="1">
+<!-- <details markdown="1">
   <summary>Mathematical Development Questions</summary>
-
-<!-- Question 1 -->
 <p><strong>Question 1: </strong> Express the homogeneous transformation matrix representing a rotation by angle θ followed by translation \( t = (t_x, t_y) \) in a 2D plane.</p>
 
   <details markdown="2">
@@ -609,7 +605,7 @@ To find the familiar vectors, just delete the last element. Matrices and homogen
   </details>
 
 
-</details>
+</details> -->
 
 
 <!-- Mathematical Development Questions -->
@@ -638,24 +634,29 @@ For further understanding of the definition of **Homogeneous Transformation Matr
 
 </details>
 
+--- 
+
 ### Chapter 3: Forward Kinematics of robots | Planar 2D robots
 
 
-In robotics, understanding how each joint movement translates into precise actions is essential. In this chapter, we'll dive into **forward kinematics** (also called Direct Geometric Model, DGM), a fundamental method that allows us to calculate exactly where a robot’s end-effector (such as a gripper or tool) ends up in space based on its joint configurations (for example its position (x,y) and orientation(θ) in 2D). We'll start by exploring simple planar 2D robots, laying a clear foundation for mastering more complex robotic systems.
+In robotics, understanding how each joint movement translates into precise actions is essential. 
 
-Watch the following video for an intuitive overview before we delve into the mathematical details.
+Watch the following video for an intuitive overview of **forward kinematics** before we delve into the mathematical details.
 
 ![Forward Kinematics of robots](https://www.youtube.com/watch?v=svyhLDAoyKc&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=5)
+> In this chapter, we'll dive into **forward kinematics** (also called Direct Geometric Model, DGM), a fundamental method that allows us to calculate exactly where a robot’s end-effector (such as a gripper or tool) ends up in space based on its joint configurations (for example its position (x,y) and orientation(θ) in 2D). We'll start by exploring simple planar 2D robots, laying a clear foundation for mastering more complex robotic systems.
 
-
+---
 
 ### Chapter 4: Forward Kinematics (with solved examples) | Homogeneous Transformations 
 
 Here you will see some examples of how to find this end effector positions in 2D using homogeneous transforms as we have seen in Chapter 1. 
 
 ![examples](https://www.youtube.com/watch?v=mO7JJxaVtkE&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=6)
+> First solved example of how to find this end effector positions in 2D using homogeneous transforms
 
 ![examples2](https://www.youtube.com/watch?v=zg5sS9LZGAM&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=7)
+> Second solved example of how to find this end effector positions in 2D using homogeneous transforms
 
 Now that we've seen how to compute forward kinematics using homogeneous transformations, let's explore **another insightful way** to approach planar rotations. Sometimes, it's more intuitive or practical to represent motion as rotation around an **arbitrary point \( p \)** rather than just around the origin.
 
@@ -711,6 +712,8 @@ Practice what you've learned with Exercises **1**,**2** and **3**.
 
 </details>
 
+--- 
+
 ### Chapter 4.5: Intro. to Quaternions 
 
 <div style="float: left; margin-right: 15px; text-align: center;">
@@ -720,14 +723,17 @@ Practice what you've learned with Exercises **1**,**2** and **3**.
 
 While Euler angles and rotation matrices are common ways to describe rotations in robotics, they have some limitations, notably the phenomenon known as **gimbal lock**: phenomenon that occurs when using Euler angles (roll, pitch, yaw) to represent orientations or rotations, typically in three-dimensional space. It happens when two of the rotation axes align, causing the loss of one degree of rotational freedom. In simpler terms, you become unable to rotate around one particular axis because two axes have essentially "collapsed" into one. Here is very nice [video](https://www.youtube.com/watch?v=zc8b2Jo7mno) explaining this phenomeon.
 
-Quaternions are an elegant mathematical alternative for representing 3D rotations, avoiding issues like gimbal lock and allowing smooth rotational interpolations. They are widely used in robotics, computer graphics, and aerospace for their efficiency and accuracy in handling rotations.
+**Quaternions** are an elegant mathematical alternative for **representing 3D rotations**, avoiding issues like gimbal lock and allowing smooth rotational interpolations. They are widely used in robotics, computer graphics, and aerospace for their efficiency and accuracy in handling rotations.
 
 For an intuitive, visual understanding of quaternions, it is recommended to watch the following engaging videos from the channel **[3Blue1Brown](https://www.youtube.com/@3blue1brown)**:
 
 ![Visualizing quaternions (4D numbers)](https://www.youtube.com/watch?v=d4EgbgTm0Bg)
-![Quaternions and 3D rotation, explained interactively](https://www.youtube.com/watch?v=zjMuIxRvygQ)
+> Definition about **Quaternions**
 
-As you have understood in these previous videos, **Quaternions** are a generalization of complex numbers containing:
+![Quaternions and 3D rotation, explained interactively](https://www.youtube.com/watch?v=zjMuIxRvygQ)
+> With some reminder about euler angles and complex number, this video will introduce you how to describe 3D rotation using quaternions from *3:58*
+
+As you have understood in these previous videos (if not we suggest you to re-watch from *17:25* on the [first video](https://www.youtube.com/watch?v=d4EgbgTm0Bg)), **Quaternions** are a generalization of complex numbers containing:
 - **a real scalar part** $ \lambda_0 $
 - **three imaginary components** $ [\lambda_1, \lambda_2, \lambda_3]^T$, which can be interpreted as a vector part $\underline{\lambda} $.
 
@@ -863,8 +869,9 @@ For further understanding of the definition of **Quaternions**, the following co
 
 </details>
 
+---
 
-### Chapter 6: Collision Detection using Homogeneous Transforms  
+### Chapter 5: Collision Detection using Homogeneous Transforms  
 
 In this chapter, we’ll explore how **collision detection** between robots can be performed using homogeneous transformations. 
 
@@ -873,6 +880,7 @@ Watch the following video to see this concept illustrated clearly:
 ![Homogeneous Transforms](https://www.youtube.com/watch?v=WQTnCIhkzNc&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=8)
 > Here, you will compute a new homogeneous transformation matrix that describes the relationship between two end-effectors, given two separate transformation matrices ($H_1$ and $H_2$). This new matrix will provide the relative distances $d_x$ and $d_y$ between the two end-effectors. When both $d_x$ and $d_y$ become zero, it indicates that the two robots are in collision.
 
+---
 
 ### Chapter 6: Inverse Kinematics of Robots
 <!-- 
@@ -888,10 +896,10 @@ If you have a solid understanding of forward kinematics, inverse kinematics beco
 Watch the following video for a clear introduction to inverse kinematics:
 
 ![Inverse Kinematics of Robots](https://www.youtube.com/watch?v=1-FJhmey7vk&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=9)
-> In this next video, you will explore another example of inverse kinematics using a planar robot. Interestingly, this robot features both revolute and prismatic joints, making its parameters a combination of joint angles and link lengths. This type of robot is specifically known as an **'RRP' robot**.
+> In this video, you will explore another example of inverse kinematics using a planar robot. Interestingly, this robot features both revolute and prismatic joints, making its parameters a combination of joint angles and link lengths. This type of robot is specifically known as an **'RRP' robot**.
 
 ![example_inverse_kinematics](https://www.youtube.com/watch?v=EzZDRwmk8Nw&list=PL1YrgW7ROFofBqPGiWAmTqIwDc5SrzZrA&index=10)
-
+> Solved example of Inverse Kinematics with a planar robot
 
 <!-- Conceptual Questions -->
 <details markdown="1">
@@ -947,6 +955,8 @@ one of the sum of squares of sine and cosine.
 </details>
 
 </details>
+
+---
 
 ### Chapter 7: Velocity Kinematics - Meet the Jacobian !
 
@@ -1045,6 +1055,7 @@ Practice what you've learned with Exercises **1** and **2** below.
 
 </details>
 
+---
 
 ### Chapter 8: Robot Singularities & how to find them
 
@@ -1283,6 +1294,7 @@ Any 3D rotation can be expressed as a product of these fundamental rotations.
 
 Quaternions provide a non-singular way to interpolate and compute 3D orientations, often used in control and simulation. -->
 
+---
 
 ## Programming
 
@@ -1344,7 +1356,7 @@ If your code is correct, the robot arm will continuously attempt to reach the sp
   Your browser does not support the video tag.
 </video> -->
 
-
+---
 
 ## Resources
 
