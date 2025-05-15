@@ -1419,7 +1419,7 @@ direction which is nominally constrained in motion)
 </details>
 
 
-# Programming
+# Programming exercise
 Now that you’ve explored the theory behind interaction control, it’s time to bring it to life in simulation. You’ll get hands-on experience applying active force control to a simplified robot model — and see how your controller responds to real-time contact dynamics.
 *(Please refer to the **Install Webots** section if you haven't installed it yet.)*
 
