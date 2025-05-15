@@ -1436,9 +1436,9 @@ There, you'll find a description of the setup, including:
 
 The system consists of a 1-DOF leg mounted on a boom that moves only vertically. Your task will be to implement a control law that regulates the contact force applied against the ground.
 
-<figure>
+<figure style="text-align: center;">
   <img src="{{ site.baseurl }}/assets/images/Force/boom-monopod.png" alt="https://courses.ideate.cmu.edu/16-375/f2024/text/simulations/boom-monopod.html">
-  <figcaption>Webots model of the boom-monopod</figcaption>
+  <figcaption><em>Webots model of the boom-monopod<br><sub>Zeglin, G. (2020–2024) Boom monopod simulation. Carnegie Mellon University. Available at: https://courses.ideate.cmu.edu/16-375/f2024/text/simulations/boom-monopod.html </sub></em></figcaption>
 </figure>
 
 
@@ -1461,10 +1461,10 @@ The system consists of a 1-DOF leg mounted on a boom that moves only vertically.
 > * Lower thrust → makes the monopod barely lift or not lift off at all.
 ></details>
 ><details markdown = "1">
-><summary>Why ? <em>Hint: Uncommenting the final in the <strong>poll_control</strong> function could be useful to understand the values taken by each variable at each phase of the movement</em></summary>
->In the `poll_control` function,  the spring force applied to the leg is computed as:  $$spring_force=−120×(leg_length−neutral)$$
+><summary>Why ? <br> <em>Hint: You can add display the values of <code>neutral</code> and <code>leg_length</code> in <code>poll_control</code> function so that you better grasp what happens in each phase of the movement</em></summary>
+>In the `poll_control` function,  the spring force applied to the leg is computed as:  $$spring\text{_}force=−120 × (leg\text{\_}length − neutral)$$
 >where leg_length is the measured extension of the leg, and neutral is either zero or a positive thrust value. During ground contact and while the robot is descending, the controller sets `neutral` equal to `thrust`, which is a small positive offset.
->Since the leg length is negative during ground contact (the robot is compressed against the ground), increasing `neutral` makes the quantity `(leg_length−neutral)` more negative. Because the spring force formula multiplies this quantity by a negative spring constant, the resulting spring force becomes more positive. In other words, the actuator generates a stronger upward pushing force.
+>Since the leg length is negative during ground contact (the robot is compressed against the ground), increasing `neutral` makes`leg_length − neutral` more negative. Because the spring force formula multiplies this quantity by a negative spring constant, the resulting spring force becomes more positive. In other words, the actuator generates a stronger upward pushing force.
 >This upward force helps the robot resist ground penetration and store additional energy for a potential rebound or jump. The greater the thrust value (neutral offset), the larger the upward force produced during contact. Thus, adjusting neutral provides a way to control how forcefully the robot pushes against the ground.
 ></details>
 
@@ -1478,29 +1478,33 @@ The system consists of a 1-DOF leg mounted on a boom that moves only vertically.
 ><details markdown = "1">
 ><summary>What happens ?</summary>
 >* Higher stiffness → stronger upward force during contact → robot jumps faster and higher, but rebounds can become too violent or unstable. 
->* Lower stiffness → softer upward force → robot lands more gently but struggles to jump or rebound effectively. </details>
+>* Lower stiffness → softer upward force → robot lands more gently but struggles to jump or rebound effectively.
 ></details>
 
 * How does changing stiffness interact with thrust (neutral)?
-><details markdown="1"> <summary>Answer</summary> Thrust (neutral) shifts the spring force curve upward, while stiffness controls the slope (how sharply force changes with leg deformation). With a higher spring stiffness, even a small thrust offset causes a large increase in spring force, making the thrust effect much more powerful. With a lower spring stiffness, the thrust still shifts the neutral point, but the resulting upward force is smaller. Thus, the two parameters together shape how much lift and bounce the robot achieves. </details>
+><details markdown="1"> <summary>Answer</summary> Thrust (neutral) shifts the spring force curve upward, while stiffness controls the slope (how sharply force changes with leg deformation). With a higher spring stiffness, even a small thrust offset causes a large increase in spring force, making the thrust effect much more powerful. With a lower spring stiffness, the thrust still shifts the neutral point, but the resulting upward force is smaller. Thus, the two parameters together shape how much lift and bounce the robot achieves. 
+></details>
 
 * Which combination would you recommend for:
     - Soft landings with minimal bounce?
     - Maximizing jump height and quick rebound?
 
-    ><details markdown="1"> <summary>Answer</summary> - For **soft landings with minimal bounce**, use **low stiffness** and **small thrust**. This combination produces gentle upward forces and high compliance.
+    ><details markdown="1"> <summary>Answer</summary> 
+    >- For soft landings with minimal bounce, use low stiffness and small thrust. This combination produces gentle upward forces and high compliance.
     > - For maximizing jump height and quick rebound, use high stiffness and a large thrust.
     >This combination generates strong upward forces, stores more energy in the spring, and enables more powerful jumps — but at the cost of stability.
     ></details>
 
+<!-- UNTIL CORRECTION !!!!
+
 ### Exercise 2: Add Force Feedback
-**Goal:** Implement active force control.
+**Goal:** Implement active force control.<br>
 **Task 1:** Modify `poll_control()` to include a desired ground contact force, $f_d$ = 6N using a PI controller: 
 $$
-\tau = \tilde{g}(\theta) + J^T(\theta) \left( F_d + K_{p}F_e + K_{i} \int F_e\, dt \right)
+\tau = \tilde{g}(\theta) + J^T(\theta) \left( f_d + K_{p}f_e + K_{i} \int f_e\, dt \right)
 $$
 $$ 
-F_e = F_d - F_{leg}
+f_e = f_d - f_{leg}
 $$
 *Hint: The new expression of the force to be applied using a PI controller is $$spring\text{_}force = Kp \times self.force\text{\_}error + Ki \times integral\text{\_}error$$. Thus, The task comes down to expressing the `force_error` and the `integral_error`*
 ><details markdown="1">
@@ -1564,8 +1568,10 @@ self.leg_actuator.setForce(impedance_force)
 >* High stiffness = precise control but can cause bouncing.
 >* High damping = soft landing, but slow responsiveness.
 ></details>
+-->
 
-# Summary
+
+# Summary exercise
 
 <html lang="en">
 <head>
@@ -1593,7 +1599,6 @@ self.leg_actuator.setForce(impedance_force)
 </head>
 <body>
 
-<h2>Different Control strategies</h2>
 <p>Select the correct option in each cell, then click <strong>Check Answers</strong>.</p>
 
 <table>
@@ -1725,35 +1730,36 @@ self.leg_actuator.setForce(impedance_force)
 <button onclick="checkDropdownAnswers('dropdown-feedback')">Check Answers</button>
 <p id="dropdown-feedback" style="font-weight: bold; margin-top: 10px;"></p>
 
+<em><sub>This table was taken from: P. Song, Y. Yu and X. Zhang, "Impedance Control of Robots: An Overview," 2017 2nd International Conference on Cybernetics, Robotics and Control (CRC), Chengdu, China, 2017, pp. 51-55, doi: 10.1109/CRC.2017.20.</sub></em>
 
 </body>
 </html>
 
-10.1109/CRC.2017.20
+# Want to implement a real project ?
+<figure style="text-align: center;">
+  <img src="{{ site.baseurl }}/assets/images/Force/github.jpg" alt="https://courses.ideate.cmu.edu/16-375/f2024/text/simulations/boom-monopod.html">
+  <figcaption><em>Robotic Arm Hybrid Position Force Control<br><sub>Chen, S. (n.d.) 2-Linkages Robotic Arm Hybrid Position/Force Control. GitHub repository. Available at: https://github.com/SamoaChen/2-Linkages-Robotic-Arm-Hybrid-Position-Force-Control</sub></em></figcaption>
+</figure>
 
-### References:
+For those interested in applying the concepts introduced in this course, the [2-Linkages Robotic Arm Hybrid Position/Force Control project](https://github.com/SamoaChen/2-Linkages-Robotic-Arm-Hybrid-Position-Force-Control/tree/master) provides an example of a system simple enough to be designed and implemented independently. It illustrates how hybrid position/force control can be realized on a basic two-joint robotic arm, offering a concrete starting point for translating theoretical knowledge into hands-on experimentation.
+
+# References:
 
 This course was inspired by :
 
-- [Springer Handbook of Robotics ](https://link.springer.com/chapter/10.1007/978-3-319-32552-1_9) (Chapter 9. Force Control)
+- Villani, L., De Schutter, J. (2016). Force Control. In: Siciliano, B., Khatib, O. (eds) Springer Handbook of Robotics. Springer Handbooks. Springer, Cham. https://doi.org/10.1007/978-3-319-32552-1_9
 
-- [Robotic Manipulation](https://manipulation.csail.mit.edu/force.html) (Chapter 8. Manipulator Control)
+- Brandberg, E., Engelking, P., Jiang, Y., Kumar, N., Mbagna-Nanko, R., Narasimhan, R., Rai, A., Shaik, S., Varikuti, V.R.R. and Yu, M. (n.d.) Advanced Robotics for Manufacturing. [online] Available under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License and at https://opentextbooks.clemson.edu/me8930/chapter/force-control-of-a-manipulator/
 
-- [OpenTextBooks](https://opentextbooks.clemson.edu/me8930/chapter/force-control-of-a-manipulator/)
+- Lynch, K.M. and Park, F.C. (2017) Modern Robotics: Mechanics, Planning, and Control. Cambridge: Cambridge University Press.
 
 
 
-# Final Project
-[Complete project with hardware and software implementation in python](https://github.com/SamoaChen/2-Linkages-Robotic-Arm-Hybrid-Position-Force-Control/tree/master)
-
-### Want to learn more ? --> Free Online Courses
-If you’re interested in a deeper, structured exploration of force control, hybrid control, and interaction dynamics, check out this excellent university-level material:
+# Want to learn more ? --> Free Online Courses
+If you’re interested in a deeper exploration of force control, hybrid control, and interaction dynamics, check out this excellent university-level material:
 -  [Chapter 2.12](https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/127c560e6052cb02ed3f7adc8d3c1512_chapter9.pdf#:~:text=accommodate%20the%20pressure%20with%20which,former%20is%20x%20and%20y) of MIT's Introduction to Robotics (2.12) —> A thorough breakdown of hybrid position/force control, compliance modeling, and the math behind force regulation during interaction
 
 - [Lecture 13 - MIT 6.881 (Robotic Manipulation), Fall 2021 - Force Control (part 2)](https://www.youtube.com/watch?v=8VB5NneTKLE) A deep-dive lecture that walks through the same content with examples and derivations — perfect if you want to learn summarize all you have learnt in this course.
-
-- [Lecture 13 - MIT 6.881 (Robotic Manipulation), Fall 2020 - Force Control (part 2)](https://www.youtube.com/watch?v=WX03NqnKVywl)
-
 
 
 
